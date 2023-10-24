@@ -8,8 +8,7 @@ const password = process.env.DATABASE_PASS;
 
 const app = express();
 
-app.use('/auth', router);
-app.use('/users', router);
+app.use('/', router);
 
 
 const start = async() =>{
