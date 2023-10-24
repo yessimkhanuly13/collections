@@ -16,6 +16,8 @@ class authController{
             if(!validPass){
                 return res.status(400).json({message:"Password isn't correct!"})
             }
+
+            user.password = 'encrypted';
             
             return res.json(user);
             

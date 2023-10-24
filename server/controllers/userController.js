@@ -2,20 +2,51 @@ const User = require('../models/User')
 
 class userController{
     async getUsers(req, res){
-        const users = await User.find().select('-password');
-        res.json(users);
+        try{
+            const users = await User.find().select('-password');
+            res.json(users);
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
     }
 
-    deleteUsers(req, res){
-        
+    async deleteUsers(req, res){
+        try{
+            const userId = req.params.id;
+            await User.findByIdAndRemove(userId);
+            
+            res.json({message: "User is deleted succesfully!"});
+
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
     }
 
-    blockUsers(req, res){
+    async  blockUsers(req, res){
+        try{
+            const userId = req.params.id;
+            await User.findByIdAndUpdate(userId, {blocked: "Blocked"}, {new: true});
 
+            res.json({message: "User is blocked!"})
+
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
     }
 
-    unblockUsers(req, res){
+    async unblockUsers(req, res){
+        try{
+            const userId = req.params.id;
+            await User.findByIdAndUpdate(userId, {blocked: ""}, {new : true});
 
+            res.json({message: "User is unblocked!"})
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
     }
 }
 module.exports = new userController;
