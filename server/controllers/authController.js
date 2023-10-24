@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 class authController{
     async login(req, res){
@@ -10,7 +11,9 @@ class authController{
                 return res.status(400).json({message:"User not found!"});
             }
 
-            if(user.password !== password){
+            const validPass = bcrypt.compareSync(password, user.password);
+
+            if(!validPass){
                 return res.status(400).json({message:"Password isn't correct!"})
             }
             
@@ -33,7 +36,8 @@ class authController{
                 return res.status(400).json({message: "User already exist!"})
             }
 
-            const user = new User({username, password});
+            const cryptedPass = bcrypt.hashSync(password, 5);
+            const user = new User({username, password:cryptedPass});
 
             await user.save();
             return res.json({message:"User is succesfully created!"})
