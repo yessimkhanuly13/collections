@@ -1,11 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const router = require('./authRouter/authRouter');
 require('dotenv').config();
 
 const PORT = process.env.PORT;
 const password = process.env.DATABASE_PASS;
 
 const app = express();
+
+app.use('/auth', router);
+app.use('/users', router);
 
 
 const start = async() =>{
