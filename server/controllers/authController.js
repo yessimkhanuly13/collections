@@ -4,7 +4,17 @@ class authController{
     async login(req, res){
         try{
             const {username, password} = req.body;
-        
+            const user = await User.findOne({username})
+
+            if(!user){
+                return res.status(400).json({message:"User not found!"});
+            }
+
+            if(user.password !== password){
+                return res.status(400).json({message:"Password isn't correct!"})
+            }
+            
+            return res.json(user);
             
         }catch(e){
             console.log(e);
@@ -16,6 +26,12 @@ class authController{
     async registration(req, res){
         try{
             const {username, password} = req.body;
+
+            const isUserExist = await User.findOne({username});
+
+            if(isUserExist){
+                return res.status(400).json({message: "User already exist!"})
+            }
 
             const user = new User({username, password});
 

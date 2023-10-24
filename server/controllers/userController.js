@@ -11,5 +11,9 @@ class userController{
     blockUsers(req, res){
 
     }
+
+    unblockUsers(req, res){
+        
+    }
 }
 module.exports = new userController;
