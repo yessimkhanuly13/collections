@@ -1,11 +1,13 @@
+const User = require('../models/User')
+
 class userController{
-    getUsers(req, res){
-        const user = {username:"uddd", password:'dsdsd'};
-        res.json(user);
+    async getUsers(req, res){
+        const users = await User.find().select('-password');
+        res.json(users);
     }
 
     deleteUsers(req, res){
-
+        
     }
 
     blockUsers(req, res){
@@ -13,7 +15,7 @@ class userController{
     }
 
     unblockUsers(req, res){
-        
+
     }
 }
 module.exports = new userController;
