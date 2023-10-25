@@ -1,4 +1,5 @@
-const User = require('../models/User')
+const User = require('../models/User');
+const Role = require('../models/Role')
 
 class userController{
     async getUsers(req, res){
@@ -15,7 +16,7 @@ class userController{
         try{
             const userId = req.params.id;
             await User.findByIdAndRemove(userId);
-            
+
             res.json({message: "User is deleted succesfully!"});
 
         }catch(e){
@@ -43,6 +44,35 @@ class userController{
             await User.findByIdAndUpdate(userId, {blocked: ""}, {new : true});
 
             res.json({message: "User is unblocked!"})
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async getAdmin(req, res){
+        try{
+            const userId = req.params.id;
+            const adminRole = await Role.findOne({value: 'admin'});
+            await User.findByIdAndUpdate(userId, {role: adminRole.value}, {new: true});
+
+            res.json({message: "User succesfully get admin role!"})
+
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+
+    async removeAdmin(req, res){
+        try{
+            const userId = req.params.id;
+            const userRole = await Role.findOne({value: 'user'});
+            await User.findByIdAndUpdate(userId, {role: userRole.value}, {new: true});
+
+            res.json({message: "User succesfully get user role!"})
+
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})

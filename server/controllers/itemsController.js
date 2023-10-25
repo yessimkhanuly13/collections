@@ -4,7 +4,7 @@ class itemsController{
 
     async get(req, res){
         try{
-            const userId = req.query.id;
+            const userId = req.params.id;
             const items = await Item.find({userId: userId});
 
             res.json(items);

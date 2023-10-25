@@ -1,5 +1,7 @@
 const User = require('../models/User');
+const Role = require('../models/Role')
 const bcrypt = require('bcrypt');
+
 
 class authController{
     async login(req, res){
@@ -39,7 +41,9 @@ class authController{
             }
 
             const cryptedPass = bcrypt.hashSync(password, 5);
-            const user = new User({username, password:cryptedPass});
+            const userRole = await Role.findOne({value: 'user'});
+
+            const user = new User({username, password:cryptedPass, role: userRole.value });
 
             await user.save();
             return res.json({message:"User is succesfully created!"})
