@@ -54,9 +54,8 @@ class userController{
         try{
             const userId = req.params.id;
             const adminRole = await Role.findOne({value: 'admin'});
-            const updatedUser = await User.findByIdAndUpdate(userId, {roles:[adminRole.value]}, {new: true});
+            await User.findByIdAndUpdate(userId, {roles:[adminRole.value]}, {new: true});
 
-            console.log(await User.findById(userId));
             res.json({message: "User succesfully get admin role!"})
 
         }catch(e){
