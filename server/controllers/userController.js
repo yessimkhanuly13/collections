@@ -2,17 +2,21 @@ const User = require('../models/User');
 const Role = require('../models/Role')
 
 class userController{
-    async getUsers(req, res){
+    async getUser(req, res){
         try{
-            const users = await User.find().select('-password');
-            res.json(users);
+            const username = req.params.id;
+            console.log(req.params)
+           
+            const user = await User.find({username: username}).select('-password');
+
+            res.json(user);
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})
         }
     }
 
-    async deleteUsers(req, res){
+    async deleteUser(req, res){
         try{
             const userId = req.params.id;
             await User.findByIdAndRemove(userId);
@@ -25,7 +29,7 @@ class userController{
         }
     }
 
-    async  blockUsers(req, res){
+    async  blockUser(req, res){
         try{
             const userId = req.params.id;
             await User.findByIdAndUpdate(userId, {blocked: "Blocked"}, {new: true});
@@ -38,7 +42,7 @@ class userController{
         }
     }
 
-    async unblockUsers(req, res){
+    async unblockUser(req, res){
         try{
             const userId = req.params.id;
             await User.findByIdAndUpdate(userId, {blocked: ""}, {new : true});
