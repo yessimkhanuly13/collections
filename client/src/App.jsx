@@ -1,34 +1,32 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useNavigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Registration from "./pages/Registration"
 import AdminPanel from "./pages/AdminPanel"
 import { createContext, useEffect, useState } from "react"
-import axios from 'axios';
+import User from "./pages/User"
+import Item from "./pages/Item"
+import Home from "./pages/Home"
 
 export const CurrentUser = createContext();
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
-  const [users, setUsers] = useState({});
-  
+  const navigate = useNavigate();
+
   useEffect(()=>{
-    axios.get('http://localhost:3434/users')
-      .then((res)=>{
-        setUsers(res.data);
-      })
-      .catch((e)=>{
-        console.log(e);
-      })
+    navigate('/home')
   },[])
-  
+
   return (
     <>
-      {users && (<div>{JSON.stringify(users)}</div>)}
       <CurrentUser.Provider value={{currentUser, setCurrentUser}}>
         <Routes>
+          <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/registration" element={<Registration/>}/>
           <Route path="/admin" element={<AdminPanel/>}/>
+          <Route path="/users/:id" element={<User/>}/>
+          <Route path="/items/:id" element={<Item/>}/>
         </Routes>
       </CurrentUser.Provider>
     </>
