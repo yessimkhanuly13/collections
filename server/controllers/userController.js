@@ -5,7 +5,6 @@ class userController{
     async getUser(req, res){
         try{
             const username = req.params.id;
-            console.log(req.params)
            
             const user = await User.find({username: username}).select('-password');
 
