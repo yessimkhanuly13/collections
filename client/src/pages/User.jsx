@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
-import { CurrentUser } from '../App';
 import Button from '../utils/Button'
 import Input from '../utils/Input';
 
 function User() {
     const username = useParams();
-    const {currentUser} = useContext(CurrentUser);
     const [user, setUser] = useState({});
     const [items, setItems] = useState([]);
     const [item, setItem] = useState({});
@@ -55,7 +53,7 @@ function User() {
 
   return (
     <div>
-        {user._id === currentUser._id && (
+        {user._id && (
         <div>
             <Input type="text" onChange={handleItem} name="topic"/>
             <Input type="text" onChange={handleItem} name="desc"/>

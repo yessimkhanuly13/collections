@@ -1,13 +1,11 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../utils/Button';
 import axios from 'axios';
-import { CurrentUser } from '../App';
 import Input from '../utils/Input';
 
 function Login() {
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useContext(CurrentUser);
   const [user, setUser] = useState({});
 
   const handleChange = (e) => {
@@ -18,7 +16,6 @@ function Login() {
   const handleLogin = () => {
     axios.post(`http://localhost:3434/auth/login`, user)
       .then((res) => {
-        setCurrentUser(res.data);
         navigate(`/users/${res.data.username}`);
       })
       .catch((e) => {
@@ -28,8 +25,8 @@ function Login() {
   }
 
   useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
+      
+  }, []);
 
   return (
     <div className='flex flex-col items-center'>

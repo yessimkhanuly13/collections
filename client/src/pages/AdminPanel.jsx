@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { CurrentUser } from '../App'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 function AdminPanel() {
-  const {currentUser, setCurrentUser} = useContext(CurrentUser)
   const [users, setUsers] = useState([]);
   
   useEffect(()=>{

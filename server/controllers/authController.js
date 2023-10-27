@@ -21,6 +21,8 @@ class authController{
 
             user.password = 'encrypted';
             
+            console.log(user);
+
             return res.json(user);
             
         }catch(e){

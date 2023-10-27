@@ -10,11 +10,8 @@ import Home from "./pages/Home"
 export const CurrentUser = createContext();
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({});
-
   return (
     <>
-      <CurrentUser.Provider value={{currentUser, setCurrentUser}}>
         <Routes>
           <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
@@ -23,7 +20,6 @@ function App() {
           <Route path="/users/:id" element={<User/>}/>
           <Route path="/items/:id" element={<Item/>}/>
         </Routes>
-      </CurrentUser.Provider>
     </>
   )
 }
