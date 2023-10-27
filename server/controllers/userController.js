@@ -2,6 +2,20 @@ const User = require('../models/User');
 const Role = require('../models/Role')
 
 class userController{
+
+    async getAllUsers(req, res){
+        try{
+            const users = await User.find().select('-password');
+           
+            res.json(users);
+
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+
     async getUser(req, res){
         try{
             const username = req.params.id;

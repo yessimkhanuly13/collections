@@ -19,7 +19,7 @@ function Login() {
     axios.post(`http://localhost:3434/auth/login`, user)
       .then((res) => {
         setCurrentUser(res.data);
-        // navigate('/profile/:id');
+        navigate(`/users/${res.data.username}`);
       })
       .catch((e) => {
         console.log(e);
@@ -35,7 +35,7 @@ function Login() {
     <div className='flex flex-col items-center'>
       <Input type="email" name="username" onChange={handleChange} />
       <Input type="password" name="password" onChange={handleChange} />
-      <Button name="Go back" onClick={() => navigate('/')} />
+      <Button name="Go back" onClick={() => navigate('/home')} />
       <Button name="Submit" onClick={handleLogin} />
     </div>
   )

@@ -1,8 +1,8 @@
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import Login from "./pages/Login"
 import Registration from "./pages/Registration"
 import AdminPanel from "./pages/AdminPanel"
-import { createContext, useEffect, useState } from "react"
+import { createContext, useState } from "react"
 import User from "./pages/User"
 import Item from "./pages/Item"
 import Home from "./pages/Home"
@@ -11,11 +11,6 @@ export const CurrentUser = createContext();
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
-  const navigate = useNavigate();
-
-  useEffect(()=>{
-    navigate('/home')
-  },[])
 
   return (
     <>

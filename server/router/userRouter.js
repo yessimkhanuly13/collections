@@ -2,6 +2,7 @@ const Router = require('express');
 const userController = require('../controllers/userController');
 const userRouter = new Router();
 
+userRouter.get('/all', userController.getAllUsers)
 userRouter.get('/:id', userController.getUser);
 userRouter.delete('/delete/:id', userController.deleteUser);
 userRouter.put('/block/:id', userController.blockUser);
