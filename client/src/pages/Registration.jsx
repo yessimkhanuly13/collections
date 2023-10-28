@@ -20,7 +20,7 @@ function Registration() {
   }
 
   const handleRegistration = () =>{
-    axios.post(`http://localhost:3434/auth/registration`, user)
+    axios.post(`https://finalprojectserver.vercel.app/auth/registration`, user)
       .then(()=>{
         navigate('/');
       })

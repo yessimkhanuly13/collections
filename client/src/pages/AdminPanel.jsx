@@ -5,7 +5,7 @@ function AdminPanel() {
   const [users, setUsers] = useState([]);
   
   useEffect(()=>{
-    axios.get('http://localhost:3434/users/all')
+    axios.get('https://finalprojectserver.vercel.app/users/all')
       .then((res)=>{
         setUsers(res.data);
       })

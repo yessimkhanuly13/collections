@@ -14,7 +14,7 @@ function Login() {
   }
 
   const handleLogin = () => {
-    axios.post(`http://localhost:3434/auth/login`, user)
+    axios.post(`https://finalprojectserver.vercel.app/auth/login`, user)
       .then((res) => {
         navigate(`/users/${res.data.username}`);
       })
