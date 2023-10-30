@@ -36,8 +36,8 @@ function Registration() {
         <Input type="password" name="password" onChange={handleChange}/>
       </div>
       <div className='flex'>
-        <Button name="Go Back" onClick={()=>navigate('/')} />
-        <Button name="Submit" onClick={handleRegistration} />
+        <Button name="Go Back" style="bg-red-600" onClick={()=>navigate('/')} />
+        <Button name="Submit" style="bg-lime-600" onClick={handleRegistration} />
       </div>
     </div>
   )

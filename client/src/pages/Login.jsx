@@ -32,8 +32,8 @@ function Login() {
     <div className='flex flex-col items-center'>
       <Input type="email" name="username" onChange={handleChange} />
       <Input type="password" name="password" onChange={handleChange} />
-      <Button name="Go back" onClick={() => navigate('/home')} />
-      <Button name="Submit" onClick={handleLogin} />
+      <Button name="Go back" style="bg-red-600" onClick={() => navigate('/home')} />
+      <Button name="Submit" style="bg-lime-600" onClick={handleLogin} />
     </div>
   )
 }
