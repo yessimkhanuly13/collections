@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import Button from '../utils/Button';
 import Input from '../utils/Input';
-import Popup from '../components/Popup';
+import Error from '../App'
 
 function Registration() {
   const navigate = useNavigate();
@@ -13,7 +13,8 @@ function Registration() {
     password:"",
   });
 
-  const [error, setError] = useState('');
+  const {error, setError} = useContext(Error);
+
 
   const handleChange = (e) =>{
 
@@ -35,7 +36,6 @@ function Registration() {
 
   return (
     <div className='flex flex-col justify-center items-center'>
-      {error && <Popup message={error} handleCloseError={()=>setError('')}/>}
       <div className='flex flex-col'>
         <Input type="email" name="username" onChange={handleChange}/>
         <Input type="password" name="password" onChange={handleChange}/>

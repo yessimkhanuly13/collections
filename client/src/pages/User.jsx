@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
 import Button from '../utils/Button'
 import Input from '../utils/Input';
-import Popup from '../components/Popup';
+import { Error } from '../App';
 
 function User() {
     const username = useParams();
     const [user, setUser] = useState({});
     const [items, setItems] = useState([]);
     const [item, setItem] = useState({});
-    const [error, setError] = useState('');
+
+    const {error, setError} = useContext(Error);
 
     const getItems = (id) =>{
         axios.get(`https://finalprojectserver.vercel.app/items/${id}`)
@@ -58,7 +59,6 @@ function User() {
 
   return (
     <div>
-      {error && <Popup message={error} handleCloseError={()=>setError('')}/>}
         {user._id && (
         <div>
             <Input type="text" onChange={handleItem} name="topic"/>

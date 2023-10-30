@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Button from '../utils/Button'
+import { Error } from '../App';
+import { useNavigate } from 'react-router-dom';
 
 function AdminPanel() {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [check, setCheck] = useState(false);
+
+  const navigate = useNavigate();
+
+  const {setError} = useContext(Error)
 
   const getAllUsers = () =>{
     axios.get('https://finalprojectserver.vercel.app/users/all')
@@ -14,6 +20,7 @@ function AdminPanel() {
       })
       .catch((e)=>{
         console.log(e);
+        setError(e.response.data.message)
       })
   } 
 
@@ -46,6 +53,7 @@ function AdminPanel() {
         })
         .catch((e)=>{
           console.log(e);
+          setError(e.response.data.message)
         })
     })
   }
@@ -59,12 +67,20 @@ function AdminPanel() {
         })
         .catch((e)=>{
           console.log(e);
+          setError(e.response.data.message)
         })
     })
   }
    
   useEffect(()=>{
     getAllUsers();
+
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    if(!user.roles.includes('admin')){
+      navigate('/');
+      setError('For admins only!');
+    }
+
   },[])
 
 
