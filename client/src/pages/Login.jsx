@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../utils/Button';
 import axios from 'axios';
@@ -16,6 +16,7 @@ function Login() {
   const handleLogin = () => {
     axios.post(`https://finalprojectserver.vercel.app/auth/login`, user)
       .then((res) => {
+        localStorage.setItem('currentUser', JSON.stringify(res.data));
         navigate(`/users/${res.data.username}`);
       })
       .catch((e) => {
@@ -24,9 +25,6 @@ function Login() {
       });
   }
 
-  useEffect(() => {
-      
-  }, []);
 
   return (
     <div className='flex flex-col items-center'>

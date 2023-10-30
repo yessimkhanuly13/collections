@@ -47,7 +47,7 @@ function User() {
         })
 
         user && getItems(user._id)
-
+    
     },[items])
 
 
