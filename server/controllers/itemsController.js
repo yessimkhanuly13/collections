@@ -2,7 +2,18 @@ const Item = require('../models/Item')
 
 class itemsController{
 
-    async get(req, res){
+    async getAllItems(req, res){
+        try{
+            const items = await Item.find();
+            res.json(items);
+            
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async getItemsByUserId(req, res){
         try{
             const userId = req.params.id;
             const items = await Item.find({userId: userId});
@@ -18,8 +29,8 @@ class itemsController{
     async add(req, res){
         try{
             const {topic, desc, userId} = req.body;
-
-            const item = new Item({topic, desc, userId});
+            const date = Date.now();
+            const item = new Item({topic, desc, userId, createdDate: date});
             await item.save();
             
             return res.json({message: "Item succesfully added!"})

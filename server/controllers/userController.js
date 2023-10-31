@@ -71,7 +71,14 @@ class userController{
         try{
             const userId = req.params.id;
             const adminRole = await Role.findOne({value: 'admin'});
-            await User.findByIdAndUpdate(userId, {roles:[adminRole.value]}, {new: true});
+
+            const user = await User.findById(userId);
+            if(!user.roles.includes(adminRole.value)){
+                user.roles.push(adminRole.value);
+            }
+
+            await user.save();
+            console.log(user);
 
             res.json({message: "User succesfully get admin role!"})
 
@@ -85,8 +92,14 @@ class userController{
     async removeAdmin(req, res){
         try{
             const userId = req.params.id;
-            const userRole = await Role.findOne({value: 'user'});
-            await User.findByIdAndUpdate(userId, {role: [userRole.value]}, {new: true});
+            const adminRole = await Role.findOne({value: 'admin'});
+
+            const user = await User.findById(userId);
+            const updatedRoles = user.roles.filter((role) => role !== adminRole.value);
+            
+            user.roles = updatedRoles;
+            
+            await user.save();
 
             res.json({message: "User succesfully get user role!"})
 

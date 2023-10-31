@@ -2,7 +2,8 @@ const Router = require('express');
 const itemsController = require('../controllers/itemsController');
 const itemsRouter = new Router();
 
-itemsRouter.get('/:id', itemsController.get);
+itemsRouter.get('/all', itemsController.getAllItems);
+itemsRouter.get('/:id', itemsController.getItemsByUserId);
 itemsRouter.post('/add', itemsController.add);
 itemsRouter.delete('/delete/:id', itemsController.delete);
 itemsRouter.put('/update/:id', itemsController.update);
