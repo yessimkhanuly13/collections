@@ -33,16 +33,15 @@ function Navbar() {
 
   return (
     <div className='flex justify-between'>
-      <Input type="text" />
-      <div>
+      <Input name="Search" type="text" />
+      <div className='flex'>
         {
-          isAdmin && (<Button name="Admin Panel" style="bg-lime-600" onClick={()=>navigate('/admin')}/>)
+          isLogged && isAdmin && (<Button name="Admin Panel" style="bg-lime-600" onClick={()=>navigate('/admin')}/>)
         }
         {
           !isLogged ? (
             <div>
-              <Button name="Login" style="bg-lime-600" onClick={()=>navigate('/login')}/>
-              <Button name="Registration" style="bg-lime-600" onClick={()=>navigate('/registration')} />
+              <Button name="Sign In" style="bg-lime-600" onClick={()=>navigate('/login')}/>
             </div>
           ) : (
             <Button name="Logout" style="bg-red-600" onClick={handleLogout}/>

@@ -87,15 +87,18 @@ function AdminPanel() {
 
 
   return (
-    <>
+    <div className='flex flex-col items-center'>
 
-      <Button name="Delete" style="bg-red-600" onClick={handleUserDelete}/>
-      <Button name="Block" style="bg-red-600" onClick={()=>handleUpdateUser('block')}/>
-      <Button name="Unblock" style="bg-lime-600" onClick={()=>handleUpdateUser('unblock')}/>
-      <Button name="Give Admin" style="bg-lime-600" onClick={()=>handleUpdateUser('admin')}/>
-      <Button name="Remove Admin" style="bg-red-600" onClick={()=>handleUpdateUser('user')}/>
+      <div>
+        <Button name="Block" style="bg-red-600" onClick={()=>handleUpdateUser('block')}/>
+        <Button name="Unblock" style="bg-lime-600" onClick={()=>handleUpdateUser('unblock')}/>
+        <Button name="Delete" style="bg-red-600" onClick={handleUserDelete}/>
+        <Button name="Give Admin" style="bg-lime-600" onClick={()=>handleUpdateUser('admin')}/>
+        <Button name="Remove Admin" style="bg-red-600" onClick={()=>handleUpdateUser('user')}/>
+        <Button name="Go Back" style="bg-lime-600" onClick={()=>navigate('/')}/>
+      </div>
 
-      <table className='border w-screen mt-4'>
+      <table className='border w-5/6 m-4'>
         <thead className='border'>
           <tr className='bg-slate-50'>
             <th className='border p-2'><input checked={check} onChange={handleSelectAllUsers}  type='checkbox'/></th>
@@ -117,7 +120,7 @@ function AdminPanel() {
           </tbody>
       </table>
 
-    </>
+    </div>
   )
 }
 

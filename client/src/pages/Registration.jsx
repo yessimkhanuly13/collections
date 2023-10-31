@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
 import Button from '../utils/Button';
 import Input from '../utils/Input';
-import Error from '../App'
+import { Error } from '../App';
 
 function Registration() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function Registration() {
     password:"",
   });
 
-  const {error, setError} = useContext(Error);
+  const {setError} = useContext(Error);
 
 
   const handleChange = (e) =>{
@@ -36,9 +36,10 @@ function Registration() {
 
   return (
     <div className='flex flex-col justify-center items-center'>
-      <div className='flex flex-col'>
+      <div className='flex flex-col items-center'>
         <Input type="email" name="username" onChange={handleChange}/>
         <Input type="password" name="password" onChange={handleChange}/>
+        <p>Already have an account? <Link className='hover:text-lime-600' to="/login">Sign In here</Link></p>
       </div>
       <div className='flex'>
         <Button name="Go Back" style="bg-red-600" onClick={()=>navigate('/')} />

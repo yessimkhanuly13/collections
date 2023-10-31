@@ -1,20 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from "../components/Navbar"
 
 
 function Home() {
+  const [items, setItems] = useState([]);
 
-    const handleChange = (e) =>{
-        console.log(e.target.value);
-    }
-
-    const handleClick = () =>{
-        console.log("Clicked")
-    }
+  useEffect(()=>{
+    
+  },[])
 
   return (
     <div>
        <Navbar/>
+
+
     </div>
   )
 }

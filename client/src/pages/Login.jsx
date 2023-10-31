@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Button from '../utils/Button';
 import axios from 'axios';
 import Input from '../utils/Input';
@@ -11,7 +11,7 @@ function Login() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   
-  const {error, setError} = useContext(Error);
+  const {setError} = useContext(Error);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,8 +36,9 @@ function Login() {
     <div className='flex flex-col items-center'>
       <Input type="email" name="username" onChange={handleChange} />
       <Input type="password" name="password" onChange={handleChange} />
+      <p>Don't have an account? <Link className='hover:text-lime-600' to="/registration">Register here</Link></p>
       <div className='flex'>
-          <Button name="Go back" style="bg-red-600" onClick={() => navigate('/home')} />
+          <Button name="Go Back" style="bg-red-600" onClick={() => navigate('/')} />
           <Button name="Submit" style="bg-lime-600" onClick={handleLogin} />
       </div>
     </div>
