@@ -11,7 +11,7 @@ function User() {
     const [items, setItems] = useState([]);
     const [item, setItem] = useState({});
 
-    const {error, setError} = useContext(Error);
+    const {setError} = useContext(Error);
 
     const getItems = (id) =>{
         axios.get(`https://finalprojectserver.vercel.app/items/${id}`)

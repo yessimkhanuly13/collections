@@ -3,7 +3,7 @@ import Login from "./pages/Login"
 import Registration from "./pages/Registration"
 import AdminPanel from "./pages/AdminPanel"
 import User from "./pages/User"
-import Item from "./pages/Items"
+import Item from "./pages/Item"
 import Home from "./pages/Home"
 import Profile from "./pages/Profile"
 import { createContext, useState } from "react"
@@ -26,7 +26,7 @@ function App() {
           <Route path="/registration" element={<Registration/>}/>
           <Route path="/admin" element={<AdminPanel/>}/>
           <Route path="/users/:id" element={<User/>}/>
-          <Route path="/items/:id" element={<Item/>}/>
+          <Route path="/item/:id" element={<Item/>}/>
         </Routes>
       </Error.Provider>
     </div>
