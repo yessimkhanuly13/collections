@@ -1,4 +1,5 @@
 import React from 'react'
+import Navbar from "../components/Navbar"
 
 
 function Home() {
@@ -13,7 +14,7 @@ function Home() {
 
   return (
     <div>
-   
+       <Navbar/>
     </div>
   )
 }

@@ -6,7 +6,6 @@ import User from "./pages/User"
 import Item from "./pages/Item"
 import Home from "./pages/Home"
 import Profile from "./pages/Profile"
-import Navbar from "./components/Navbar"
 import { createContext, useState } from "react"
 import Popup from "./components/Popup"
 
@@ -19,11 +18,10 @@ function App() {
   return (
     <>
       <Error.Provider value={{error, setError}} >
-        <Navbar/>
         {error && <Popup message={error} handleCloseError={()=>setError('')}/>}
         <Routes>
+          <Route path="/" element={<Home/>}/>
           <Route path="/profile" element={<Profile/>}/>
-          <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/registration" element={<Registration/>}/>
           <Route path="/admin" element={<AdminPanel/>}/>

@@ -76,9 +76,11 @@ function AdminPanel() {
     getAllUsers();
 
     const user = JSON.parse(localStorage.getItem('currentUser'));
-    if(!user.roles.includes('admin')){
+    if( user && !user.roles.includes('admin')){
       navigate('/');
       setError('For admins only!');
+    }else if(!user){
+      navigate('/')
     }
 
   },[])
