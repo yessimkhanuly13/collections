@@ -1,53 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Input from '../utils/Input'
 import Button from '../utils/Button'
-import { useNavigate } from 'react-router-dom';
+import { Error } from '../App';
 
 function Navbar() {
-  const [isLogged, setIsLogged] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [btnText, setBtnText] = useState('Light Mode');
+  const {setDarkMode, darkMode} = useContext(Error);
 
-  const navigate = useNavigate();
 
-  const handleLogout = () =>{
-    localStorage.removeItem('currentUser');
-    setIsLogged(false);
+  const toggleMode = () =>{
+    if(darkMode){
+      setBtnText('Light Mode');
+    }else{
+      setBtnText('Dark Mode');
+    }
+    setDarkMode(!darkMode);
   }
-
-  useEffect(()=>{
-    const user = localStorage.getItem('currentUser');
-
-    
-    if(user){
-      setIsLogged(true)
-    }else{
-      setIsLogged(false)
-    }
-
-    if(user && JSON.parse(user).roles.includes('admin')){
-      setIsAdmin(true);
-    }else{
-      setIsAdmin(false)
-    }
-  },[])
+  
 
   return (
     <div className='flex justify-between'>
       <Input name="Search" type="text" />
-      <div className='flex'>
-        {
-          isLogged && isAdmin && (<Button name="Admin Panel" style="bg-lime-600" onClick={()=>navigate('/admin')}/>)
-        }
-        {
-          !isLogged ? (
-            <div>
-              <Button name="Sign In" style="bg-lime-600" onClick={()=>navigate('/login')}/>
-            </div>
-          ) : (
-            <Button name="Logout" style="bg-red-600" onClick={handleLogout}/>
-          )
-        }
-      </div>
+      <Button style="bg-black" name={btnText} onClick={toggleMode}/>
     </div>
   )
 }

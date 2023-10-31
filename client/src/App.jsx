@@ -13,11 +13,11 @@ export const Error = createContext();
 
 function App() {
   const [error, setError] = useState('');
-
+  const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className="w-screen">
-      <Error.Provider value={{error, setError}} >
+    <div className="w-screen h-screen">
+      <Error.Provider value={{error, setError, setDarkMode, darkMode}} >
         {error && <Popup message={error} handleCloseError={()=>setError('')}/>}
         <Routes>
           <Route path="/" element={<Home/>}/>
