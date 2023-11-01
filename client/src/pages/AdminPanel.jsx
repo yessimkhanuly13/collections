@@ -16,6 +16,7 @@ function AdminPanel() {
   const getAllUsers = () =>{
     axios.get('https://finalprojectserver.vercel.app/users/all')
       .then((res)=>{
+        console.log(res.data)
         setUsers(res.data);
       })
       .catch((e)=>{
@@ -87,7 +88,7 @@ function AdminPanel() {
 
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center p-2'>
 
       <div>
         <Button name="Block" style="bg-red-600" onClick={()=>handleUpdateUser('block')}/>
@@ -98,16 +99,16 @@ function AdminPanel() {
         <Button name="Go Back" style="bg-lime-600" onClick={()=>navigate('/')}/>
       </div>
 
-      <table className='border w-5/6 m-4'>
-        <thead className='border'>
+      <table className='border w-4/6 m-4'>
+        <thead className=''>
           <tr className='bg-slate-50'>
-            <th className='border p-2'><input checked={check} onChange={handleSelectAllUsers}  type='checkbox'/></th>
-            <th className='border p-2'>ID</th>
-            <th className='border p-2'>Email</th>
-            <th className='border p-2'>Role</th>
+            <th className='p-2'><input checked={check} onChange={handleSelectAllUsers}  type='checkbox'/></th>
+            <th className='p-2'>ID</th>
+            <th className='p-2'>Email</th>
+            <th className='p-2'>Role</th>
           </tr>
         </thead>
-          <tbody className='border text-center'>
+          <tbody className='text-center'>
               {users && users.map((user, index) => {
                   return (
                     <tr className='odd:bg-white even:bg-slate-100' key={index}>
