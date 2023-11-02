@@ -11,10 +11,10 @@ function Home() {
   const [oldestItems, setOldestItems] = useState([]);
   const [collections, setCollections] = useState([]);
 
-  const {setError, darkMode} = useContext(Error);
+  const {setError, darkMode, url} = useContext(Error);
 
   const getAllItems = () =>{
-    axios.get('https://finalprojectserver.vercel.app/items/all')
+    axios.get(`${url}/items/all`)
       .then((res)=>{
         setOldestItems(getOldestItems(res.data));
       })
@@ -31,7 +31,7 @@ function Home() {
   }
 
   const getCollections = () =>{
-    axios.get('https://finalprojectserver.vercel.app/collections/all')
+    axios.get(`${url}/collections/all`)
       .then((res)=>{
         setCollections(getBiggestCollections(res.data));
       })

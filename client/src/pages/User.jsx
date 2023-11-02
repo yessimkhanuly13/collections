@@ -11,10 +11,10 @@ function User() {
     const [items, setItems] = useState([]);
     const [item, setItem] = useState({});
 
-    const {setError} = useContext(Error);
+    const {setError, url} = useContext(Error);
 
     const getItems = (id) =>{
-        axios.get(`https://finalprojectserver.vercel.app/items/${id}`)
+        axios.get(`${url}/items/${id}`)
             .then((res)=>{
                 setItems(res.data);
             })
@@ -31,7 +31,7 @@ function User() {
 
     const addItem = () =>{
         setItem({...item, userId: user._id});
-        axios.post(`https://finalprojectserver.vercel.app/items/add`, item)
+        axios.post(`${url}/items/add`, item)
             .then((res)=>{
                 setItems([...items, res.data]);
             })
@@ -43,7 +43,7 @@ function User() {
 
   
     useEffect(()=>{
-      axios.get(`https://finalprojectserver.vercel.app/users/${username.id}`)
+      axios.get(`${url}/users/${username.id}`)
         .then((res)=>{
           setUser(res.data[0]);
         })

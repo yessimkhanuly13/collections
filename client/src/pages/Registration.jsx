@@ -13,7 +13,7 @@ function Registration() {
     password:"",
   });
 
-  const {setError} = useContext(Error);
+  const {setError, url} = useContext(Error);
 
 
   const handleChange = (e) =>{
@@ -24,7 +24,7 @@ function Registration() {
   }
 
   const handleRegistration = () =>{
-    axios.post(`https://finalprojectserver.vercel.app/auth/registration`, user)
+    axios.post(`${url}/auth/registration`, user)
       .then(()=>{
         navigate('/');
       })

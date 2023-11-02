@@ -5,12 +5,12 @@ import { Error } from '../App';
 
 function Item() {
   const [item, setItem] = useState({});
-  const {setError} = useContext(Error);
+  const {setError, url} = useContext(Error);
 
   const id = useParams();
 
   useEffect(()=>{
-    axios.get(`https://finalprojectserver.vercel.app/itmes/${id}`)
+    axios.get(`${url}/itmes/${id}`)
       .then((res)=>{
         setItem(res.data)
       })

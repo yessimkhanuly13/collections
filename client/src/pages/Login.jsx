@@ -11,7 +11,7 @@ function Login() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   
-  const {setError} = useContext(Error);
+  const {setError, url} = useContext(Error);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +19,7 @@ function Login() {
   }
 
   const handleLogin = () => {
-    axios.post(`https://finalprojectserver.vercel.app/auth/login`, user)
+    axios.post(`${url}/auth/login`, user)
       .then((res) => {
         localStorage.setItem('currentUser', JSON.stringify(res.data));
         navigate('/profile');

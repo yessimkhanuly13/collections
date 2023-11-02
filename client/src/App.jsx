@@ -16,13 +16,15 @@ function App() {
   const [error, setError] = useState('');
   const [darkMode, setDarkMode] = useState(false);
 
+  const url = import.meta.env.VITE_URL;
+
   useEffect(()=>{
     
   }, [])
 
   return (
     <div className={ darkMode ? "w-screen h-screen bg-black text-white" : "w-screen h-screen" }>
-      <Error.Provider value={{error, setError, setDarkMode, darkMode}} >
+      <Error.Provider value={{error, setError, setDarkMode, darkMode, url}} >
         {error && <Popup message={error} handleCloseError={()=>setError('')}/>}
         <Routes>
           <Route path="/" element={<Home/>}/>

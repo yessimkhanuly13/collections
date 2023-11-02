@@ -11,10 +11,10 @@ function AdminPanel() {
 
   const navigate = useNavigate();
 
-  const {setError} = useContext(Error)
+  const {setError, url} = useContext(Error)
 
   const getAllUsers = () =>{
-    axios.get('https://finalprojectserver.vercel.app/users/all')
+    axios.get(`${url}/users/all`)
       .then((res)=>{
         console.log(res.data)
         setUsers(res.data);
@@ -47,7 +47,7 @@ function AdminPanel() {
 
   const handleUserDelete = () =>{
     selectedUsers.forEach((id)=>{
-      axios.delete(`https://finalprojectserver.vercel.app/users/delete/${id}`)
+      axios.delete(`${url}/users/delete/${id}`)
         .then((res)=>{
           console.log(res.data);
           getAllUsers();
@@ -61,7 +61,7 @@ function AdminPanel() {
 
   const handleUpdateUser = (path) =>{
     selectedUsers.forEach((id)=>{
-      axios.put(`https://finalprojectserver.vercel.app/users/${path}/${id}`)
+      axios.put(`${url}/users/${path}/${id}`)
         .then((res)=>{
           console.log(res.data)
           getAllUsers();
@@ -75,7 +75,6 @@ function AdminPanel() {
    
   useEffect(()=>{
     getAllUsers();
-
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if( user && !user.roles.includes('admin')){
       navigate('/');
