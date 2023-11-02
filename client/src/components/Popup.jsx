@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '../utils/Button'
+import Button from './Button'
 
 function Popup({handleCloseError, message}) {
 

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
-import Button from '../utils/Button'
-import Input from '../utils/Input';
-import { Error } from '../App';
+import Button from '../components/Button'
+import Input from '../components/Input';
+import { PopupContext } from '../App';
 import Navbar from '../components/Navbar';
 
 function User() {
@@ -12,7 +12,7 @@ function User() {
     const [items, setItems] = useState([]);
     const [item, setItem] = useState({});
 
-    const {setError, url} = useContext(Error);
+    const {setMessage, url} = useContext(PopupContext);
 
     const getItems = (id) =>{
         axios.get(`${url}/items/${id}`)
@@ -21,7 +21,7 @@ function User() {
             })
             .catch((e)=>{
                 console.log(e);
-                setError(e.response.data.message)
+                setMessage(e.response.data.message)
             })
     }
 
@@ -38,7 +38,7 @@ function User() {
             })
             .catch((e)=>{
                 console.log(e);
-                setError(e.response.data.message)
+                setMessage(e.response.data.message)
             })
     }
 
@@ -50,7 +50,7 @@ function User() {
         })
         .catch((e)=>{
           console.log(e);
-          setError(e.response.data.message)
+          setMessage(e.response.data.message)
         })
 
         user && getItems(user._id)

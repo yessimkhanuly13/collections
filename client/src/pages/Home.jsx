@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from "../components/Navbar"
 import axios from 'axios';
-import { Error } from '../App';
+import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
 
 
@@ -11,7 +11,7 @@ function Home() {
   const [oldestItems, setOldestItems] = useState([]);
   const [collections, setCollections] = useState([]);
 
-  const {setError, darkMode, url} = useContext(Error);
+  const {setMessage, darkMode, url} = useContext(PopupContext);
 
   const getAllItems = () =>{
     axios.get(`${url}/items/all`)
@@ -20,7 +20,7 @@ function Home() {
       })
       .catch((e)=>{
         console.log(e);
-        setError(e.response.data.message);
+        setMessage(e.response.data.message);
       })
   }
 
@@ -37,7 +37,7 @@ function Home() {
       })
       .catch((e)=>{
         console.log(e);
-        setError(e.response.data.message);
+        setMessage(e.response.data.message);
       })
   }
   

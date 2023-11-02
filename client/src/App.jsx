@@ -10,10 +10,10 @@ import { createContext, useEffect, useState } from "react"
 import Popup from "./components/Popup"
 import Collection from "./pages/Collection"
 
-export const Error = createContext();
+export const PopupContext = createContext();
 
 function App() {
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const [darkMode, setDarkMode] = useState(false);
 
   const url = import.meta.env.VITE_URL;
@@ -24,8 +24,8 @@ function App() {
 
   return (
     <div className={ darkMode ? "w-screen h-screen bg-black text-white" : "w-screen h-screen" }>
-      <Error.Provider value={{error, setError, setDarkMode, darkMode, url}} >
-        {error && <Popup message={error} handleCloseError={()=>setError('')}/>}
+      <PopupContext.Provider value={{message, setMessage, setDarkMode, darkMode, url}} >
+        {message && <Popup message={message} handleCloseError={()=>setMessage('')}/>}
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/profile" element={<Profile/>}/>
@@ -36,7 +36,7 @@ function App() {
           <Route path="/collection/:id" element={<Collection/>}/>
           <Route path="/item/:id" element={<Item/>}/>
         </Routes>
-      </Error.Provider>
+      </PopupContext.Provider>
     </div>
   )
 }

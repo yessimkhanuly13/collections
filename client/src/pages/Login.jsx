@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import Button from '../utils/Button';
+import Button from '../components/Button';
 import axios from 'axios';
-import Input from '../utils/Input';
-import { Error } from '../App';
+import Input from '../components/Input';
+import { PopupContext } from '../App';
 
 
 
@@ -11,7 +11,7 @@ function Login() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   
-  const {setError, url} = useContext(Error);
+  const {setMessage, url} = useContext(PopupContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +26,7 @@ function Login() {
       })
       .catch((e) => {
         console.log(e);
-        setError(e.response.data.message);
+        setMessage(e.response.data.message);
         setUser({});
       });
   }

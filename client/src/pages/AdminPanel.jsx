@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import Button from '../utils/Button'
-import { Error } from '../App';
+import Button from '../components/Button'
+import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 
 function AdminPanel() {
@@ -11,7 +11,7 @@ function AdminPanel() {
 
   const navigate = useNavigate();
 
-  const {setError, url} = useContext(Error)
+  const {setMessage, url} = useContext(PopupContext)
 
   const getAllUsers = () =>{
     axios.get(`${url}/users/all`)
@@ -21,7 +21,7 @@ function AdminPanel() {
       })
       .catch((e)=>{
         console.log(e);
-        setError(e.response.data.message)
+        setMessage(e.response.data.message)
       })
   } 
 
@@ -54,7 +54,7 @@ function AdminPanel() {
         })
         .catch((e)=>{
           console.log(e);
-          setError(e.response.data.message)
+          setMessage(e.response.data.message)
         })
     })
   }
@@ -68,7 +68,7 @@ function AdminPanel() {
         })
         .catch((e)=>{
           console.log(e);
-          setError(e.response.data.message)
+          setMessage(e.response.data.message)
         })
     })
   }
@@ -78,7 +78,7 @@ function AdminPanel() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if( user && !user.roles.includes('admin')){
       navigate('/');
-      setError('For admins only!');
+      setMessage('For admins only!');
     }else if(!user){
       navigate('/')
     }

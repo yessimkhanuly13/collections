@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
-import Button from '../utils/Button';
-import Input from '../utils/Input';
-import { Error } from '../App';
+import Button from '../components/Button';
+import Input from '../components/Input';
+import { PopupContext } from '../App';
 
 function Registration() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function Registration() {
     password:"",
   });
 
-  const {setError, url} = useContext(Error);
+  const {setMessage, url} = useContext(PopupContext);
 
 
   const handleChange = (e) =>{
@@ -30,7 +30,7 @@ function Registration() {
       })
       .catch((e)=>{
         console.log(e);
-        setError(e.response.data.message);
+        setMessage(e.response.data.message);
       })
   }
 

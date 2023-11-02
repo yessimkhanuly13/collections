@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
-import { Error } from '../App';
+import { PopupContext } from '../App';
 import Navbar from '../components/Navbar';
-import Button from '../utils/Button';
-import Input from '../utils/Input';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
 function Collection() {
     const [collection, setCollection] = useState({});
@@ -17,7 +17,7 @@ function Collection() {
 
     const collectionId = useParams();
     
-    const {setError, url} = useContext(Error)
+    const {setMessage, url} = useContext(PopupContext)
 
     const getCollectionById = () =>{
         axios.get(`${url}/collections/${collectionId.id}`)
@@ -26,7 +26,7 @@ function Collection() {
             })
             .catch((e)=>{
                 console.log(e);
-                setError(e.response.data.message)
+                setMessage(e.response.data.message)
             })
     }
 
@@ -44,11 +44,11 @@ function Collection() {
         axios.put(`${url}/additem/${collection.id}`, {itemdata})
             .then((res)=>{
                 console.log(res.data);
-                setError(res.data.message);
+                setMessage(res.data.message);
             })
             .catch((e)=>{
                 console.log(e);
-                setError(e.response.data.message);
+                setMessage(e.response.data.message);
             })
     }
 

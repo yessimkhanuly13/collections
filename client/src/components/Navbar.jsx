@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Input from '../utils/Input'
-import Button from '../utils/Button'
-import { Error } from '../App';
+import Button from './Button'
+import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import profile from '../assets/profile.png'
 import logout from '../assets/logout.png'
@@ -12,7 +11,7 @@ import sun from '../assets/sun.png'
 
 function Navbar() {
   const [btnText, setBtnText] = useState('Light Mode');
-  const {setDarkMode, darkMode} = useContext(Error);
+  const {setDarkMode, darkMode} = useContext(PopupContext);
   const [isLogged, setIsLogged] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
