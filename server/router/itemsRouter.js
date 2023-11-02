@@ -4,7 +4,6 @@ const itemsRouter = new Router();
 
 itemsRouter.get('/all', itemsController.getAllItems);
 itemsRouter.get('/:id', itemsController.getItemsByUserId);
-itemsRouter.post('/add', itemsController.add);
 itemsRouter.delete('/delete/:id', itemsController.delete);
 itemsRouter.put('/update/:id', itemsController.update);
 

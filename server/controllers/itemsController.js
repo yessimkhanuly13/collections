@@ -26,21 +26,6 @@ class itemsController{
         }
     }
 
-    async add(req, res){
-        try{
-            const {topic, desc, userId} = req.body;
-            const date = Date.now();
-            const item = new Item({topic, desc, userId, createdDate: date});
-            await item.save();
-            
-            return res.json({message: "Item succesfully added!"})
-
-        }catch(e){
-            console.log(e);
-            res.json({message: "Something went wrong!"})
-        }
-    }
-
     async update(req, res){
         try{
             const id = req.params.id;

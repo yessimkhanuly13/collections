@@ -52,17 +52,17 @@ function Navbar() {
   
 
   return (
-    <div className='flex justify-between p-4 bg-white shadow-md items-center'>
+    <div className={darkMode ? 'flex justify-between p-4 bg-black shadow-md items-center' : 'flex justify-between p-4 bg-white shadow-md items-center'}>
        <div className="flex items-center">
-          <span onClick={()=>navigate('/')} className="text-xl font-semibold text-gray-800 cursor-pointer">Collections</span>
-          <Button style="bg-grey" name="Profile" onClick={()=>navigate('/profile')} image={profile} />
+          <span onClick={()=>navigate('/')} className={darkMode ? "text-xl font-bold text-white cursor-pointer" : "text-xl font-bold text-grey-800 cursor-pointer"}>Collections</span>
+          {isLogged && (<Button style="bg-grey" name="Profile" onClick={()=>navigate('/profile')} image={profile}/>)}
         </div>
 
         <div className="w-1/4">
           <input
             type="text"
             placeholder="Search"
-            className="w-full px-3 py-2 border border-gray-300 rounded-full"
+            className="w-full px-3 py-2 border border-gray-300 rounded-full bg-inherit"
           />
         </div>
 

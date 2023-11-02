@@ -6,7 +6,7 @@ import User from "./pages/User"
 import Item from "./pages/Item"
 import Home from "./pages/Home"
 import Profile from "./pages/Profile"
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import Popup from "./components/Popup"
 
 export const Error = createContext();
@@ -15,8 +15,12 @@ function App() {
   const [error, setError] = useState('');
   const [darkMode, setDarkMode] = useState(false);
 
+  useEffect(()=>{
+    
+  }, [])
+
   return (
-    <div className="w-screen h-screen">
+    <div className={ darkMode ? "w-screen h-screen bg-black text-white" : "w-screen h-screen" }>
       <Error.Provider value={{error, setError, setDarkMode, darkMode}} >
         {error && <Popup message={error} handleCloseError={()=>setError('')}/>}
         <Routes>

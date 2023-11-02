@@ -4,7 +4,8 @@ const Item = new Schema({
     topic: {type: String},
     desc: {type: String},
     userId: {type: String}, 
-    createdDate : {type: Number}
+    createdDate : {type: Number},
+    tags: [{type: String}]
 })
 
 module.exports = model('Item', Item);

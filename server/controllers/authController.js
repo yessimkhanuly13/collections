@@ -45,7 +45,7 @@ class authController{
             const cryptedPass = bcrypt.hashSync(password, 5);
             const userRole = await Role.findOne({value: 'user'});
 
-            const user = new User({username, password:cryptedPass, roles: [userRole.value] });
+            const user = new User({username, password:cryptedPass, roles: [userRole.value], status: "Active" });
 
             await user.save();
             return res.json({message:"User is succesfully created!"})
