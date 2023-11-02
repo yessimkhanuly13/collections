@@ -8,6 +8,7 @@ import Home from "./pages/Home"
 import Profile from "./pages/Profile"
 import { createContext, useEffect, useState } from "react"
 import Popup from "./components/Popup"
+import Collection from "../../server/models/Collection"
 
 export const Error = createContext();
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/registration" element={<Registration/>}/>
           <Route path="/admin" element={<AdminPanel/>}/>
           <Route path="/users/:id" element={<User/>}/>
+          <Route path="/collection/:id" element={<Collection/>}/>
           <Route path="/item/:id" element={<Item/>}/>
         </Routes>
       </Error.Provider>
