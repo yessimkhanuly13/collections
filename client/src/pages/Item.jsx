@@ -2,17 +2,19 @@ import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Error } from '../App';
+import Navbar from '../components/Navbar';
 
 function Item() {
   const [item, setItem] = useState({});
   const {setError, url} = useContext(Error);
 
-  const id = useParams();
+  const itemId = useParams();
 
   useEffect(()=>{
-    axios.get(`${url}/itmes/${id}`)
+    axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
         setItem(res.data)
+        console.log(itemId.id)
       })
       .catch((e)=>{
         console.log(e);
@@ -22,7 +24,10 @@ function Item() {
   
   return (
     <div>
-      
+      <Navbar/>
+      <p>{item.topic}</p>
+      <p>{item.desc}</p>
+      <p>{item.topic}</p>
     </div>
   )
 }

@@ -4,6 +4,7 @@ import axios from 'axios'
 import Button from '../utils/Button'
 import Input from '../utils/Input';
 import { Error } from '../App';
+import Navbar from '../components/Navbar';
 
 function User() {
     const username = useParams();
@@ -59,6 +60,7 @@ function User() {
 
   return (
     <div>
+      <Navbar/>
         {user._id && (
         <div>
             <Input type="text" onChange={handleItem} name="topic"/>

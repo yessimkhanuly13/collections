@@ -26,6 +26,18 @@ class itemsController{
         }
     }
 
+    async getItemById(req, res){
+        try{
+            const id = req.params.id;
+            const item = await Item.findById(id);
+
+            res.json(item);
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
     async update(req, res){
         try{
             const id = req.params.id;
