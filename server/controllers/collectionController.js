@@ -30,6 +30,20 @@ class collectionController{
 
     }
 
+    async getCollectionById(req, res){
+        try{
+
+            const id = req.params.id;
+            const collection = await Collection.findById(id);
+
+            res.json(collection)
+
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
     async add(req, res){
         try{
             
