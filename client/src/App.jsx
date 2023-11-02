@@ -8,7 +8,7 @@ import Home from "./pages/Home"
 import Profile from "./pages/Profile"
 import { createContext, useEffect, useState } from "react"
 import Popup from "./components/Popup"
-import Collection from "../../server/models/Collection"
+import Collection from "./pages/Collection"
 
 export const Error = createContext();
 
