@@ -33,9 +33,9 @@ class collectionController{
     async add(req, res){
         try{
             
-            const{name, description, theme} = req.body;
+            const{name, description, theme, userId} = req.body;
 
-            const collection = new Collection({name, description, theme, items:[]});
+            const collection = new Collection({name, description, theme, items:[], userId});
             await collection.save();
 
             res.json({message: "Collection succesfully added!"})
