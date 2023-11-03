@@ -137,6 +137,7 @@ class collectionController{
         try{
 
             const id = req.params.id;
+            console.log(id);
             await Collection.findByIdAndRemove(id);
 
             res.json({message: "Collection succefully deleted!"});
