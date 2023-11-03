@@ -16,6 +16,7 @@ function Profile() {
   const {setMessage, url} = useContext(PopupContext)
 
   const handleData = (e) =>{
+    console.log(e);
     const {name, value} = e.target;
 
     setCollectionData({...collectionData, [name]:value});
@@ -28,7 +29,6 @@ function Profile() {
         setCollections(res.data);
       })
       .catch((e)=>{
-        console.log(e);
         setMessage(e.response.data.message);
       })
   }
@@ -57,7 +57,11 @@ function Profile() {
         <Navbar/>
         <div className='p-3'>
           <Input name="name" placeholder="Name" onChange={handleData}/>
-          <Input name="theme" placeholder="Theme" onChange={handleData}/>
+          <select name="theme" onChange={handleData}>
+            <option value="Books">Books</option>
+            <option value="Signs">Signs</option>
+            <option value="Silverware">Silverware</option>
+          </select>
           <Input name="description" placeholder="Description" onChange={handleData}/>
           <Button name="Add new Collection" style='bg-black' onClick={addNewCollection}/>
         </div>

@@ -106,6 +106,33 @@ class collectionController{
 
     }
 
+    async updateItemInCollection(req, res){
+        try{
+            const id = req.params.id;
+            const {topic, desc, tags, itemId} = req.body;
+
+            const collection = await Collection.findById(id);
+            const item = await Item.findById(itemId);
+             
+            item.topic = topic;
+            item.desc = desc;
+            item.tags = tags;
+
+            await item.save();
+
+            const updatedItems = collection.items.filter((item) => item._id !== itemId);
+            updatedItems.push(item);
+            collection.items = updatedItems;
+            collection.save();
+            
+            res.json({message: "Item succesfully updated!"})
+
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
     async delete(req, res){
         try{
 

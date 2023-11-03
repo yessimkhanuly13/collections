@@ -19,13 +19,12 @@ function Home() {
         setOldestItems(getOldestItems(res.data));
       })
       .catch((e)=>{
-        console.log(e);
         setMessage(e.response.data.message);
       })
   }
 
   const getOldestItems = (items) =>{
-    const updatedItems = items.sort((a, b)=> a.createdDate - b.createdDate);
+    const updatedItems = items.sort((a, b)=> b.createdDate - a.createdDate);
     console.log(updatedItems);
     return updatedItems.slice(0, 10);
   }
@@ -36,16 +35,39 @@ function Home() {
         setCollections(getBiggestCollections(res.data));
       })
       .catch((e)=>{
-        console.log(e);
         setMessage(e.response.data.message);
       })
   }
   
   const getBiggestCollections = (collections) =>{
-    const updatedCollections = collections.sort((a, b) => a.items.length - b.items.length);
+    const updatedCollections = collections.sort((a, b) => b.items.length - a.items.length);
     console.log(updatedCollections);
     return updatedCollections.slice(0, 5);
-  }  
+  }
+  
+  const converUnixToDate = (unix) =>{
+
+      const currentTime = Date.now();
+      const secondsAgo = Math.floor((currentTime - unix)/1000);
+    
+    
+      if (secondsAgo < 60) {
+        return 'just now';
+      } else if (secondsAgo < 3600) {
+        const minutesAgo = Math.floor(secondsAgo / 60);
+        return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+      } else if (secondsAgo < 86400) {
+        const hoursAgo = Math.floor(secondsAgo / 3600);
+        return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+      } else if (secondsAgo < 604800) {
+        const daysAgo = Math.floor(secondsAgo / 86400);
+        return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+      } else {
+        const date = new Date(unix);
+        return date.toLocaleString();
+      }
+  }
+
 
   useEffect(()=>{
     getAllItems();
@@ -90,6 +112,7 @@ function Home() {
               <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
                 <th className='p-2'>Topic</th>
                 <th className='p-2'>Description</th>  
+                <th className='p-2'>Created Date</th>
                 <th className='p-2'>Link to Page</th>
               </tr>
               </thead>
@@ -99,6 +122,7 @@ function Home() {
                     <tr>
                       <td className='p-1'>{item.topic}</td>
                       <td className='p-1 w-1/2'>{item.desc}</td>
+                      <td className='p-1'>{converUnixToDate(item.createdDate)}</td>
                       <td className='p-1 text-center'><Link to={`/item/${item._id}`}>link</Link></td>
                     </tr>
                   )

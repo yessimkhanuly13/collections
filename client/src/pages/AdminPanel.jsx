@@ -100,7 +100,7 @@ function AdminPanel() {
             <th className='p-2'><input checked={check} onChange={handleSelectAllUsers}  type='checkbox'/></th>
             <th className='p-2'>ID</th>
             <th className='p-2'>Email</th>
-            <th className='p-2'>Role</th>
+            <th className='p-2'>Roles</th>
           </tr>
         </thead>
           <tbody className='text-center'>
@@ -110,7 +110,7 @@ function AdminPanel() {
                         <td><input onChange={()=>handleChange(user._id)} checked={selectedUsers.includes(user._id)} type='checkbox'/></td>
                         <td>{user._id}</td>
                         <td>{user.username}</td>
-                        <td>{user.roles[0]}</td>
+                        <td>{user.roles.includes('admin') ? "admin" : "user" }</td>
                     </tr>
                   )})}
           </tbody>
