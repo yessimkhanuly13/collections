@@ -19,10 +19,11 @@ function Profile() {
     const {name, value} = e.target;
 
     setCollectionData({...collectionData, [name]:value});
+    console.log(collectionData);
   }
 
-  const getAllUserCollections = () =>{
-    axios.get(`${url}/collections//user/${user._id}`)
+  const getAllUserCollections = (user) =>{
+    axios.get(`${url}/collections/user/${user._id}`)
       .then((res)=>{
         setCollections(res.data);
       })
@@ -33,31 +34,32 @@ function Profile() {
   }
 
   const addNewCollection = () =>{
-    setCollectionData({...collectionData, userId: user._id});
-    axios.post(`${url}/collections/add`, {collectionData})
+    console.log(collectionData);
+    axios.post(`${url}/collections/add`, {name: collectionData.name, description: collectionData.description, userId: user._id, theme: collectionData.theme})
       .then((res)=>{
-        console.log(res.data);
         setMessage(res.data.message);
       })
       .catch((e)=>{
         console.log(e);
         setMessage(e.response.data.message);
       })
+      setCollectionData(null);
   }
 
   useEffect(()=>{
-    setUser(JSON.parse(localStorage.getItem('currentUser')));
-    user && getAllUserCollections();
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    getAllUserCollections(currentUser);
+    setUser(currentUser);
   },[])
 
   return (
     <div>
         <Navbar/>
-        <div>
-          <Input name="name" onChange={handleData}/>
-          <Input name="theme" onChange={handleData}/>
-          <Input name="description" onChange={handleData}/>
-          <Button name="Add new Collection" onClick={addNewCollection}/>
+        <div className='p-3'>
+          <Input name="name" placeholder="Name" onChange={handleData}/>
+          <Input name="theme" placeholder="Theme" onChange={handleData}/>
+          <Input name="description" placeholder="Description" onChange={handleData}/>
+          <Button name="Add new Collection" style='bg-black' onClick={addNewCollection}/>
         </div>
         <div>
             {

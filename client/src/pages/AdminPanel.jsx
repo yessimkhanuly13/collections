@@ -16,11 +16,9 @@ function AdminPanel() {
   const getAllUsers = () =>{
     axios.get(`${url}/users/all`)
       .then((res)=>{
-        console.log(res.data)
         setUsers(res.data);
       })
       .catch((e)=>{
-        console.log(e);
         setMessage(e.response.data.message)
       })
   } 
@@ -49,11 +47,10 @@ function AdminPanel() {
     selectedUsers.forEach((id)=>{
       axios.delete(`${url}/users/delete/${id}`)
         .then((res)=>{
-          console.log(res.data);
+          setMessage(res.data.message);
           getAllUsers();
         })
         .catch((e)=>{
-          console.log(e);
           setMessage(e.response.data.message)
         })
     })
@@ -63,11 +60,10 @@ function AdminPanel() {
     selectedUsers.forEach((id)=>{
       axios.put(`${url}/users/${path}/${id}`)
         .then((res)=>{
-          console.log(res.data)
+          setMessage(res.data.message);
           getAllUsers();
         })
         .catch((e)=>{
-          console.log(e);
           setMessage(e.response.data.message)
         })
     })

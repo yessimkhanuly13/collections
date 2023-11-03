@@ -48,7 +48,7 @@ class collectionController{
         try{
             
             const{name, description, theme, userId} = req.body;
-
+            console.log(req.body)
             const collection = new Collection({name, description, theme, items:[], userId});
             await collection.save();
 
@@ -88,16 +88,15 @@ class collectionController{
         try{    
             const id = req.params.id;
             const {topic, desc, userId, tags} = req.body
-
             const date = Date.now();
 
             const item = new Item({topic, desc, userId, tags, createdDate: date});
-            await item.save();
+            await item.save();  
 
             const collection = await Collection.findById(id);
             collection.items.push(item);
             await collection.save();
-
+          
             res.json({message: "Item succesfully added!"});
 
         }catch(e){

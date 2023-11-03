@@ -29,7 +29,6 @@ function Registration() {
         navigate('/');
       })
       .catch((e)=>{
-        console.log(e);
         setMessage(e.response.data.message);
       })
   }

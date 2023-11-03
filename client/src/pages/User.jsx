@@ -20,7 +20,6 @@ function User() {
                 setItems(res.data);
             })
             .catch((e)=>{
-                console.log(e);
                 setMessage(e.response.data.message)
             })
     }
@@ -37,7 +36,6 @@ function User() {
                 setItems([...items, res.data]);
             })
             .catch((e)=>{
-                console.log(e);
                 setMessage(e.response.data.message)
             })
     }
@@ -49,7 +47,6 @@ function User() {
           setUser(res.data[0]);
         })
         .catch((e)=>{
-          console.log(e);
           setMessage(e.response.data.message)
         })
 

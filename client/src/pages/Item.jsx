@@ -14,10 +14,8 @@ function Item() {
     axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
         setItem(res.data)
-        console.log(itemId.id)
       })
       .catch((e)=>{
-        console.log(e);
         setMessage(e.response.data.message);
       })
   },[])

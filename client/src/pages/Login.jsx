@@ -11,7 +11,7 @@ function Login() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   
-  const {setMessage, url} = useContext(PopupContext);
+  const {setMessage, url, SetLoggedUser} = useContext(PopupContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,10 +22,10 @@ function Login() {
     axios.post(`${url}/auth/login`, user)
       .then((res) => {
         localStorage.setItem('currentUser', JSON.stringify(res.data));
+        SetLoggedUser(res.data);
         navigate('/profile');
       })
       .catch((e) => {
-        console.log(e);
         setMessage(e.response.data.message);
         setUser({});
       });

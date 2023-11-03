@@ -25,7 +25,6 @@ function Collection() {
                 setCollection(res.data)
             })
             .catch((e)=>{
-                console.log(e);
                 setMessage(e.response.data.message)
             })
     }
@@ -40,14 +39,15 @@ function Collection() {
     }
 
     const addNewItem = () =>{
-        setItemData({...itemdata, userId: collection.userId, tags});
-        axios.put(`${url}/additem/${collection.id}`, {itemdata})
+        axios.put(`${url}/collections/additem/${collection._id}`, {userId: collection.userId, tags, topic: itemdata.topic, desc: itemdata.desc, })
             .then((res)=>{
-                console.log(res.data);
                 setMessage(res.data.message);
+                setItemData({
+                    topic:"",
+                    desc:""
+                });
             })
             .catch((e)=>{
-                console.log(e);
                 setMessage(e.response.data.message);
             })
     }
@@ -56,6 +56,7 @@ function Collection() {
         const {name, value} = e.target;
 
         setItemData({...itemdata, [name]: value});
+        console.log(itemdata)
     }
 
     useEffect(()=>{
