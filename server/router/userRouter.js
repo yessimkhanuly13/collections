@@ -4,7 +4,7 @@ const userRouter = new Router();
 
 userRouter.get('/all', userController.getAllUsers)
 userRouter.get('/:id', userController.getUser);
-userRouter.delete('/delete/:id', userController.deleteUser);
+userRouter.delete('/delete/:id', userController.deleteAllUserItems, userController.deleteAllUserCollections, userController.deleteUser);
 userRouter.put('/block/:id', userController.blockUser);
 userRouter.put('/unblock/:id', userController.unblockUser);
 userRouter.put('/admin/:id', userController.getAdmin);

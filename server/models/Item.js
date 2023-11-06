@@ -5,7 +5,8 @@ const Item = new Schema({
     desc: {type: String},
     userId: {type: String}, 
     createdDate : {type: Number},
-    tags: [{type: String}]
+    tags: [{type: String}],
+    collectionId : {type: String}
 })
 
 module.exports = model('Item', Item);

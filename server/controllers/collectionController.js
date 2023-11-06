@@ -90,7 +90,7 @@ class collectionController{
             const {topic, desc, userId, tags} = req.body
             const date = Date.now();
 
-            const item = new Item({topic, desc, userId, tags, createdDate: date});
+            const item = new Item({topic, desc, userId, tags, createdDate: date, collectionId: id});
             await item.save();  
 
             const collection = await Collection.findById(id);
@@ -128,6 +128,27 @@ class collectionController{
             res.json({message: "Item succesfully updated!"})
 
         }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async deleteItems(req, res){
+        try{
+            console.log('Deleting items')
+            const id = req.params.id;
+
+            const collection = await Collection.findById(id);
+            
+           for(const item of collection.items){
+                await Item.findByIdAndRemove(item._id);
+           }
+
+            collection.items = [];
+            await collection.save();
+            next();
+        }
+        catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})
         }

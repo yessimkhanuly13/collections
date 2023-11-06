@@ -1,3 +1,4 @@
+const Collection = require('../models/Collection');
 const Item = require('../models/Item')
 
 class itemsController{
@@ -46,6 +47,24 @@ class itemsController{
             await Item.findByIdAndUpdate(id, {desc: desc, topic: topic}, {new: true});
 
             res.json({message: "Item updated!"})
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async deleteFromCollection(req, res){
+        try{
+            const id = req.params.id;
+            const item = await Item.findById(id);
+            const collection = await Collection.findById(item.collectionId);
+
+            const updatedItems = collection.items.filter((item)=>item._id !== id);
+            collection.items = updatedItems;
+            await collection.save();
+
+            next();
+
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})

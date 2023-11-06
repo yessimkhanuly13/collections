@@ -1,5 +1,7 @@
 const User = require('../models/User');
-const Role = require('../models/Role')
+const Role = require('../models/Role');
+const Collection = require('../models/Collection');
+const Item = require('../models/Item');
 
 class userController{
 
@@ -23,6 +25,39 @@ class userController{
             const user = await User.find({username: username}).select('-password');
 
             res.json(user);
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async deleteAllUserItems(req, res){
+        try{
+            const userId = req.params.id;
+            const items = await Item.find({userId: userId});
+
+            for(const item of items){
+                await Item.findByIdAndRemove(item._id);
+            }
+
+            next();
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async deleteAllUserCollections(req, res){
+        try{    
+            const userId = req.params.id;
+            const collections = await Collection.find({userId: userId});
+            
+            for(const collection of collections){
+                await Collection.findByIdAndRemove(collection._id);
+            }
+
+            next();
+
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})
