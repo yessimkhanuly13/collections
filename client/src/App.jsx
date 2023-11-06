@@ -18,10 +18,7 @@ function App() {
 
   const url = import.meta.env.VITE_URL;
 
-  useEffect(()=>{
-    
-  }, [])
-
+  
   return (
     <div className={ darkMode ? "w-screen h-screen bg-black text-white" : "w-screen h-screen" }>
       <PopupContext.Provider value={{message, setMessage, setDarkMode, darkMode, url}} >

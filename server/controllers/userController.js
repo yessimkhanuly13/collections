@@ -31,7 +31,7 @@ class userController{
         }
     }
 
-    async deleteAllUserItems(req, res){
+    async deleteAllUserItems(req, res, next){
         try{
             const userId = req.params.id;
             const items = await Item.find({userId: userId});
@@ -47,7 +47,7 @@ class userController{
         }
     }
 
-    async deleteAllUserCollections(req, res){
+    async deleteAllUserCollections(req, res, next){
         try{    
             const userId = req.params.id;
             const collections = await Collection.find({userId: userId});

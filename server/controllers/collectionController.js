@@ -133,7 +133,7 @@ class collectionController{
         }
     }
 
-    async deleteItems(req, res){
+    async deleteItems(req, res, next){
         try{
             console.log('Deleting items')
             const id = req.params.id;

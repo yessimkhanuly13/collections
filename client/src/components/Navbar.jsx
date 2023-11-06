@@ -17,7 +17,6 @@ function Navbar() {
 
   const navigate = useNavigate();
 
-  
 
   const toggleMode = () =>{
     if(darkMode){

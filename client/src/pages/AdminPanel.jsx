@@ -44,11 +44,17 @@ function AdminPanel() {
   }
 
   const handleUserDelete = () =>{
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    
     selectedUsers.forEach((id)=>{
       axios.delete(`${url}/users/delete/${id}`)
         .then((res)=>{
           setMessage(res.data.message);
           getAllUsers();
+          if(id == user._id){
+            localStorage.removeItem('currentUser');
+            navigate('/');
+          }
         })
         .catch((e)=>{
           setMessage(e.response.data.message)
@@ -57,11 +63,24 @@ function AdminPanel() {
   }
 
   const handleUpdateUser = (path) =>{
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+
     selectedUsers.forEach((id)=>{
       axios.put(`${url}/users/${path}/${id}`)
         .then((res)=>{
           setMessage(res.data.message);
           getAllUsers();
+          if(id == user._id && path === 'block'){
+            localStorage.removeItem('currenUser')
+            navigate('/');
+          }
+          if(id == user._id && path === 'user'){
+            const role = user.roles.filter((role)=>role !== 'admin');
+            user.roles = role;
+            localStorage.removeItem('currentUser');
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            navigate('/');
+          }
         })
         .catch((e)=>{
           setMessage(e.response.data.message)
