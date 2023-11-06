@@ -4,28 +4,36 @@ const Item = require('../models/Item')
 
 searchRouter.get('/', async(req, res) => {
     try {
-        const searchQuery = req.query.q;
-        
-        const pipeline = [];
-
-        pipeline.push({
-            $search: {
-              index: "search",
-              text: {
-                query: `{desc: ${searchQuery} }`,
-                path: {
-                  wildcard: "*"
-                }
-              }
+          let result = await Item.aggregate([
+            {
+              $search: {
+                index: "autocomplete",
+                autocomplete: {
+                  query: req.query.q,
+                  path: "topic",
+                  fuzzy: {
+                    maxEdits: 1,
+                  },
+                  tokenOrder: "sequential",
+                },
+              },
+            },
+            {
+              $project: {
+                topic: 1,
+                _id: 1
+              },
+            },
+            {
+              $limit: 10,
             }
-          })
-          
-          const result = await Item.aggregate(pipeline);
+          ]);
 
           res.json(result);
 
     } catch (e) {
         console.log(e);
+        res.json({message : "Something wen wrong!"})
     }
 });
 
