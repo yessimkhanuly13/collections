@@ -6,6 +6,7 @@ const userRouter = require('./router/userRouter');
 const itemsRouter = require('./router/itemsRouter');
 const commentRouter = require('./router/commentRouter');
 const collectionRouter = require('./router/collectionRouter');
+const searchRouter = require('./router/searchRouter');
 require('dotenv').config();
 
 const PORT = process.env.PORT;
@@ -15,6 +16,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use('/search', searchRouter);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/items', itemsRouter);

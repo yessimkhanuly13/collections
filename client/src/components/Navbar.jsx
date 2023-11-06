@@ -7,6 +7,7 @@ import logout from '../assets/logout.png'
 import userGear from '../assets/user-gear.png'
 import moon from '../assets/moon.png'
 import sun from '../assets/sun.png'
+import axios from 'axios';
 
 
 function Navbar() {
@@ -14,9 +15,20 @@ function Navbar() {
   const {setDarkMode, darkMode} = useContext(PopupContext);
   const [isLogged, setIsLogged] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const {url} = useContext(PopupContext);
 
   const navigate = useNavigate();
 
+  const handleChange = (e) =>{
+    axios.get(`${url}/search?q=${e.target.value}`)
+      .then((res)=>{
+        setSearchResults(res.data);
+        console.log(searchResults);
+      })
+      .catch((e)=>{console.log(e)})
+  } 
+  
 
   const toggleMode = () =>{
     if(darkMode){
@@ -61,7 +73,13 @@ function Navbar() {
             type="text"
             placeholder="Search"
             className="w-full px-3 py-2 border border-gray-300 rounded-full bg-inherit"
+            onChange={handleChange}
           />
+          <div>{searchResults.map((res)=>{
+            return (
+              <div className='absolute'>{res.topic}</div>
+            )
+          })}</div>
         </div>
 
       <div className='flex'>
