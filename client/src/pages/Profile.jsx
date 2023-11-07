@@ -5,6 +5,7 @@ import Input from '../components/Input';
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
+import link from '../assets/link.png'
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -132,7 +133,7 @@ function Profile() {
                 {
                   collections.map((collection, index)=>{
                     return (
-                      <tr key={collection._id}>
+                      <tr className='odd:bg-white even:bg-slate-100' key={collection._id}>
                         <td className='p-1'>{index + 1}</td>
                         <td className='p-1'>
                         {editingCollectionId === collection._id ? (
@@ -178,7 +179,7 @@ function Profile() {
                       </td>
                       <td className='p-1'>{collection.items.length}</td>
                       <td className='p-1 text-center'>
-                        <Link to={`/collection/${collection._id}`}>link</Link>
+                        <Link className='flex justify-center'  to={`/collection/${collection._id}`}><img className='w-4 h-4' src={link} alt="" /></Link>
                       </td>
                       <td className='p-1'>
                         <Button

@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar"
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
+import link from '../assets/link.png'
 
 
 
@@ -93,12 +94,12 @@ function Home() {
                 {
                   collections.map((collection)=>{
                     return (
-                      <tr>
+                      <tr className='odd:bg-white even:bg-slate-100'>
                         <td className='p-1'>{collection.name}</td>
                         <td className='p-1 w-1/2'>{collection.description}</td>
                         <td className='p-1'>{collection.theme}</td>
                         <td className='p-1'>{collection.items.length}</td>
-                        <td className='p-1 text-center'><Link to={`/collection/${collection._id}`}>link</Link></td>
+                        <td className='p-1 text-center'><Link className='flex justify-center' to={`/collection/${collection._id}`}><img className='w-4 h-4' src={link} alt="" /></Link></td>
                       </tr>
                     )
                   })
@@ -119,11 +120,11 @@ function Home() {
                 {
                   oldestItems.map((item)=>{
                   return(
-                    <tr>
+                    <tr className='odd:bg-white even:bg-slate-100'>
                       <td className='p-1'>{item.topic}</td>
                       <td className='p-1 w-1/2'>{item.desc}</td>
                       <td className='p-1'>{converUnixToDate(item.createdDate)}</td>
-                      <td className='p-1 text-center'><Link to={`/item/${item._id}`}>link</Link></td>
+                      <td className='p-1 text-center'><Link className='flex justify-center' to={`/item/${item._id}`}><img className='w-4 h-4' src={link} alt="" /></Link></td>
                     </tr>
                   )
                   })
