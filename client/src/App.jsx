@@ -18,6 +18,16 @@ function App() {
 
   const url = import.meta.env.VITE_URL;
 
+  useEffect(()=>{
+    const mode = localStorage.getItem('theme');
+
+    if(mode === 'light'){
+      setDarkMode(false);
+    }else{
+      setDarkMode(true);
+    }
+
+  }, [])
   
   return (
     <div className={ darkMode ? "w-screen h-screen bg-black text-white" : "w-screen h-screen" }>

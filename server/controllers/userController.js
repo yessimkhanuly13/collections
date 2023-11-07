@@ -9,7 +9,7 @@ class userController{
         try{
             const users = await User.find().select('-password');
            
-            res.json(users);
+            return res.json(users);
 
         }catch(e){
             console.log(e);
@@ -24,7 +24,7 @@ class userController{
            
             const user = await User.find({username: username}).select('-password');
 
-            res.json(user);
+            return res.json(user);
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})
@@ -69,7 +69,7 @@ class userController{
             const userId = req.params.id;
             await User.findByIdAndRemove(userId);
 
-            res.json({message: "User is deleted succesfully!"});
+            return res.json({message: "User is deleted succesfully!"});
 
         }catch(e){
             console.log(e);
@@ -82,7 +82,7 @@ class userController{
             const userId = req.params.id;
             await User.findByIdAndUpdate(userId, {blocked: "Blocked"}, {new: true});
 
-            res.json({message: "User is blocked!"})
+            return res.json({message: "User is blocked!"})
 
         }catch(e){
             console.log(e);
@@ -95,7 +95,7 @@ class userController{
             const userId = req.params.id;
             await User.findByIdAndUpdate(userId, {blocked: ""}, {new : true});
 
-            res.json({message: "User is unblocked!"})
+            return res.json({message: "User is unblocked!"})
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})
@@ -115,7 +115,7 @@ class userController{
             await user.save();
             console.log(user);
 
-            res.json({message: "User succesfully get admin role!"})
+            return res.json({message: "User succesfully get admin role!"})
 
         }catch(e){
             console.log(e);
@@ -136,7 +136,7 @@ class userController{
             
             await user.save();
 
-            res.json({message: "User succesfully get user role!"})
+            return res.json({message: "User succesfully get user role!"})
 
         }catch(e){
             console.log(e);

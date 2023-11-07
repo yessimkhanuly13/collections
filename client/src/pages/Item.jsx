@@ -23,9 +23,9 @@ function Item() {
   return (
     <div>
       <Navbar/>
-      <p>{item.topic}</p>
-      <p>{item.desc}</p>
-      <p>{item.topic}</p>
+      <div>
+          <span>Topic: {item.topic}</span>
+      </div>
     </div>
   )
 }

@@ -8,7 +8,7 @@ class collectionController{
 
             const collections = await Collection.find();
 
-            res.json(collections);
+            return res.json(collections);
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})
@@ -21,7 +21,7 @@ class collectionController{
             const userId = req.params.id;
             const collections = await Collection.find({userId: userId})
 
-            res.json(collections);
+            return res.json(collections);
 
         }catch(e){
             console.log(e);
@@ -36,7 +36,7 @@ class collectionController{
             const id = req.params.id;
             const collection = await Collection.findById(id);
 
-            res.json(collection)
+            return res.json(collection)
 
         }catch(e){
             console.log(e);
@@ -48,11 +48,16 @@ class collectionController{
         try{
             
             const{name, description, theme, userId} = req.body;
-            console.log(req.body)
+
+            if(name === '' || description === '' || theme === ''){
+                return res.status(400).json({message: "Inputs can't be empty!"})
+            }
+
             const collection = new Collection({name, description, theme, items:[], userId});
             await collection.save();
-
-            res.json({message: "Collection succesfully added!"})
+    
+            return res.json({message: "Collection succesfully added!"})
+             
 
         }catch(e){
             console.log(e);
@@ -62,19 +67,19 @@ class collectionController{
 
     async update(req, res){
         try{
-
+            console.log('Updating...')
             const id = req.params.id;
             const {name, description, theme} = req.body;
-
+            console.log({name, description, theme});
             const collection = await Collection.findById(id);
-            
-            collection.name = name;
-            collection.description = description;
-            collection.theme = theme;
+
+            name ? collection.name = name : collection.name;
+            description ? collection.description = description : collection.description;
+            theme ? collection.theme = theme : collection.theme;
 
             await collection.save();
 
-            res.json({message: "Collection succesfully updated!"})
+            return res.json({message: "Collection succesfully updated!"})
 
 
         }catch(e){
@@ -97,7 +102,7 @@ class collectionController{
             collection.items.push(item);
             await collection.save();
           
-            res.json({message: "Item succesfully added!"});
+            return res.json({message: "Item succesfully added!"});
 
         }catch(e){
             console.log(e);
@@ -125,7 +130,7 @@ class collectionController{
             collection.items = updatedItems;
             collection.save();
             
-            res.json({message: "Item succesfully updated!"})
+            return res.json({message: "Item succesfully updated!"})
 
         }catch(e){
             console.log(e);
@@ -161,7 +166,7 @@ class collectionController{
             console.log(id);
             await Collection.findByIdAndRemove(id);
 
-            res.json({message: "Collection succefully deleted!"});
+            return res.json({message: "Collection succefully deleted!"});
 
         }catch(e){
             console.log(e);

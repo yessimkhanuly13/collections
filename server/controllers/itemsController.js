@@ -6,7 +6,7 @@ class itemsController{
     async getAllItems(req, res){
         try{
             const items = await Item.find();
-            res.json(items);
+            return res.json(items);
             
         }catch(e){
             console.log(e);
@@ -19,7 +19,7 @@ class itemsController{
             const userId = req.params.id;
             const items = await Item.find({userId: userId});
 
-            res.json(items);
+            return res.json(items);
 
         }catch(e){
             console.log(e);
@@ -32,7 +32,7 @@ class itemsController{
             const id = req.params.id;
             const item = await Item.findById(id);
 
-            res.json(item);
+            return res.json(item);
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})
@@ -46,7 +46,7 @@ class itemsController{
 
             await Item.findByIdAndUpdate(id, {desc: desc, topic: topic}, {new: true});
 
-            res.json({message: "Item updated!"})
+            return res.json({message: "Item updated!"})
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})
@@ -76,7 +76,7 @@ class itemsController{
             const id = req.params.id;
             await Item.findByIdAndRemove(id);
 
-            res.json({message: "Item deleted succesfully!"})
+            return res.json({message: "Item deleted succesfully!"})
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})

@@ -14,7 +14,14 @@ function Profile() {
     theme:""
   });
   const [collections, setCollections] = useState([]);
-  const {setMessage, url, darkMode} = useContext(PopupContext)
+  const [editingCollectionId, setEditingCollectionId] = useState(null);
+  const [editedCollection, setEditedCollection] = useState({
+    name: "",
+    description: "",
+    theme: "",
+  });
+
+  const {setMessage, url, darkMode, message} = useContext(PopupContext)
 
   const handleData = (e) =>{
     console.log(e);
@@ -43,6 +50,7 @@ function Profile() {
       .catch((e)=>{
         console.log(e);
         setMessage(e.response.data.message);
+        
       })
       setCollectionData(null);
   }
@@ -59,11 +67,40 @@ function Profile() {
       })
   }
 
+ const handleUpdate = (id) => {
+  const col = collections.find((collection) => collection._id === id);
+
+    setEditingCollectionId(id);
+    setEditedCollection({
+      name: col.name,
+      description: col.description,
+      theme: col.theme,
+    });
+  };
+
+  const handleEditData = (e) => {
+    const { name, value } = e.target;
+    setEditedCollection({...editedCollection, [name]: value});
+  }
+
+  const handleSaveUpdate = (id) => {
+    console.log(editedCollection);
+    axios.put(`${url}/collections/update/${id}`, editedCollection)
+      .then((res)=>{
+        setMessage(res.data.message);
+        setEditingCollectionId(null);
+      })
+      .catch((e)=>{
+        setMessage(e.response.data.message);
+        console.log(e);
+      })
+  };
+
   useEffect(()=>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     getAllUserCollections(currentUser);
     setUser(currentUser);
-  },[])
+  },[message])
 
   return (
     <div>
@@ -89,20 +126,78 @@ function Profile() {
                     <th className='p-2'>Items</th>
                     <th className='p-2'>Link to Page</th>
                     <th className='p-2'>Del</th>
+                    <th className='p-2'>Update</th>
                   </tr>
                 </thead>
                 {
                   collections.map((collection, index)=>{
                     return (
-                      <tr>
-                        <td className='p-1'>{index+1}</td>
-                        <td className='p-1'>{collection.name}</td>
-                        <td className='p-1 w-1/2'>{collection.description}</td>
-                        <td className='p-1'>{collection.theme}</td>
-                        <td className='p-1'>{collection.items.length}</td>
-                        <td className='p-1 text-center'><Link to={`/collection/${collection._id}`}>link</Link></td>
-                        <td className='p-1'><Button name="Del" style="bg-red-600" onClick={()=>handleDelete(collection._id)}/></td>
-                      </tr>
+                      <tr key={collection._id}>
+                        <td className='p-1'>{index + 1}</td>
+                        <td className='p-1'>
+                        {editingCollectionId === collection._id ? (
+                          <input
+                            className='text-center'
+                            type="text"
+                            name="name"
+                            placeholder='Name'
+                            onChange={(e) => handleEditData(e)}
+                          />
+                        ) : (
+                          collection.name
+                        )}
+                      </td>
+                      <td className='p-1 w-1/3'>
+                        {editingCollectionId === collection._id ? (
+                          <input
+                            className='text-center'
+                            type="text"
+                            name="description"
+                            placeholder='Descrtiption'
+                            onChange={(e) => handleEditData(e)}
+                          />
+                        ) : (
+                          collection.description
+                        )}
+                      </td>
+                      <td className='p-1'>
+                        {editingCollectionId === collection._id ? (
+                          <select
+                            name="theme"
+                            onChange={(e) => handleEditData(e)}
+                            className='text-center'
+                            placeholder='Theme'
+                          >
+                            <option value="Books">Books</option>
+                            <option value="Signs">Signs</option>
+                            <option value="Silverware">Silverware</option>
+                          </select>
+                        ) : (
+                          collection.theme
+                        )}
+                      </td>
+                      <td className='p-1'>{collection.items.length}</td>
+                      <td className='p-1 text-center'>
+                        <Link to={`/collection/${collection._id}`}>link</Link>
+                      </td>
+                      <td className='p-1'>
+                        <Button
+                          name="Del"
+                          style="bg-red-600"
+                          onClick={() => handleDelete(collection._id)}
+                        />
+                      </td>
+                      <td className='p-1'>
+                        {editingCollectionId === collection._id ? (
+                          <div className='flex flex-col'>
+                            <Button name="Update" style="bg-lime-600" onClick={() => handleSaveUpdate(collection._id)} />
+                            <Button name="Cancel" style="bg-red-600 mt-1" onClick={() => setEditingCollectionId(null)} />
+                          </div>
+                        ) : (
+                          <Button name="Edit" style="bg-lime-600" onClick={() => handleUpdate(collection._id)} />
+                        )}
+                      </td>
+                    </tr>
                     )
                   })
                 }
