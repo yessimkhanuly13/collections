@@ -81,7 +81,7 @@ function Navbar() {
           <div className={darkMode ? 'absolute bg-black w-1/4 text-white' :'absolute bg-white w-1/4'}>{searchResults.map((item)=>{
             return (
               <div onClick={()=>navigate(`item/${item._id}`)} className={ !darkMode ? 'px-3 py-2 cursor-pointer hover:bg-slate-100' :'px-3 py-2 cursor-pointer hover:bg-slate-600'}>
-                {item.topic}
+                {item.topic ? item.topic : item.desc}
               </div>
             )
           })}

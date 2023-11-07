@@ -6,7 +6,7 @@ const Item = require('../models/Item')
 searchRouter.get('/', async(req, res) => {
     try {
       if(req.query.q){
-        let result = await Item.aggregate([
+        const topic = await Item.aggregate([
           {
             $search: {
               index: "autocomplete",
@@ -28,7 +28,32 @@ searchRouter.get('/', async(req, res) => {
           }
         ]);
 
-        res.json(result || []);
+        const desc = await Item.aggregate([
+          {
+            $search: {
+              index: "autocomplete",
+              autocomplete: {
+                query: req.query.q,
+                path: "desc",
+                tokenOrder: "sequential",
+              },
+            },
+          },
+          {
+            $project: {
+              desc: 1,
+              _id: 1
+            },
+          },
+          {
+            $limit: 10
+          }
+        ]);
+
+        const mergedArr = [...topic, ...desc]
+        console.log(mergedArr)
+
+        res.json(mergedArr || []);
       }else{
         res.json([])
       }
