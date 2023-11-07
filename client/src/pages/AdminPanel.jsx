@@ -11,7 +11,7 @@ function AdminPanel() {
 
   const navigate = useNavigate();
 
-  const {setMessage, url} = useContext(PopupContext)
+  const {setMessage, url, darkMode} = useContext(PopupContext)
 
   const getAllUsers = () =>{
     axios.get(`${url}/users/all`)
@@ -115,7 +115,7 @@ function AdminPanel() {
 
       <table className='border w-4/6 m-4'>
         <thead className=''>
-          <tr className='bg-slate-50'>
+          <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
             <th className='p-2'><input checked={check} onChange={handleSelectAllUsers}  type='checkbox'/></th>
             <th className='p-2'>ID</th>
             <th className='p-2'>Email</th>
@@ -125,7 +125,7 @@ function AdminPanel() {
           <tbody className='text-center'>
               {users && users.map((user, index) => {
                   return (
-                    <tr className='odd:bg-white even:bg-slate-100' key={index}>
+                    <tr className={!darkMode ? 'odd:bg-slate-100 even:bg-slate-50' : 'bg-black'} key={index}>
                         <td><input onChange={()=>handleChange(user._id)} checked={selectedUsers.includes(user._id)} type='checkbox'/></td>
                         <td>{user._id}</td>
                         <td>{user.username}</td>

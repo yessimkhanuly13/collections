@@ -13,7 +13,7 @@ function Registration() {
     password:"",
   });
 
-  const {setMessage, url} = useContext(PopupContext);
+  const {setMessage, url, darkMode} = useContext(PopupContext);
 
 
   const handleChange = (e) =>{
@@ -34,13 +34,13 @@ function Registration() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full p-4 bg-white rounded-lg shadow-md">
+    <div className={!darkMode ? "min-h-screen flex items-center justify-center bg-gray-100" : "min-h-screen flex items-center justify-center bg-black"}>
+      <div className={!darkMode ? "max-w-md w-full p-4 bg-white rounded-lg shadow-md" : "max-w-md w-full p-4 bg-black rounded-lg shadow-md"}>
         <div className="text-2xl text-center font-semibold mb-4">Registration</div>
         <div className="flex flex-col items-center">
-          <Input type="email" name="username" placeholder="Username" onChange={handleChange} />
-          <Input type="password" name="password" placeholder="Password" onChange={handleChange} />
-          <p className="text-sm text-gray-500 text-center my-2">
+          <Input  style={ darkMode ? 'bg-black' : 'bg-white text-black'} type="email" name="username" placeholder="Username" onChange={handleChange} />
+          <Input  style={ darkMode ? 'bg-black mt-1' : 'bg-white text-black mt-1'} type="password" name="password" placeholder="Password" onChange={handleChange} />
+          <p className={ !darkMode ? "text-sm text-gray-500 text-center my-2" : "text-sm text-white text-center my-2"}>
             Already have an account? <Link className="text-lime-600 hover:underline" to="/login">Sign In here</Link>
           </p>
         </div>

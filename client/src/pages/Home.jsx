@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar"
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
-import link from '../assets/link.png'
 
 
 
@@ -94,12 +93,27 @@ function Home() {
                 {
                   collections.map((collection)=>{
                     return (
-                      <tr className='odd:bg-white even:bg-slate-100'>
+                      <tr className={!darkMode ? 'odd:bg-slate-100 even:bg-slate-50' : 'bg-black'}>
                         <td className='p-1'>{collection.name}</td>
                         <td className='p-1 w-1/2'>{collection.description}</td>
                         <td className='p-1'>{collection.theme}</td>
                         <td className='p-1'>{collection.items.length}</td>
-                        <td className='p-1 text-center'><Link className='flex justify-center' to={`/collection/${collection._id}`}><img className='w-4 h-4' src={link} alt="" /></Link></td>
+                        <td className='p-1 text-center'><Link className='flex justify-center' to={`/collection/${collection._id}`}>
+                            <div>
+                              <svg width="800px" height="800px" viewBox="0 0 24 24" className="w-6 h-6" fill={darkMode ? "#000000" : "#edf0f2"} xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_429_11072)">
+                                <path d="M11 3.99994H4V17.9999C4 19.1045 4.89543 19.9999 6 19.9999H18C19.1046 19.9999 20 19.1045 20 17.9999V12.9999" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 14.9999L20 3.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15 3.99994H20V8.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_429_11072">
+                                <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                                </defs>
+                                </svg> 
+                            </div>
+                          </Link></td>
                       </tr>
                     )
                   })
@@ -120,11 +134,26 @@ function Home() {
                 {
                   oldestItems.map((item)=>{
                   return(
-                    <tr className='odd:bg-white even:bg-slate-100'>
+                    <tr className={!darkMode ? 'odd:bg-slate-100 even:bg-slate-50' : 'bg-black'}>
                       <td className='p-1'>{item.topic}</td>
                       <td className='p-1 w-1/2'>{item.desc}</td>
                       <td className='p-1'>{converUnixToDate(item.createdDate)}</td>
-                      <td className='p-1 text-center'><Link className='flex justify-center' to={`/item/${item._id}`}><img className='w-4 h-4' src={link} alt="" /></Link></td>
+                      <td className='p-1 text-center'><Link className='flex justify-center' to={`/item/${item._id}`}>
+                        <div>
+                          <svg width="800px" height="800px" viewBox="0 0 24 24" className="w-6 h-6" fill={darkMode ? "#000000" : "#edf0f2"} xmlns="http://www.w3.org/2000/svg">
+                          <g clip-path="url(#clip0_429_11072)">
+                          <path d="M11 3.99994H4V17.9999C4 19.1045 4.89543 19.9999 6 19.9999H18C19.1046 19.9999 20 19.1045 20 17.9999V12.9999" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M9 14.9999L20 3.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M15 3.99994H20V8.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </g>
+                          <defs>
+                          <clipPath id="clip0_429_11072">
+                          <rect width="24" height="24" fill="white"/>
+                          </clipPath>
+                          </defs>
+                          </svg> 
+                        </div>
+                      </Link></td>
                     </tr>
                   )
                   })

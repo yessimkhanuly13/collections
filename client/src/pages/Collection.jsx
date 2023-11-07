@@ -17,7 +17,7 @@ function Collection() {
 
     const collectionId = useParams();
     
-    const {setMessage, url} = useContext(PopupContext)
+    const {setMessage, url, darkMode} = useContext(PopupContext)
 
     const getCollectionById = () =>{
         axios.get(`${url}/collections/${collectionId.id}`)
@@ -80,9 +80,9 @@ function Collection() {
         })}
         { isOwner && (
             <div>
-                <Input onChange={handleData} name="topic" />
-                <Input onChange={handleData} name="desc" />
-                <Input onChange={handleData} name="tags" />
+                <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="topic" />
+                <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="desc" />
+                <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="tags" />
                 <Button name="Add new Item" style="bg-lime-600" onClick={addNewItem}/>
             </div>        
         )}

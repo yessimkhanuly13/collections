@@ -5,7 +5,6 @@ import Input from '../components/Input';
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
-import link from '../assets/link.png'
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -107,14 +106,14 @@ function Profile() {
     <div>
         <Navbar/>
         <div className='p-3 flex justify-around'>
-          <Input name="name" placeholder="Name" onChange={handleData}/>
-          <Input name="description" placeholder="Description" onChange={handleData}/>
-          <select name="theme" onChange={handleData}>
+          <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} name="name" placeholder="Name" onChange={handleData}/>
+          <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} name="description" placeholder="Description" onChange={handleData}/>
+          <select className={ darkMode ? 'bg-black' : 'bg-white text-black'} name="theme" onChange={handleData}>
             <option value="Books">Books</option>
             <option value="Signs">Signs</option>
             <option value="Silverware">Silverware</option>
           </select>
-          <Button name="Add new Collection" style='bg-black' onClick={addNewCollection}/>
+          <Button name="Add new Collection" style={ !darkMode ? 'bg-black' : 'bg-white text-black'} onClick={addNewCollection}/>
         </div>
         <div className='p-2'>
         <table className='border w-full text-center'>
@@ -133,7 +132,7 @@ function Profile() {
                 {
                   collections.map((collection, index)=>{
                     return (
-                      <tr className='odd:bg-white even:bg-slate-100' key={collection._id}>
+                      <tr className={!darkMode ? 'odd:bg-slate-100 even:bg-slate-50' : 'bg-black'} key={collection._id}>
                         <td className='p-1'>{index + 1}</td>
                         <td className='p-1'>
                         {editingCollectionId === collection._id ? (
@@ -179,7 +178,22 @@ function Profile() {
                       </td>
                       <td className='p-1'>{collection.items.length}</td>
                       <td className='p-1 text-center'>
-                        <Link className='flex justify-center'  to={`/collection/${collection._id}`}><img className='w-4 h-4' src={link} alt="" /></Link>
+                        <Link className='flex justify-center'  to={`/collection/${collection._id}`}>
+                          <div>
+                            <svg width="800px" height="800px" viewBox="0 0 24 24" className="w-6 h-6" fill={darkMode ? "#000000" : "#edf0f2"} xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_429_11072)">
+                            <path d="M11 3.99994H4V17.9999C4 19.1045 4.89543 19.9999 6 19.9999H18C19.1046 19.9999 20 19.1045 20 17.9999V12.9999" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 14.9999L20 3.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 3.99994H20V8.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_429_11072">
+                            <rect width="24" height="24" fill="white"/>
+                            </clipPath>
+                            </defs>
+                            </svg> 
+                          </div>  
+                        </Link>
                       </td>
                       <td className='p-1'>
                         <Button
