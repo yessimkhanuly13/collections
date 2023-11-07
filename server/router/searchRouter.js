@@ -2,34 +2,36 @@ const Router = require('express');
 const searchRouter = new Router();
 const Item = require('../models/Item')
 
+
 searchRouter.get('/', async(req, res) => {
     try {
-          let result = await Item.aggregate([
-            {
-              $search: {
-                index: "autocomplete",
-                autocomplete: {
-                  query: req.query.q,
-                  path: "topic",
-                  fuzzy: {
-                    maxEdits: 1,
-                  },
-                  tokenOrder: "sequential",
-                },
+      if(req.query.q){
+        let result = await Item.aggregate([
+          {
+            $search: {
+              index: "autocomplete",
+              autocomplete: {
+                query: req.query.q,
+                path: "topic",
+                tokenOrder: "sequential",
               },
             },
-            {
-              $project: {
-                topic: 1,
-                _id: 1
-              },
+          },
+          {
+            $project: {
+              topic: 1,
+              _id: 1
             },
-            {
-              $limit: 10,
-            }
-          ]);
+          },
+          {
+            $limit: 10
+          }
+        ]);
 
-          res.json(result);
+        res.json(result || []);
+      }else{
+        res.json([])
+      }
 
     } catch (e) {
         console.log(e);
