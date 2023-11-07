@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Button from './Button'
 import { PopupContext } from '../App';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import profile from '../assets/profile.png'
 import logout from '../assets/logout.png'
 import userGear from '../assets/user-gear.png'
@@ -21,10 +21,10 @@ function Navbar() {
   const navigate = useNavigate();
 
   const handleChange = (e) =>{
-    axios.get(`${url}/search?q=${e.target.value}`)
+      axios.get(`${url}/search?q=${e.target.value}`)
       .then((res)=>{
         setSearchResults(res.data);
-        console.log(searchResults);
+        console.log(res.data);
       })
       .catch((e)=>{console.log(e)})
   } 
@@ -72,14 +72,17 @@ function Navbar() {
           <input
             type="text"
             placeholder="Search"
-            className="w-full px-3 py-2 border border-gray-300 rounded-full bg-inherit"
+            className="w-full px-3 py-2 bg-inherit border border-gray border-rounded"
             onChange={handleChange}
           />
-          <div>{searchResults.map((res)=>{
+          <div className={darkMode ? 'absolute bg-black w-1/4 text-white' :'absolute bg-white w-1/4'}>{searchResults.map((item)=>{
             return (
-              <div className='absolute'>{res.topic}</div>
+              <div onClick={()=>navigate(`item/${item._id}`)} className='px-3 py-2 cursor-pointer'>
+                {item.topic}
+              </div>
             )
-          })}</div>
+          })}
+          </div>
         </div>
 
       <div className='flex'>
