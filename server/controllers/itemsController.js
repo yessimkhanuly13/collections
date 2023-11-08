@@ -1,5 +1,6 @@
 const Collection = require('../models/Collection');
-const Item = require('../models/Item')
+const Item = require('../models/Item');
+const Tag = require('../models/Tag');
 
 class itemsController{
 
@@ -82,6 +83,32 @@ class itemsController{
             res.json({message: "Something went wrong!"})
         }
 
+    }
+
+    async addTag(req, res){
+        try{
+            console.log('Tag add to item:');
+            const id = req.params.id;
+            const {tag} = req.body;
+            const item = await Item.findById(id);
+
+            if(tag === ''){
+                return res.status(400).json({message: "Tag can't be an empty!"})
+            }
+
+            const newTag = new Tag({value: tag});
+            console.log(newTag);
+            await newTag.save();
+            
+            item.tags.push(newTag._id);
+            await item.save();
+            console.log(item.tags);
+            return res.json({message: "Tag succesfully added!"})
+
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
     }
 }
 

@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 function Home() {
   const [oldestItems, setOldestItems] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [tags, setTags] = useState([]);
 
   const {setMessage, darkMode, url} = useContext(PopupContext);
 
@@ -68,16 +69,38 @@ function Home() {
       }
   }
 
+  const getAllTags = () =>{
+    axios.get(`${url}/tag/all`)
+      .then((res)=>{
+        setTags(res.data)
+      })
+      .catch((e)=>{
+        console.log(e);
+        setMessage(e.response.data.message)
+      })
+  }
+
+  const getItemsByTag = (id) =>{
+    axios.get(`${url}/tag/all/${id}`)
+      .then((res)=>{
+        console.log(res.data);
+      })
+      .catch((e)=>{
+        console.log(e);
+        setMessage(e.response.data.message);
+      })
+  }
 
   useEffect(()=>{
     getAllItems();
     getCollections();
+    getAllTags();
   },[])
 
   return (
     <div>
        <Navbar/>
-       <div className='grid grid-cols-2'>
+       <div className='grid grid-cols-1 md:grid-cols-2'>
           <div className='flex flex-col p-3'>
             <span className='text-center mb-2 text-xl font-bold'>Collections</span>
               <table className='border w-full text-center'>
@@ -120,7 +143,7 @@ function Home() {
                 }
               </table>
           </div>
-          <div className='flex flex-col p-3'>
+          <div className='flex flex-col p-3'> 
             <span className='text-center mb-2 text-xl font-bold'>Items</span>
             <table className='border w-full text-center'>
             <thead className='border'>
@@ -159,6 +182,18 @@ function Home() {
                   })
                 }
             </table>
+          </div>
+          <div className='flex flex-col p-3 col-span-2'>
+          <span className='text-center mb-2 text-xl font-bold'>Tags</span>
+              <div className='grid grid-cols-10 gap-2 text-center'>
+                {tags.map((tag)=>{
+                  return (
+                    <div onClick={()=>getItemsByTag(tag._id)} className='bg-slate-300 border shadow-md rounded cursor-pointer hover:bg-white'>
+                      {tag.value}
+                    </div>
+                  )
+                })}
+              </div>
           </div>
        </div>
     </div>

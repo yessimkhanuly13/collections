@@ -92,10 +92,10 @@ class collectionController{
     async addItemToCollection(req, res){
         try{    
             const id = req.params.id;
-            const {topic, desc, userId, tags} = req.body
+            const {topic, desc, userId} = req.body
             const date = Date.now();
 
-            const item = new Item({topic, desc, userId, tags, createdDate: date, collectionId: id});
+            const item = new Item({topic, desc, userId, createdDate: date, collectionId: id});
             await item.save();  
 
             const collection = await Collection.findById(id);

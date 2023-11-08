@@ -58,7 +58,7 @@ function Navbar() {
   
 
   return (
-    <div className={darkMode ? 'flex justify-between p-4 bg-black shadow-md items-center' : 'flex justify-between p-4 bg-white shadow-md items-center'}>
+    <div className={darkMode ? 'grid grid-cols-1 md:flex justify-between p-4 bg-black shadow-md items-center' : 'grid grid-cols-1 md:flex justify-between p-4 bg-white shadow-md items-center'}>
        <div className="flex items-center">
           <span onClick={()=>navigate('/')} className={darkMode ? "text-xl font-bold text-white cursor-pointer" : "text-xl font-bold text-grey-800 cursor-pointer"}>Collections</span>
           {isLogged && (

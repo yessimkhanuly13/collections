@@ -96,6 +96,7 @@ function Profile() {
       })
   };
 
+
   useEffect(()=>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     getAllUserCollections(currentUser);
