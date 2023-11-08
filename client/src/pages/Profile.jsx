@@ -114,7 +114,7 @@ function Profile() {
             <option value="Signs">Signs</option>
             <option value="Silverware">Silverware</option>
           </select>
-          <Button name="Add new Collection" style={ !darkMode ? 'bg-black' : 'bg-white text-black'} onClick={addNewCollection}/>
+          <Button name="Add new Collection" style={ !darkMode ? 'bg-black text-white' : 'text-black bg-white'} onClick={addNewCollection}/>
         </div>
         <div className='p-2'>
         <table className='border w-full text-center'>

@@ -85,26 +85,40 @@ class itemsController{
 
     }
 
-    async addTag(req, res){
-        try{
-            console.log('Tag add to item:');
-            const id = req.params.id;
-            const {tag} = req.body;
-            const item = await Item.findById(id);
 
-            if(tag === ''){
-                return res.status(400).json({message: "Tag can't be an empty!"})
+    async addTag(req, res, next){
+        try{
+            const {tag} = req.body;
+            const existTag = await Tag.findOne({value:tag});
+
+            if(!existTag){
+                const newTag = new Tag({value: tag});
+                await newTag.save();
+                req.tagId = newTag._id;
+            }else{
+                req.tagId = existTag._id;
             }
 
-            const newTag = new Tag({value: tag});
-            console.log(newTag);
-            await newTag.save();
-            
-            item.tags.push(newTag._id);
-            await item.save();
-            console.log(item.tags);
-            return res.json({message: "Tag succesfully added!"})
+            console.log(req.tagId);
+            next();
 
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async addTagToItem(req, res){
+        try{
+            const {tagId} = req;
+            const id = req.params.id;
+            const updatedItem = await Item.findById(id);
+
+            updatedItem.tags.push(tagId);
+            await updatedItem.save();
+
+            return res.json({message: "Tag succesfully added!"})
+          
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})

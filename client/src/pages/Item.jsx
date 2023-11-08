@@ -14,8 +14,7 @@ function Item() {
   const itemId = useParams();
 
   const addTag = () =>{
-    console.log('clicked');
-    axios.put(`${url}/items/addtag/${itemId.id}`, {tag: tag})
+      axios.put(`${url}/items/addtag/${itemId.id}`, {tag: tag})
       .then((res)=>{
         setMessage(res.data.message);
       })
@@ -38,7 +37,7 @@ function Item() {
     <div>
       <Navbar/>
       <div>
-          <Input placeholder="Tag" style={ darkMode ? 'bg-black m-1' : 'bg-white text-black m-1'} onChange={(e)=>setTag(e.target.value)} />
+          <Input placeholder="New tag" style={ darkMode ? 'bg-black m-1' : 'bg-white text-black m-1'} onChange={(e)=>setTag(e.target.value)} />
           <Button name="Add" style="bg-lime-600" onClick={addTag} />      
       </div>
       <div>

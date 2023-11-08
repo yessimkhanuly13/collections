@@ -11,6 +11,7 @@ function Home() {
   const [oldestItems, setOldestItems] = useState([]);
   const [collections, setCollections] = useState([]);
   const [tags, setTags] = useState([]);
+  const [itemsByTag, setItemsByTag] = useState([]);
 
   const {setMessage, darkMode, url} = useContext(PopupContext);
 
@@ -27,7 +28,7 @@ function Home() {
   const getOldestItems = (items) =>{
     const updatedItems = items.sort((a, b)=> b.createdDate - a.createdDate);
     console.log(updatedItems);
-    return updatedItems.slice(0, 10);
+    return updatedItems.slice(0, 5);
   }
 
   const getCollections = () =>{
@@ -83,7 +84,7 @@ function Home() {
   const getItemsByTag = (id) =>{
     axios.get(`${url}/tag/all/${id}`)
       .then((res)=>{
-        console.log(res.data);
+        setItemsByTag(res.data);
       })
       .catch((e)=>{
         console.log(e);
@@ -185,7 +186,7 @@ function Home() {
           </div>
           <div className='flex flex-col p-3 col-span-2'>
           <span className='text-center mb-2 text-xl font-bold'>Tags</span>
-              <div className='grid grid-cols-10 gap-2 text-center'>
+              <div className='grid grid-cols-12 gap-2 text-center'>
                 {tags.map((tag)=>{
                   return (
                     <div onClick={()=>getItemsByTag(tag._id)} className='bg-slate-300 border shadow-md rounded cursor-pointer hover:bg-white'>
@@ -195,6 +196,50 @@ function Home() {
                 })}
               </div>
           </div>
+          { 
+            itemsByTag.length > 0 && (
+            
+            <div className='col-span-2 flex flex-col items-center'>
+              <span className='text-center mb-2 text-xl font-bold'>Items by tag</span>
+              <table className='border w-2/3 text-center'>
+              <thead className='border'>
+                <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
+                  <th className='p-2'>Topic</th>
+                  <th className='p-2'>Description</th>  
+                  <th className='p-2'>Created Date</th>
+                  <th className='p-2'>Link to Page</th>
+                </tr>
+                </thead>
+                {
+                  itemsByTag.map((item)=>{
+                  return(
+                    <tr className={!darkMode ? 'odd:bg-slate-100 even:bg-slate-50' : 'bg-black'}>
+                      <td className='p-1'>{item.topic}</td>
+                      <td className='p-1 w-1/2'>{item.desc}</td>
+                      <td className='p-1'>{converUnixToDate(item.createdDate)}</td>
+                      <td className='p-1 text-center'><Link className='flex justify-center' to={`/item/${item._id}`}>
+                        <div>
+                          <svg width="800px" height="800px" viewBox="0 0 24 24" className="w-6 h-6" fill={darkMode ? "#000000" : "#edf0f2"} xmlns="http://www.w3.org/2000/svg">
+                          <g clip-path="url(#clip0_429_11072)">
+                          <path d="M11 3.99994H4V17.9999C4 19.1045 4.89543 19.9999 6 19.9999H18C19.1046 19.9999 20 19.1045 20 17.9999V12.9999" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M9 14.9999L20 3.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M15 3.99994H20V8.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </g>
+                          <defs>
+                          <clipPath id="clip0_429_11072">
+                          <rect width="24" height="24" fill="white"/>
+                          </clipPath>
+                          </defs>
+                          </svg> 
+                        </div>
+                      </Link></td>
+                    </tr>
+                  )
+                  })
+                }
+            </table>
+            </div>)
+          }
        </div>
     </div>
   )
