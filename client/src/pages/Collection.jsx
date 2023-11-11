@@ -20,23 +20,19 @@ function Collection() {
     const {setMessage, url, darkMode} = useContext(PopupContext)
 
     const getCollectionById = () =>{
+        const user = JSON.parse(localStorage.getItem('currentUser'));
         axios.get(`${url}/collections/${collectionId.id}`)
             .then((res)=>{
                 setCollection(res.data)
+                if(res.data.userId === user._id){
+                    setIsOwner(true);
+                }
             })
             .catch((e)=>{
                 setMessage(e.response.data.message)
             })
     }
 
-    const getLoggedUser = () =>{
-        const user = JSON.parse(localStorage.getItem('currentUser'));
-        if(user && user._id === collection.userId){
-            setIsOwner(true);
-        }else{
-            setIsOwner(false);
-        }
-    }
 
     const addNewItem = () =>{
         axios.put(`${url}/collections/additem/${collection._id}`, {userId: collection.userId, tags, topic: itemdata.topic, desc: itemdata.desc, })
@@ -61,8 +57,7 @@ function Collection() {
 
     useEffect(()=>{
         getCollectionById();
-        getLoggedUser();
-    })
+    }, [])
 
   return (
     <div>
