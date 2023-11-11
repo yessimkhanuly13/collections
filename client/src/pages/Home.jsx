@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar"
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -12,6 +13,12 @@ function Home() {
   const [collections, setCollections] = useState([]);
   const [tags, setTags] = useState([]);
   const [itemsByTag, setItemsByTag] = useState([]);
+  const dispatch = useDispatch();
+  const counter = useSelector(state => state.count)
+
+  const handleCounter = (type) =>{
+    dispatch({type: type});
+  }
 
   const {setMessage, darkMode, url} = useContext(PopupContext);
 
@@ -241,6 +248,12 @@ function Home() {
             </div>)
           }
        </div>
+
+       <div>
+      <p>Count: {counter}</p>
+        <button onClick={()=>handleCounter("INCREMENT")}>Increment</button>
+        <button onClick={()=>handleCounter("DECREMENT")}>Decrement</button>
+      </div>
     </div>
   )
 }
