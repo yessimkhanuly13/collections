@@ -5,7 +5,7 @@ const Item = new Schema({
     desc: {type: String},
     userId: {type: String}, 
     createdDate : {type: Number},
-    tags: [{type: String, ref: 'Tag'}],
+    tags: [{type: Object, ref: 'Tag'}],
     collectionId : {type: String}
 })
 

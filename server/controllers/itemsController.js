@@ -89,17 +89,26 @@ class itemsController{
     async addTag(req, res, next){
         try{
             const {tag} = req.body;
-            const existTag = await Tag.findOne({value:tag});
+            const id = req.params.id;
+            const existTag = await Tag.find({value:tag});
+            const item = await Item.findById(id);
+            let reqTag;
+            console.log("Existing tag: " + existTag);
 
-            if(!existTag){
+            if(!existTag.length){
                 const newTag = new Tag({value: tag});
                 await newTag.save();
-                req.tagId = newTag._id;
+                reqTag = newTag;
             }else{
-                req.tagId = existTag._id;
+                reqTag = existTag[0];
             }
 
-            console.log(req.tagId);
+            if(item.tags.includes(reqTag)){
+                console.log('exist')
+            }
+
+            req.tag = reqTag;
+
             next();
 
         }catch(e){
@@ -108,13 +117,15 @@ class itemsController{
         }
     }
 
+
     async addTagToItem(req, res){
         try{
-            const {tagId} = req;
+            const {tag} = req;
             const id = req.params.id;
             const updatedItem = await Item.findById(id);
 
-            updatedItem.tags.push(tagId);
+            updatedItem.tags.push(tag);
+            
             await updatedItem.save();
 
             return res.json({message: "Tag succesfully added!"})
