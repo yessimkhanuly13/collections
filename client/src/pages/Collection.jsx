@@ -60,27 +60,42 @@ function Collection() {
     }, [])
 
   return (
-    <div>
+    <div className='w-full'>
         <Navbar/>
-        <p>{collection.name}</p>
-        <p>{collection.description}</p>
-        <p>{collection.theme}</p>
-        {collection.items && collection.items.map((item)=>{
-            return (
-                <div>
-                    <p>{item.topic}</p>
-                    <Link to={`/item/${item._id}`}></Link>
-                </div>
-            )
-        })}
-        { isOwner && (
-            <div>
-                <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="topic" />
-                <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="desc" />
-                <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="tags" />
-                <Button name="Add new Item" style="bg-lime-600" onClick={addNewItem}/>
-            </div>        
-        )}
+
+        <div className='p-3 text-center'>
+            <span className='text-xl font-bold'>{collection.name}</span>
+        </div>
+        <div className='grid grid-cols-4 gap-3 p-3'>
+            { 
+                isOwner && (
+                    <div className='border flex flex-col items-center gap-3 p-2'>
+                        <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="topic" placeholder="Topic" />
+                        <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="desc" placeholder="Description"/>
+                        <Button name="Add new Item" style="bg-lime-600 w-full" onClick={addNewItem}/>
+                    </div>
+            )}
+            {
+                collection.items && collection.items.map((item)=>{
+                    return (
+                        <div className='border flex flex-col items-center gap-3 p-2'>
+                            <p>Topic: {item.topic}</p>    
+                            <p>Desc: {item.desc}</p>
+                            <p>Created date: {new Date(item.createdDate).toLocaleString()}</p>
+                            {
+                                isOwner && 
+                                (
+                                    <div className='flex w-full'>
+                                        <Button name="Delete" style="bg-red-600 w-1/2"/>
+                                        <Link to={`/item/${item._id}`} className='w-1/2'><Button name="Link" style="bg-lime-600 w-full"/></Link>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    )
+                })
+            }  
+        </div>      
     </div>
   )
 }
