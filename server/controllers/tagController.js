@@ -19,9 +19,9 @@ class tagController{
             const items = await Item.find();
             const tag = await Tag.findById(id);
             console.log(items);
-            const itemsWithTag = items.filter((item)=> item.tags && item.tags.includes(tag._id));
-            console.log(itemsWithTag);
-            console.log(itemsWithTag);
+            const itemsWithTag = items.filter((item)=> item.tags && item.tags.includes(tag));
+
+            console.log(items[0].tags);
 
             return res.json(itemsWithTag);
         }catch(e){
