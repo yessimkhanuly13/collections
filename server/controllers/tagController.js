@@ -18,10 +18,15 @@ class tagController{
             const id = req.params.id;
             const items = await Item.find();
             const tag = await Tag.findById(id);
-            console.log(items);
-            const itemsWithTag = items.filter((item)=> item.tags && item.tags.includes(tag));
 
-            console.log(items[0].tags);
+            const itemsWithTag = [];
+
+            items.forEach((item) => {
+                const itemTagIds = item.tags.map((itemTag) => itemTag.value);
+                if (itemTagIds.includes(tag.value)) {
+                    itemsWithTag.push(item);
+                }
+            })
 
             return res.json(itemsWithTag);
         }catch(e){

@@ -91,6 +91,7 @@ function Home() {
   const getItemsByTag = (id) =>{
     axios.get(`${url}/tag/all/${id}`)
       .then((res)=>{
+        console.log(res.data)
         setItemsByTag(res.data);
       })
       .catch((e)=>{

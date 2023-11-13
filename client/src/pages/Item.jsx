@@ -8,22 +8,11 @@ import Button from '../components/Button';
 
 function Item() {
   const [item, setItem] = useState({});
-  const {setMessage, url, darkMode} = useContext(PopupContext);
+  const {setMessage, url, darkMode, message} = useContext(PopupContext);
   const [tag, setTag] = useState("");
-  const [tags, setTags] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const itemId = useParams();
-  
-  const getTags = () =>{
-    axios.get(`${url}/all`)
-      .then((res)=>{
-        setTags(res.data);
-      })
-      .catch((e)=>{
-        console.log(e);
-      })
-  }
 
 
 
@@ -55,7 +44,7 @@ function Item() {
 
   useEffect(()=>{
     getItemById();
-  }, [])
+  }, [message])
   
   return (
     <div>
@@ -65,10 +54,15 @@ function Item() {
       </div>
       {
         isOwner && (
-          <div>
+          <div className='flex flex-col'>
             <span className='text-xl'>Tags:</span>
+            <div className='flex'>
+                <Input placeholder="New tag" style={ darkMode ? 'bg-black m-1' : 'bg-white text-black m-1'} onChange={(e)=>setTag(e.target.value)} />
+                <Button name="Add" style="bg-lime-600 mt-1" onClick={addTag} />      
+            </div>
+            <div className='flex flex gap-1'>
             {
-              tags.map((tag)=>{
+              item.tags.map((tag)=>{
                 return (
                   <div className='shadow-md'>
                     {tag.value}
@@ -76,9 +70,6 @@ function Item() {
                 )
               })
             }
-            <div className='flex'>
-                <Input placeholder="New tag" style={ darkMode ? 'bg-black m-1' : 'bg-white text-black m-1'} onChange={(e)=>setTag(e.target.value)} />
-                <Button name="Add" style="bg-lime-600 mt-1" onClick={addTag} />      
             </div>
           </div>
         )
