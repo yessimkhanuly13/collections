@@ -11,6 +11,7 @@ collectionRouter.put('/update/:id', collectionController.update);
 collectionRouter.delete('/delete/:id',collectionController.deleteItems, collectionController.delete );
 collectionRouter.put('/additem/:id', collectionController.addItemToCollection);
 collectionRouter.put('/updateitem/:id', collectionController.updateItemInCollection);
+collectionRouter.delete('/deleteitem/:id', collectionController.deleteItemFromCollection);
 
 
 module.exports = collectionRouter;

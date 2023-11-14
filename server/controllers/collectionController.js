@@ -174,6 +174,29 @@ class collectionController{
         }
     }
 
+
+    async deleteItemFromCollection(req, res){
+        try{
+            const itemId = req.query.id;
+            const id = req.params.id;
+
+            const collection = await Collection.findById(id);
+
+            const updatedItemsInCollection = collection.items.filter((item)=>JSON.stringify(item._id) !== `"${itemId}"`);
+
+            collection.items = updatedItemsInCollection;
+
+            await Item.findByIdAndRemove(itemId);
+
+            await collection.save();
+
+            return res.json({message: "Item succefully deleted!"})
+
+        }catch(e){
+            console.log(e);
+        }
+    }
+
 }
 
 module.exports = new collectionController;

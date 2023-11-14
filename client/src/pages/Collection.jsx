@@ -27,7 +27,7 @@ function Collection() {
 
     const collectionId = useParams();
     
-    const {setMessage, url, darkMode} = useContext(PopupContext)
+    const {setMessage, url, darkMode, message} = useContext(PopupContext)
 
     const getCollectionById = () =>{
         const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -73,9 +73,20 @@ function Collection() {
         console.log(e.target)
     }
 
+    const deleteItem = (id) =>{
+        axios.delete(`${url}/collections/deleteitem/${collection._id}?id=${id}`)
+            .then((res)=>{
+                setMessage(res.data.message)
+            })
+            .catch((e)=>{
+                console.log(e);
+                setMessage(e.response.data.message)
+            })
+    }
+
     useEffect(()=>{
         getCollectionById();
-    }, [])
+    }, [message])
 
   return (
     <div className='w-full'>
@@ -129,10 +140,25 @@ function Collection() {
                             <p>Desc: {item.desc}</p>
                             <p>Created date: {new Date(item.createdDate).toLocaleString()}</p>
                             {
+                                item.customField1_bool && (
+                                    <p>{item.customField1_name}: {item.customField1_value}</p>
+                                )
+                            }
+                            {
+                                item.customField2_bool && (
+                                    <p>{item.customField2_name}: {item.customField2_value}</p>
+                                )
+                            }
+                            {
+                                item.customField3_bool && (
+                                    <p>{item.customField3_name}: {item.customField3_value}</p>
+                                )
+                            }
+                            {
                                 isOwner && 
                                 (
                                     <div className='flex w-full'>
-                                        <Button name="Delete" style="bg-red-600 w-1/2"/>
+                                        <Button name="Delete" style="bg-red-600 w-1/2" onClick={()=>deleteItem(item._id)}/>
                                         <Link to={`/item/${item._id}`} className='w-1/2'><Button name="Link" style="bg-lime-600 w-full"/></Link>
                                     </div>
                                 )
