@@ -74,6 +74,16 @@ function Item() {
           </div>
         )
       }
+      <div>
+        {item.desc}
+      </div>
+      {
+        item.customField1_bool && (
+          <div>
+            {item.customField1_name} : {item.customField1_value}
+          </div>
+        )
+      }
     </div>
   )
 }

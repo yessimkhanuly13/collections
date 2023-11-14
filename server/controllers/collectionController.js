@@ -95,7 +95,7 @@ class collectionController{
             const {topic, desc, userId, customField1_bool, customField1_name, customField1_value, customField2_bool,customField2_name, customField2_value, customField3_bool, customField3_name, customField3_value} = req.body
             const date = Date.now();
 
-            const item = new Item({topic, desc, userId, createdDate: date, collectionId: id});
+            const item = new Item({topic, desc, userId, createdDate: date, collectionId: id, customField1_bool, customField1_name, customField1_value, customField2_bool,customField2_name, customField2_value, customField3_bool, customField3_name, customField3_value});
             await item.save();  
 
             const collection = await Collection.findById(id);

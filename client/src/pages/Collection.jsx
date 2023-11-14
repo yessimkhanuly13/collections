@@ -45,7 +45,10 @@ function Collection() {
 
 
     const addNewItem = () =>{
-        axios.put(`${url}/collections/additem/${collection._id}`, {userId: collection.userId, tags, topic: itemdata.topic, desc: itemdata.desc, })
+
+        const {topic, desc, customField1_bool, customField1_name, customField1_value, customField2_bool, customField2_name, customField2_value, customField3_bool, customField3_name, customField3_value} = itemdata;
+
+        axios.put(`${url}/collections/additem/${collection._id}`, {userId: collection.userId, topic, desc, customField1_bool, customField1_name, customField1_value, customField2_bool, customField2_name, customField2_value, customField3_bool, customField3_name, customField3_value })
             .then((res)=>{
                 setMessage(res.data.message);
                 setItemData({
