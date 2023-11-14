@@ -14,10 +14,10 @@ function Home() {
   const [tags, setTags] = useState([]);
   const [itemsByTag, setItemsByTag] = useState([]);
   const dispatch = useDispatch();
-  const counter = useSelector(state => state.count)
+  const counter = useSelector(state => state.counter.count);
 
-  const handleCounter = (type) =>{
-    dispatch({type: type});
+  const handleCounter = (type, int) =>{
+    dispatch({type: type, payload: int});
   }
 
   const {setMessage, darkMode, url} = useContext(PopupContext);
@@ -252,8 +252,8 @@ function Home() {
 
        <div>
       <p>Count: {counter}</p>
-        <button onClick={()=>handleCounter("INCREMENT")}>Increment</button>
-        <button onClick={()=>handleCounter("DECREMENT")}>Decrement</button>
+        <button onClick={()=>handleCounter("INCREMENT", 4)}>Increment</button>
+        <button onClick={()=>handleCounter("DECREMENT", 5)}>Decrement</button>
       </div>
     </div>
   )

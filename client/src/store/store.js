@@ -1,16 +1,12 @@
-import {createStore} from 'redux'
+import {createStore, combineReducers} from 'redux'
+import { counterReduce } from './counterReduce';
+import { setdarkMode } from './modeReduce';
 
-const counterReduce = (state = {count: 0}, action) =>{
-    switch(action.type){
-        case "INCREMENT":
-            return {count: state.count + 1}
-        case "DECREMENT":
-            return {count: state.count - 1}
-        default:
-            return state;
-    }
-}
+const rootReduce = combineReducers({
+    mode: setdarkMode,
+    counter: counterReduce,
+})
 
-const store = createStore(counterReduce);
+const store = createStore(rootReduce);
 
 export default store;

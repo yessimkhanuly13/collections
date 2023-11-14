@@ -23,8 +23,6 @@ function Collection() {
         customField3_value: "" 
     });
 
-    const [tags, setTags] = useState([]);
-
     const collectionId = useParams();
     
     const {setMessage, url, darkMode, message} = useContext(PopupContext)
@@ -157,9 +155,11 @@ function Collection() {
                             {
                                 isOwner && 
                                 (
-                                    <div className='flex w-full'>
-                                        <Button name="Delete" style="bg-red-600 w-1/2" onClick={()=>deleteItem(item._id)}/>
-                                        <Link to={`/item/${item._id}`} className='w-1/2'><Button name="Link" style="bg-lime-600 w-full"/></Link>
+                                    <div className='w-full'>
+                                        <div className='flex w-full'>
+                                            <Button name="Delete" style="bg-red-600 w-1/2" onClick={()=>deleteItem(item._id)}/>
+                                            <Link to={`/item/${item._id}`} className='w-1/2'><Button name="Link" style="bg-lime-600 w-full"/></Link>
+                                        </div>
                                     </div>
                                 )
                             }

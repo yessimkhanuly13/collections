@@ -51,7 +51,6 @@ searchRouter.get('/', async(req, res) => {
         ]);
 
         const mergedArr = [...topic, ...desc]
-        console.log(mergedArr)
 
         res.json(mergedArr || []);
       }else{
