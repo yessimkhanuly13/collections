@@ -91,20 +91,15 @@ class itemsController{
             const {tag} = req.body;
             const id = req.params.id;
             const existTag = await Tag.find({value:tag});
-            const item = await Item.findById(id);
+            
             let reqTag;
-            console.log("Existing tag: " + existTag);
 
             if(!existTag.length){
-                const newTag = new Tag({value: tag});
+                const newTag = new Tag({value: `#${tag}`});
                 await newTag.save();
                 reqTag = newTag;
             }else{
                 reqTag = existTag[0];
-            }
-
-            if(item.tags.includes(reqTag)){
-                console.log('exist')
             }
 
             req.tag = reqTag;

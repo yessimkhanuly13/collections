@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar"
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -13,12 +12,6 @@ function Home() {
   const [collections, setCollections] = useState([]);
   const [tags, setTags] = useState([]);
   const [itemsByTag, setItemsByTag] = useState([]);
-  const dispatch = useDispatch();
-  const counter = useSelector(state => state.counter.count);
-
-  const handleCounter = (type, int) =>{
-    dispatch({type: type, payload: int});
-  }
 
   const {setMessage, darkMode, url} = useContext(PopupContext);
 
@@ -107,7 +100,7 @@ function Home() {
   },[])
 
   return (
-    <div>
+    <div className='pb-10'>
        <Navbar/>
        <div className='grid grid-cols-1 md:grid-cols-2'>
           <div className='flex flex-col p-3'>
@@ -249,12 +242,6 @@ function Home() {
             </div>)
           }
        </div>
-
-       <div>
-      <p>Count: {counter}</p>
-        <button onClick={()=>handleCounter("INCREMENT", 4)}>Increment</button>
-        <button onClick={()=>handleCounter("DECREMENT", 5)}>Decrement</button>
-      </div>
     </div>
   )
 }

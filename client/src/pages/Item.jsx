@@ -49,41 +49,82 @@ function Item() {
   return (
     <div>
       <Navbar/>
-      <div className='w-full text-center p-3'>
-          <span className='text-2xl text-center font-bold'>{item.topic}</span>
-      </div>
-      {
-        isOwner && (
-          <div className='flex flex-col'>
-            <span className='text-xl'>Tags:</span>
-            <div className='flex'>
-                <Input placeholder="New tag" style={ darkMode ? 'bg-black m-1' : 'bg-white text-black m-1'} onChange={(e)=>setTag(e.target.value)} />
-                <Button name="Add" style="bg-lime-600 mt-1" onClick={addTag} />      
-            </div>
-            <div className='flex flex gap-1'>
-            {
-              item.tags.map((tag)=>{
-                return (
-                  <div className='shadow-md'>
-                    {tag.value}
-                    </div>
-                )
-              })
-            }
-            </div>
+      <div className='w-full flex flex-col items-center gap-10 pb-10'>
+        <div className='w-full text-center p-3'>
+            <span className='text-3xl text-center font-bold'>{item.topic}</span>
+        </div>
+        <div className='flex flex-col w-full'>
+          <span className='text-2xl text-center font-bold'>Description</span>
+          <div className='flex p-3'>
+            <p>{item.desc}</p>
           </div>
-        )
-      }
-      <div>
-        {item.desc}
-      </div>
-      {
-        item.customField1_bool && (
-          <div>
-            {item.customField1_name} : {item.customField1_value}
+        </div>
+        <span className='text-2xl font-bold text-center'>Fields</span>
+        <div className={`grid grid-cols-${item.customField3_bool ? 3 : item.customField2_bool ? 2 : 1} gap-3 w-full`}>
+          {
+            item.customField1_bool && (
+              <div className='flex flex-col flex justify-center items-center'>
+                <div className='border text-center w-1/3 '>
+                  <p className='text-xl font-bold'>{item.customField1_name}</p>
+                  <p>{item.customField1_value}</p>
+                </div>
+              </div>
+            )
+          }
+          {
+          item.customField2_bool && (
+            <div className='flex flex-col flex justify-center items-center'>
+              <div className='border text-center w-1/3'>
+                <p className='text-xl font-bold'>{item.customField2_name}</p>
+                <p>{item.customField2_value}</p>
+              </div>
+            </div>
+          )
+        }
+        {
+          item.customField3_bool && (
+            <div className='flex flex-col flex justify-center items-center'>
+              <div className='border text-center w-1/3'>
+                <p className='text-xl font-bold'>{item.customField3_name}</p>
+                <p>{item.customField3_value}</p>
+              </div>
+            </div>
+          )
+        }
+        </div>
+
+        <span className='text-2xl text-center font-bold'>Tags</span>
+        <div className='flex justify-center gap-2'>
+              {
+                item.tags && item.tags.map((tag)=>{
+                  return (
+                    <div className='shadow-md'>
+                      {tag.value}
+                      </div>
+                  )
+                })
+              }
           </div>
-        )
-      }
+        {
+          isOwner && (
+            <div className='flex flex-col w-full justify-center'>
+              <div className='flex flex-col w-full items-center gap-1'>
+                  <Input placeholder="New tag" style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={(e)=>setTag(e.target.value)} />
+                  <Button name="Add" style="bg-lime-600" onClick={addTag} />      
+              </div>
+            </div>
+          )
+        }
+      <div className='w-full flex flex-col items-center justify-center'>
+        <span className='text-2xl font-bold text-center'>Comments</span>
+        <div className='w-5/6 border'>
+          {
+            
+          }
+          <Input style="w-full" type="text" placeholder="comment"/>
+        </div>
+      </div>
+      </div>
     </div>
   )
 }
