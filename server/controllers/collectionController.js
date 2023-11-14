@@ -92,7 +92,7 @@ class collectionController{
     async addItemToCollection(req, res){
         try{    
             const id = req.params.id;
-            const {topic, desc, userId} = req.body
+            const {topic, desc, userId, customField1_bool, customField1_name, customField1_value, customField2_bool,customField2_name, customField2_value, customField3_bool, customField3_name, customField3_value} = req.body
             const date = Date.now();
 
             const item = new Item({topic, desc, userId, createdDate: date, collectionId: id});

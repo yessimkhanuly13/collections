@@ -11,8 +11,18 @@ function Collection() {
     const [isOwner, setIsOwner] = useState(false);
     const [itemdata, setItemData] = useState({
         topic:"",
-        desc:""
+        desc:"",
+        customField1_bool: false,
+        customField1_name: "",
+        customField1_value: "",
+        customField2_bool: false,
+        customField2_name: "",
+        customField2_value: "",
+        customField3_bool: false,
+        customField3_name: "",
+        customField3_value: "" 
     });
+
     const [tags, setTags] = useState([]);
 
     const collectionId = useParams();
@@ -49,10 +59,15 @@ function Collection() {
     }
 
     const handleData = (e) =>{
-        const {name, value} = e.target;
+        const fields = ['customField1_bool', 'customField2_bool', 'customField3_bool'];
 
-        setItemData({...itemdata, [name]: value});
-        console.log(itemdata)
+        const {name, value} = e.target;
+        if(fields.includes(name) ){
+            setItemData({...itemdata, [name]: !itemdata[name] })
+        }else{
+            setItemData({...itemdata, [name]: value});
+        }
+        console.log(e.target)
     }
 
     useEffect(()=>{
@@ -69,9 +84,37 @@ function Collection() {
         <div className='grid grid-cols-4 gap-3 p-3'>
             { 
                 isOwner && (
-                    <div className='border flex flex-col items-center gap-3 p-2'>
+                    <div className='border row-span-2 flex flex-col items-center gap-3 p-2'>
                         <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="topic" placeholder="Topic" />
                         <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="desc" placeholder="Description"/>
+                        <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField1_bool" type="checkbox" checked={itemdata.customField1_bool}/>
+                       
+                        {
+                            itemdata.customField1_bool && (
+                                <div>
+                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField1_name" placeholder="Field Name 1"/>
+                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField1_value" placeholder="Field Value"/>
+                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField2_bool" type="checkbox" checked={itemdata.customField2_bool}/>
+                                </div>
+                            )
+                        }
+                        {
+                            itemdata.customField2_bool && (
+                                <div>
+                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField2_name" placeholder="Field Name 2"/>
+                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField2_value" placeholder="Field Value"/>
+                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField3_bool" type="checkbox" checked={itemdata.customField3_bool}/>
+                                </div>
+                            )
+                        }
+                        {
+                            itemdata.customField3_bool && (
+                                <div>
+                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField3_name" placeholder="Field Name 3"/>
+                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField3_value" placeholder="Field Value"/>
+                                </div>
+                            )
+                        }
                         <Button name="Add new Item" style="bg-lime-600 w-full" onClick={addNewItem}/>
                     </div>
             )}
