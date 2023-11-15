@@ -15,7 +15,8 @@ const Item = new Schema({
     customField2_value: {type: String},
     customField3_bool: {type: Boolean},
     customField3_name: {type: String},
-    customField3_value: {type: String}
+    customField3_value: {type: String},
+    comments:[{type: Object, ref: 'Comment'}]
 })
 
 module.exports = model('Item', Item);

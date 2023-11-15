@@ -1,6 +1,7 @@
 const Collection = require('../models/Collection');
 const Item = require('../models/Item');
 const Tag = require('../models/Tag');
+const Comment = require('../models/Comment')
 
 class itemsController{
 
@@ -125,6 +126,60 @@ class itemsController{
 
             return res.json({message: "Tag succesfully added!"})
           
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async addNewComment(req, res, next){
+        try{
+            const {username, value} = req.body
+            const comment = new Comment({username, value, createdDate: Date.now()});
+            await comment.save();
+
+            req.comment = comment;
+            next();
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async addCommentToItem(req, res){
+        try{   
+            const id = req.params.id;
+            const item = await Item.findById(id);
+
+            const comment = req.comment;
+            item.comments.push(comment);
+            await item.save();
+
+            res.json({message: "Comment succesfully added!"})
+
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
+    async deleteCommentFromItem(req, res){
+        try{
+            const commentId = req.query.commentid;
+            const id = req.params.id;
+            const comment = await Comment.findById(commentId); 
+
+            await Comment.findByIdAndRemove(commentId);
+
+            const item  = await Item.findById(id);
+
+            const updatedComments = item.comments.filter((itemComment)=> itemComment._id !== comment._id )
+
+            item.comments = updatedComments;
+
+            await item.save();
+
+
         }catch(e){
             console.log(e);
             res.json({message: "Something went wrong!"})
