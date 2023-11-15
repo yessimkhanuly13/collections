@@ -11,14 +11,31 @@ function Item() {
   const {setMessage, url, darkMode, message} = useContext(PopupContext);
   const [tag, setTag] = useState("");
   const [isOwner, setIsOwner] = useState(false);
+  const [comment, setComment] = useState("");
+  const [currentUser, setCurrentUser] = useState({});
 
   const itemId = useParams();
 
+  const handleMessage = (e) =>{
+    const {value} = e.target;
+    setComment(value);
+    console.log(value);
+  }
 
+  const sendCommentToServer = () =>{
+    axios.post(`${url}/items/addcomment/${item._id}`, {value: comment, username: currentUser.username})
+      .then((res)=>{
+        console.log(res.data.message);
+      })
+      .catch((e)=>{
+        console.log(e);
+        setMessage(e.response.data.message);
+      })
+  }
 
   const getItemById = () =>{
     const user = JSON.parse(localStorage.getItem('currentUser'));
-    console.log(user);
+    setCurrentUser(user);
     axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
         setItem(res.data)
@@ -119,9 +136,18 @@ function Item() {
         <span className='text-2xl font-bold text-center'>Comments</span>
         <div className='w-5/6 border'>
           {
-            
+              item.comments && item.comments.map((comment)=>{
+                return (
+                  <p>{comment.value}</p>
+                )
+              })
           }
-          <Input style="w-full" type="text" placeholder="comment"/>
+          <div className='flex'>
+            <div className='w-4/5'>
+              <Input style="w-full" onChange={handleMessage} type="text" placeholder="comment"/>
+            </div>
+            <Button style="bg-lime-600 w-1/5" name="Send" onClick={sendCommentToServer}/>
+          </div>
         </div>
       </div>
       </div>

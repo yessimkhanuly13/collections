@@ -4,7 +4,6 @@ const authRouter = require('./router/authRouter');
 const cors = require('cors');
 const userRouter = require('./router/userRouter');
 const itemsRouter = require('./router/itemsRouter');
-const commentRouter = require('./router/commentRouter');
 const collectionRouter = require('./router/collectionRouter');
 const searchRouter = require('./router/searchRouter');
 const tagRouter = require('./router/tagRouter');
@@ -21,7 +20,6 @@ app.use('/search', searchRouter);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/items', itemsRouter);
-app.use('/comments', commentRouter);
 app.use('/collections', collectionRouter);
 app.use('/tag', tagRouter );
 

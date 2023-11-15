@@ -21,17 +21,21 @@ function App() {
 
   useEffect(()=>{
     const mode = localStorage.getItem('theme');
+    const body = document.body; 
+    console.log(body)
 
     if(mode === 'light'){
       setDarkMode(false);
+      // body.classList.remove("w-screen h-screen bg-black text-white bg-cover")
     }else{
       setDarkMode(true);
+      // body.classList.add("w-screen h-screen bg-black text-white bg-cover")
     }
 
   }, [])
   
   return (
-    <div className={ darkMode ? "w-screen h-screen bg-black text-white" : "w-screen h-screen" }>
+    <div className={ darkMode ? "w-screen h-screen bg-black text-white bg-cover" : "w-screen h-screen bg-cover" }>
       <PopupContext.Provider value={{message, setMessage, setDarkMode, darkMode, url}} >
         {message && <Popup message={message} handleCloseError={()=>setMessage('')} darkMode={darkMode}/>}
         <Routes>
