@@ -22,6 +22,8 @@ function Sidebar({collections, items, tags, vision}) {
             setIsCollection(false);
             setIsItems(false);
             setIsTags(true);
+        }else if(key === "admin"){
+            navigate('/admin')
         }
     }
     
@@ -81,6 +83,18 @@ function Sidebar({collections, items, tags, vision}) {
             >
                 Profile
             </ListboxItem>}
+            {JSON.parse(localStorage.getItem('currentUser')) && JSON.parse(localStorage.getItem('currentUser')).roles.includes('admin') && <ListboxItem
+                key="admin"
+                endContent={<ItemCounter/>}
+                startContent={
+                <IconWrapper className="bg-default/50 text-foreground">
+                    <LayoutIcon className="text-lg " />
+                </IconWrapper>
+                }
+            >
+                Admin Panel
+            </ListboxItem>}
+            
         </Listbox>
     </div>
   )
