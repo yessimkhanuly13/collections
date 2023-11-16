@@ -4,6 +4,7 @@ import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
 import { converUnixToDate } from '../functions/unixtodate';
+import Sidebar from '../components/Sidebar';
 
 
 
@@ -13,6 +14,10 @@ function Home() {
   const [collections, setCollections] = useState([]);
   const [tags, setTags] = useState([]);
   const [itemsByTag, setItemsByTag] = useState([]);
+  const [isCollection, setIsCollection] = useState(true);
+  const [isItems, setIsItems] = useState(false);
+  const [isTags, setIsTags] = useState(false);
+
 
   const {setMessage, darkMode, url} = useContext(PopupContext);
 
@@ -75,14 +80,16 @@ function Home() {
     getAllItems();
     getCollections();
     getAllTags();
+
   },[])
 
   return (
-    <div className='pb-10'>
+    <div>
        <NavbarComponent/>
-       <div className='grid grid-cols-1 md:grid-cols-2'>
-          <div className='flex flex-col p-3'>
-            <span className='text-center mb-2 text-xl font-bold'>Collections</span>
+       <div className='grid grid-cols-1 md:grid-cols-4 gap-3 mt-4 pr-2'>
+          <Sidebar collections={collections} items={oldestItems} tags={tags} vision={{setIsCollection, setIsItems, setIsTags}}/>
+         <div className='col-span-1 md:col-span-3'>
+         {isCollection &&  <div className='flex flex-col'>
               <table className='border w-full text-center'>
                 <thead className=''>
                   <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
@@ -122,9 +129,8 @@ function Home() {
                   })
                 }
               </table>
-          </div>
-          <div className='flex flex-col p-3'> 
-            <span className='text-center mb-2 text-xl font-bold'>Items</span>
+          </div>}
+         { isItems && <div className='flex flex-col p-3'> 
             <table className='border w-full text-center'>
             <thead className='border'>
               <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
@@ -162,9 +168,8 @@ function Home() {
                   })
                 }
             </table>
-          </div>
-          <div className='flex flex-col p-3 col-span-2'>
-          <span className='text-center mb-2 text-xl font-bold'>Tags</span>
+          </div>}
+        { isTags && <div className='flex flex-col p-3 col-span-2'>
               <div className='grid grid-cols-12 gap-2 text-center'>
                 {tags.map((tag)=>{
                   return (
@@ -174,9 +179,9 @@ function Home() {
                   )
                 })}
               </div>
-          </div>
+          </div>}
           { 
-            itemsByTag.length > 0 && (
+            isTags && itemsByTag.length > 0 && (
             
             <div className='col-span-2 flex flex-col items-center'>
               <span className='text-center mb-2 text-xl font-bold'>Items by tag</span>
@@ -219,6 +224,7 @@ function Home() {
             </table>
             </div>)
           }
+          </div>
        </div>
     </div>
   )

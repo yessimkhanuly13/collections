@@ -3,10 +3,16 @@ import axios from 'axios'
 import Button from '../components/Button'
 import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip} from "@nextui-org/react";
+import { EditIcon } from '../icons/EditIcon';
+import { DeleteIcon } from '../icons/DeleteIcon';
+import NavbarComponent from '../components/Navbar';
+import { EyeFilledIcon } from '../icons/EyeFilledIcon';
+import { EyeSlashFilledIcon } from '../icons/EyeSlashFilledIcon';
+
 
 function AdminPanel() {
   const [users, setUsers] = useState([]);
-  const [selectedUsers, setSelectedUsers] = useState([]);
   const [check, setCheck] = useState(false);
 
   const navigate = useNavigate();
@@ -17,36 +23,16 @@ function AdminPanel() {
     axios.get(`${url}/users/all`)
       .then((res)=>{
         setUsers(res.data);
+        console.log(res.data)
       })
       .catch((e)=>{
         setMessage(e.response.data.message)
       })
   } 
 
-
-  const handleChange = (userId) =>{
-    if(!selectedUsers.includes(userId)){
-      setSelectedUsers([...selectedUsers, userId])
-    }else{
-      setSelectedUsers(selectedUsers.filter((id)=> id !== userId ))
-    }
-  }
-
-  const handleSelectAllUsers = () =>{
-      const allUsers = users.map((user)=> user._id)
-
-      if(check){
-        setSelectedUsers([]);
-      }else{
-        setSelectedUsers(allUsers);
-      }
-      setCheck(!check);
-  }
-
-  const handleUserDelete = () =>{
+  const handleUserDelete = (id) =>{
     const user = JSON.parse(localStorage.getItem('currentUser'));
     
-    selectedUsers.forEach((id)=>{
       axios.delete(`${url}/users/delete/${id}`)
         .then((res)=>{
           setMessage(res.data.message);
@@ -59,13 +45,21 @@ function AdminPanel() {
         .catch((e)=>{
           setMessage(e.response.data.message)
         })
-    })
-  }
+    }
 
-  const handleUpdateUser = (path) =>{
+  const handleUpdateUser = (id, roles, type) =>{
     const user = JSON.parse(localStorage.getItem('currentUser'));
 
-    selectedUsers.forEach((id)=>{
+    let path;
+
+    if(type === "update"){
+      path = roles.includes('admin') ? "user" : "admin";
+    }else if(type === "block"){
+      path = 'block';
+    }else if(type === "unblock"){
+      path = 'unblock';
+    }
+
       axios.put(`${url}/users/${path}/${id}`)
         .then((res)=>{
           setMessage(res.data.message);
@@ -85,7 +79,6 @@ function AdminPanel() {
         .catch((e)=>{
           setMessage(e.response.data.message)
         })
-    })
   }
    
   useEffect(()=>{
@@ -100,20 +93,97 @@ function AdminPanel() {
 
   },[])
 
+    const columns = [
+      {
+        key: "username",
+        label: "USERNAME",
+      },
+      {
+        key: "roles",
+        label: "ROLE",
+      },
+      {
+        key: "status",
+        label: "STATUS",
+      },
+      {
+        key:"delete",
+        label: "DELETE"
+      },
+      {
+        key:"update",
+        label: "UPDATE"
+      },
+      {
+        key:"block",
+        label:"BLOCK"
+      }
+    ];
+
 
   return (
     <div className='flex flex-col items-center p-2'>
+      <NavbarComponent/>
 
-      <div>
+      {/* <div>
         <Button name="Block" style="bg-red-600" onClick={()=>handleUpdateUser('block')}/>
         <Button name="Unblock" style="bg-lime-600" onClick={()=>handleUpdateUser('unblock')}/>
         <Button name="Delete" style="bg-red-600" onClick={handleUserDelete}/>
         <Button name="Give Admin" style="bg-lime-600" onClick={()=>handleUpdateUser('admin')}/>
         <Button name="Remove Admin" style="bg-red-600" onClick={()=>handleUpdateUser('user')}/>
         <Button name="Go Back" style="bg-lime-600" onClick={()=>navigate('/')}/>
-      </div>
+      </div> */}
+      <div className='w-5/6 mt-2'>
+      <Table aria-label="Example table with dynamic content">
+        <TableHeader columns={columns}>
+          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+        </TableHeader>
+        <TableBody items={users}>
+          {(item) => (
+            <TableRow key={item._id}>
+              <TableCell>{item.username}</TableCell>
+              <TableCell>{item.roles.includes('admin') ? 'Admin' : 'User'}</TableCell>
+              <TableCell>{item.status}</TableCell>
+              <TableCell>
+                  <div className="relative flex items-center p-3 gap-2">
+                    <Tooltip color="danger" content="Delete">
+                      <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                        <DeleteIcon onClick={()=>handleUserDelete(item._id)}/>
+                      </span>
+                    </Tooltip>
+                </div>
+              </TableCell>
+              <TableCell>
+                  <div className="relative flex items-center p-3 gap-2">
+                    <Tooltip color="danger" content="Update role">
+                      <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                        <EditIcon onClick={()=>handleUpdateUser(item._id, item.roles)}/>
+                      </span>
+                    </Tooltip>
+                </div>
+              </TableCell>
+              <TableCell>
+                  <div className="relative flex items-center p-3 gap-2">
+                    {item.status === "Active" ? (
+                    <Tooltip color="danger" content="Block">
+                      <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                        <EyeFilledIcon onClick={()=>handleUpdateUser(item._id, [], "block")}/>
+                      </span>
+                    </Tooltip>) : (
+                    <Tooltip color="danger" content="Unblock">
+                        <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                            <EyeSlashFilledIcon onClick={()=>handleUpdateUser(item._id, [], "unblock")}/>
+                        </span>
+                    </Tooltip>)
+                    }
+                </div>
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+    </Table>
 
-      <table className='border w-4/6 m-4'>
+      {/* <table className='border w-4/6 m-4'>
         <thead className=''>
           <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
             <th className='p-2'><input checked={check} onChange={handleSelectAllUsers}  type='checkbox'/></th>
@@ -133,8 +203,8 @@ function AdminPanel() {
                     </tr>
                   )})}
           </tbody>
-      </table>
-
+      </table> */}
+      </div>
     </div>
   )
 }

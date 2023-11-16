@@ -83,13 +83,13 @@ function NavbarComponent() {
               (
                 <NavbarItem className="flex">
                     <Button color="success" variant="shadow" onClick={()=>navigate('/login')}>
-                        Log In
+                        Sign In
                     </Button>
                 </NavbarItem>
               ) : (
                   <NavbarItem className="flex">
                       <Button color="danger" variant="shadow" onClick={handleLogout}>
-                          Log Out
+                          Log out
                       </Button>
                     </NavbarItem>
               )
