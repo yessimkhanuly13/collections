@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Navbar from "../components/Navbar"
+import NavbarComponent from "../components/Navbar"
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
+import { converUnixToDate } from '../functions/unixtodate';
 
 
 
@@ -46,29 +47,6 @@ function Home() {
     console.log(updatedCollections);
     return updatedCollections.slice(0, 5);
   }
-  
-  const converUnixToDate = (unix) =>{
-
-      const currentTime = Date.now();
-      const secondsAgo = Math.floor((currentTime - unix)/1000);
-    
-    
-      if (secondsAgo < 60) {
-        return 'just now';
-      } else if (secondsAgo < 3600) {
-        const minutesAgo = Math.floor(secondsAgo / 60);
-        return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
-      } else if (secondsAgo < 86400) {
-        const hoursAgo = Math.floor(secondsAgo / 3600);
-        return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-      } else if (secondsAgo < 604800) {
-        const daysAgo = Math.floor(secondsAgo / 86400);
-        return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
-      } else {
-        const date = new Date(unix);
-        return date.toLocaleString();
-      }
-  }
 
   const getAllTags = () =>{
     axios.get(`${url}/tag/all`)
@@ -101,7 +79,7 @@ function Home() {
 
   return (
     <div className='pb-10'>
-       <Navbar/>
+       <NavbarComponent/>
        <div className='grid grid-cols-1 md:grid-cols-2'>
           <div className='flex flex-col p-3'>
             <span className='text-center mb-2 text-xl font-bold'>Collections</span>

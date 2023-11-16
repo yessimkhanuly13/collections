@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Navbar from '../components/Navbar';
+import NavbarComponent from '../components/Navbar';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import axios from 'axios';
@@ -105,7 +105,7 @@ function Profile() {
 
   return (
     <div>
-        <Navbar/>
+        <NavbarComponent/>
         <div className='p-3 flex justify-around'>
           <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} name="name" placeholder="Name" onChange={handleData}/>
           <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} name="description" placeholder="Description" onChange={handleData}/>

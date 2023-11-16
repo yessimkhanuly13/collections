@@ -4,7 +4,7 @@ import axios from 'axios'
 import Button from '../components/Button'
 import Input from '../components/Input';
 import { PopupContext } from '../App';
-import Navbar from '../components/Navbar';
+import NavbarComponent from '../components/Navbar';
 
 function User() {
     const username = useParams();
@@ -57,7 +57,7 @@ function User() {
 
   return (
     <div>
-      <Navbar/>
+      <NavbarComponent/>
         {user._id && (
         <div>
             <Input type="text" onChange={handleItem} name="topic"/>

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
-import Navbar from '../components/Navbar';
+import NavbarComponent from '../components/Navbar';
 import Button from '../components/Button';
 import Input from '../components/Input';
 
@@ -88,7 +88,7 @@ function Collection() {
 
   return (
     <div className='w-full'>
-        <Navbar/>
+        <NavbarComponent/>
 
         <div className='p-3 text-center'>
             <span className='text-xl font-bold'>{collection.name}</span>
