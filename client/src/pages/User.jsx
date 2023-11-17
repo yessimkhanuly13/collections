@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
-import Button from '../components/Button'
-import Input from '../components/Input';
 import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
 
@@ -60,9 +58,7 @@ function User() {
       <NavbarComponent/>
         {user._id && (
         <div>
-            <Input type="text" onChange={handleItem} name="topic"/>
-            <Input type="text" onChange={handleItem} name="desc"/>
-            <Button name="Add" onClick={addItem} />
+            
         </div>
          )}
 

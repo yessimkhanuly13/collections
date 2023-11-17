@@ -90,8 +90,7 @@ class itemsController{
     async addTag(req, res, next){
         try{
             const {tag} = req.body;
-            const id = req.params.id;
-            const existTag = await Tag.find({value:tag});
+            const existTag = await Tag.find({value:`#${tag}`});
             
             let reqTag;
 

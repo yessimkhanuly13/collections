@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import Button from '../components/Button'
 import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip} from "@nextui-org/react";

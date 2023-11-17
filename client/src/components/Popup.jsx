@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from './Button'
+import { Button } from '@nextui-org/react'
 
 function Popup({handleCloseError, message, darkMode}) {
 
@@ -8,7 +8,7 @@ function Popup({handleCloseError, message, darkMode}) {
     <div className="fixed inset-0 flex items-start justify-center z-50">
        <div className="bg-inherit text-red m-2 p-10 rounded-lg shadow-md">
           <p>{message}</p>
-          <Button name="Close" style="bg-red-600" onClick={handleCloseError}/>
+          <Button variant='shadow' color='danger' onClick={handleCloseError}/>
       </div>
     </div>
   )

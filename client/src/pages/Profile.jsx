@@ -10,30 +10,13 @@ import { EditIcon } from '../icons/EditIcon';
 
 function Profile() {
   const [user, setUser] = useState({});
-  const [collectionData, setCollectionData] = useState({
-    name:"",
-    description:"",
-    theme:""
-  });
   const [collections, setCollections] = useState([]);
   const [editingCollectionId, setEditingCollectionId] = useState(null);
-  const [editedCollection, setEditedCollection] = useState({
-    name: "",
-    description: "",
-    theme: "",
-  });
 
-  const {control, handleSubmit} = useForm();
+
+  const {control, handleSubmit, reset} = useForm();
 
   const {setMessage, url, darkMode, message} = useContext(PopupContext)
-
-  const handleData = (e) =>{
-    console.log(e);
-    const {name, value} = e.target;
-
-    setCollectionData({...collectionData, [name]:value});
-    console.log(collectionData);
-  }
 
   const getAllUserCollections = (user) =>{
     axios.get(`${url}/collections/user/${user._id}`)
@@ -46,7 +29,6 @@ function Profile() {
   }
 
   const addNewCollection = (data) =>{
-    // console.log(data);
     axios.post(`${url}/collections/add`, {...data, userId: user._id})
       .then((res)=>{
         setMessage(res.data.message);
@@ -71,25 +53,10 @@ function Profile() {
       })
   }
 
- const handleUpdate = (id) => {
-  const col = collections.find((collection) => collection._id === id);
 
-    setEditingCollectionId(id);
-    setEditedCollection({
-      name: col.name,
-      description: col.description,
-      theme: col.theme,
-    });
-  };
-
-  const handleEditData = (e) => {
-    const { name, value } = e.target;
-    setEditedCollection({...editedCollection, [name]: value});
-  }
-
-  const handleSaveUpdate = (id) => {
-    console.log(editedCollection);
-    axios.put(`${url}/collections/update/${id}`, editedCollection)
+  const handleSaveUpdate = (data, id) => {
+    console.log({...data, id: id})
+    axios.put(`${url}/collections/update/${id}`, data)
       .then((res)=>{
         setMessage(res.data.message);
         setEditingCollectionId(null);
@@ -129,7 +96,6 @@ function Profile() {
                         isRequired
                         type="text"
                         label="Name"
-                        defaultValue=""
                         className="max-w-xs"
                       />}/>
                       <Controller control={control} name='description' 
@@ -138,7 +104,6 @@ function Profile() {
                         isRequired
                         type="text"
                         label="Description"
-                        defaultValue=""
                         className="max-w-xs"
                       />}
 
@@ -149,7 +114,6 @@ function Profile() {
                       isRequired
                       label="Theme"
                       placeholder="Select a theme"
-                      defaultSelectedKeys={""}
                       className="max-w-xs"
                     >
                           <SelectItem key="Book" value="Book">
@@ -258,12 +222,50 @@ function Profile() {
                 {collections.map((collection)=>{
                   return (
                     <TableRow key={collection._id}>
-                      <TableCell>{collection.name}</TableCell>
-                      <TableCell>{collection.description}</TableCell>
-                      <TableCell>{collection.theme}</TableCell>
+                      <TableCell>{editingCollectionId === collection._id ? 
+                        (<Controller control={control} name='name'
+                          render={({field})=><Input {...field} defaultValue={collection.name} name='name' placeholder='Name'/>}
+                        />) 
+                        :
+                         collection.name}
+                      </TableCell>
+                      <TableCell>{editingCollectionId === collection._id ? 
+                        (<Controller control={control} name='description' 
+                          render={({field})=><Input {...field} defaultValue={collection.description} name='description' placeholder='Description'/>}
+                        />) 
+                        :
+                        collection.description}
+                      </TableCell>
+                      <TableCell>{editingCollectionId === collection._id ? 
+                        (<Controller control={control} name='theme' 
+                          render={({field})=><Select
+                          {...field}
+                          isRequired
+                          label="Theme"
+                          placeholder="Select a theme"
+                          defaultSelectedKeys={[collection.theme]}
+                          className="max-w-xs"
+                        >
+                            <SelectItem key="Book" value="Book">
+                              Book
+                            </SelectItem>
+                            <SelectItem key="Sign" value="Sign">
+                              Sign
+                            </SelectItem>
+                            <SelectItem key="Silverware" value="Silverware">
+                              Silverware
+                            </SelectItem>
+                          </Select>}
+                        />) 
+                          :
+                          collection.theme}
+                      </TableCell>
                       <TableCell>{collection.items.length}</TableCell>
                       <TableCell><Link to={`/collection/${collection._id}`}><LinkIcon/></Link></TableCell>
-                      <TableCell><div className="relative flex items-center p-3 gap-2 cursor-pointer"><EditIcon onClick={()=>setEditingCollectionId(collection._id)} /></div></TableCell>
+                      <TableCell><div className="relative flex items-center p-3 gap-2 cursor-pointer">{editingCollectionId === collection._id ? (<div className='flex gap-2'>
+                        <Button onClick={()=>{setEditingCollectionId(null); reset()}}>Cancel</Button>
+                        <Button onClick={handleSubmit((data)=>handleSaveUpdate(data, collection._id))}>Update</Button>
+                      </div>) :(<EditIcon onClick={()=>setEditingCollectionId(collection._id)} />)}</div></TableCell>
                       <TableCell><div className="relative flex items-center p-3 gap-2 cursor-pointer"><DeleteIcon onClick={()=>handleDelete(collection._id)}/></div></TableCell>
                     </TableRow>
                   )

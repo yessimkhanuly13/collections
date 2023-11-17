@@ -119,9 +119,9 @@ class collectionController{
             const collection = await Collection.findById(id);
             const item = await Item.findById(itemId);
              
-            item.topic = topic;
-            item.desc = desc;
-            item.tags = tags;
+            topic ? item.topic = topic : item.topic
+            desc ? item.desc = desc : item.desc
+            tags ? item.tags = tags : item.tags
 
             await item.save();
 

@@ -2,9 +2,7 @@ import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { PopupContext } from '../App';
-import Navbar from '../components/Navbar';
-import Input from '../components/Input';
-import Button from '../components/Button';
+import NavbarComponent from '../components/Navbar';
 
 function Item() {
   const [item, setItem] = useState({});
@@ -65,7 +63,7 @@ function Item() {
   
   return (
     <div>
-      <Navbar/>
+      <NavbarComponent/>
       <div className='w-full flex flex-col items-center gap-10 pb-10'>
         <div className='w-full text-center p-3'>
             <span className='text-3xl text-center font-bold'>{item.topic}</span>
@@ -126,8 +124,8 @@ function Item() {
           isOwner && (
             <div className='flex flex-col w-full justify-center'>
               <div className='flex flex-col w-full items-center gap-1'>
-                  <Input placeholder="New tag" style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={(e)=>setTag(e.target.value)} />
-                  <Button name="Add" style="bg-lime-600" onClick={addTag} />      
+                  {/* <Input placeholder="New tag" style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={(e)=>setTag(e.target.value)} />
+                  <Button name="Add" style="bg-lime-600" onClick={addTag} />       */}
               </div>
             </div>
           )
@@ -143,10 +141,10 @@ function Item() {
               })
           }
           <div className='flex'>
-            <div className='w-4/5'>
-              <Input style="w-full" onChange={handleMessage} type="text" placeholder="comment"/>
+            {/* <div className='w-4/5'> */}
+              {/* <Input style="w-full" onChange={handleMessage} type="text" placeholder="comment"/>
             </div>
-            <Button style="bg-lime-600 w-1/5" name="Send" onClick={sendCommentToServer}/>
+            <Button style="bg-lime-600 w-1/5" name="Send" onClick={sendCommentToServer}/> */}
           </div>
         </div>
       </div>

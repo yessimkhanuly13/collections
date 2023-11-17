@@ -3,8 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
-import Button from '../components/Button';
-import Input from '../components/Input';
+
 
 function Collection() {
     const [collection, setCollection] = useState({});
@@ -90,7 +89,7 @@ function Collection() {
     <div className='w-full'>
         <NavbarComponent/>
 
-        <div className='p-3 text-center'>
+        {/* <div className='p-3 text-center'>
             <span className='text-xl font-bold'>{collection.name}</span>
         </div>
         <div className='grid grid-cols-4 gap-3 p-3'>
@@ -167,7 +166,7 @@ function Collection() {
                     )
                 })
             }  
-        </div>      
+        </div>       */}
     </div>
   )
 }
