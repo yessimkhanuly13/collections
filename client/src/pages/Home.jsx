@@ -5,6 +5,7 @@ import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
 import { converUnixToDate } from '../functions/unixtodate';
 import Sidebar from '../components/Sidebar';
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, LinkIcon, Button} from "@nextui-org/react";
 
 
 
@@ -90,139 +91,88 @@ function Home() {
           <Sidebar collections={collections} items={oldestItems} tags={tags} vision={{setIsCollection, setIsItems, setIsTags}}/>
          <div className='col-span-1 md:col-span-3'>
          {isCollection &&  <div className='flex flex-col'>
-              <table className='border w-full text-center'>
-                <thead className=''>
-                  <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
-                    <th className='p-2'>Name</th>
-                    <th className='p-2'>Description</th>
-                    <th className='p-2'>Theme</th>
-                    <th className='p-2'>Items</th>
-                    <th className='p-2'>Link to Page</th>
-                  </tr>
-                </thead>
-                {
-                  collections.map((collection)=>{
-                    return (
-                      <tr className={!darkMode ? 'odd:bg-slate-100 even:bg-slate-50' : 'bg-black'}>
-                        <td className='p-1'>{collection.name}</td>
-                        <td className='p-1 w-1/2'>{collection.description}</td>
-                        <td className='p-1'>{collection.theme}</td>
-                        <td className='p-1'>{collection.items.length}</td>
-                        <td className='p-1 text-center'><Link className='flex justify-center' to={`/collection/${collection._id}`}>
-                            <div>
-                              <svg width="800px" height="800px" viewBox="0 0 24 24" className="w-6 h-6" fill={darkMode ? "#000000" : "#edf0f2"} xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_429_11072)">
-                                <path d="M11 3.99994H4V17.9999C4 19.1045 4.89543 19.9999 6 19.9999H18C19.1046 19.9999 20 19.1045 20 17.9999V12.9999" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9 14.9999L20 3.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M15 3.99994H20V8.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_429_11072">
-                                <rect width="24" height="24" fill="white"/>
-                                </clipPath>
-                                </defs>
-                                </svg> 
-                            </div>
-                          </Link></td>
-                      </tr>
-                    )
-                  })
-                }
-              </table>
-          </div>}
-         { isItems && <div className='flex flex-col p-3'> 
-            <table className='border w-full text-center'>
-            <thead className='border'>
-              <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
-                <th className='p-2'>Topic</th>
-                <th className='p-2'>Description</th>  
-                <th className='p-2'>Created Date</th>
-                <th className='p-2'>Link to Page</th>
-              </tr>
-              </thead>
-                {
-                  oldestItems.map((item)=>{
-                  return(
-                    <tr className={!darkMode ? 'odd:bg-slate-100 even:bg-slate-50' : 'bg-black'}>
-                      <td className='p-1'>{item.topic}</td>
-                      <td className='p-1 w-1/2'>{item.desc}</td>
-                      <td className='p-1'>{converUnixToDate(item.createdDate)}</td>
-                      <td className='p-1 text-center'><Link className='flex justify-center' to={`/item/${item._id}`}>
-                        <div>
-                          <svg width="800px" height="800px" viewBox="0 0 24 24" className="w-6 h-6" fill={darkMode ? "#000000" : "#edf0f2"} xmlns="http://www.w3.org/2000/svg">
-                          <g clip-path="url(#clip0_429_11072)">
-                          <path d="M11 3.99994H4V17.9999C4 19.1045 4.89543 19.9999 6 19.9999H18C19.1046 19.9999 20 19.1045 20 17.9999V12.9999" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M9 14.9999L20 3.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M15 3.99994H20V8.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          </g>
-                          <defs>
-                          <clipPath id="clip0_429_11072">
-                          <rect width="24" height="24" fill="white"/>
-                          </clipPath>
-                          </defs>
-                          </svg> 
-                        </div>
-                      </Link></td>
-                    </tr>
+            <Table isStriped aria-label="Example static collection table">
+              <TableHeader>
+                <TableColumn>Name</TableColumn>
+                <TableColumn>Description</TableColumn>
+                <TableColumn>Theme</TableColumn>
+                <TableColumn>Items</TableColumn>
+                <TableColumn>Link</TableColumn>
+              </TableHeader>
+              <TableBody>
+                {collections.map((collection)=>{
+                  return (
+                    <TableRow key={collection._id}>
+                      <TableCell>{collection.name}</TableCell>
+                      <TableCell>{collection.description}</TableCell>
+                      <TableCell>{collection.theme}</TableCell>
+                      <TableCell>{collection.items.length}</TableCell>
+                      <TableCell><Link to={`/collection/${collection._id}`}><LinkIcon/></Link></TableCell>
+                    </TableRow>
                   )
-                  })
-                }
-            </table>
+                })}
+              </TableBody>
+              </Table>
           </div>}
-        { isTags && <div className='flex flex-col p-3 col-span-2'>
+         { isItems && <div className='flex flex-col'> 
+            <Table isStriped aria-label="Example static collection table">
+              <TableHeader>
+                <TableColumn>Topic</TableColumn>
+                <TableColumn>Description</TableColumn>
+                <TableColumn>Created Date</TableColumn>
+                <TableColumn>Tags</TableColumn>
+                <TableColumn>Link</TableColumn>
+              </TableHeader>
+              <TableBody>
+                {oldestItems.map((item)=>{
+                  return (
+                    <TableRow key={item._id}>
+                      <TableCell>{item.topic}</TableCell>
+                      <TableCell>{item.desc}</TableCell>
+                      <TableCell>{converUnixToDate(item.createdDate)}</TableCell>
+                      <TableCell>{item.tags.length}</TableCell>
+                      <TableCell><Link to={`/item/${item._id}`}><LinkIcon/></Link></TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </div>}
+        { isTags && <div className='flex flex-col col-span-2 mb-3'>
               <div className='grid grid-cols-12 gap-2 text-center'>
                 {tags.map((tag)=>{
                   return (
-                    <div onClick={()=>getItemsByTag(tag._id)} className='bg-slate-300 border shadow-md rounded cursor-pointer hover:bg-white'>
-                      {tag.value}
-                    </div>
+                    <Button className='font-bold' variant='bordered' onClick={()=>getItemsByTag(tag._id)}>{tag.value}</Button>
                   )
                 })}
               </div>
           </div>}
           { 
             isTags && itemsByTag.length > 0 && (
-            
-            <div className='col-span-2 flex flex-col items-center'>
-              <span className='text-center mb-2 text-xl font-bold'>Items by tag</span>
-              <table className='border w-2/3 text-center'>
-              <thead className='border'>
-                <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
-                  <th className='p-2'>Topic</th>
-                  <th className='p-2'>Description</th>  
-                  <th className='p-2'>Created Date</th>
-                  <th className='p-2'>Link to Page</th>
-                </tr>
-                </thead>
-                {
-                  itemsByTag.map((item)=>{
-                  return(
-                    <tr className={!darkMode ? 'odd:bg-slate-100 even:bg-slate-50' : 'bg-black'}>
-                      <td className='p-1'>{item.topic}</td>
-                      <td className='p-1 w-1/2'>{item.desc}</td>
-                      <td className='p-1'>{converUnixToDate(item.createdDate)}</td>
-                      <td className='p-1 text-center'><Link className='flex justify-center' to={`/item/${item._id}`}>
-                        <div>
-                          <svg width="800px" height="800px" viewBox="0 0 24 24" className="w-6 h-6" fill={darkMode ? "#000000" : "#edf0f2"} xmlns="http://www.w3.org/2000/svg">
-                          <g clip-path="url(#clip0_429_11072)">
-                          <path d="M11 3.99994H4V17.9999C4 19.1045 4.89543 19.9999 6 19.9999H18C19.1046 19.9999 20 19.1045 20 17.9999V12.9999" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M9 14.9999L20 3.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M15 3.99994H20V8.99994" stroke={!darkMode ? "#000000" : "#edf0f2"} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          </g>
-                          <defs>
-                          <clipPath id="clip0_429_11072">
-                          <rect width="24" height="24" fill="white"/>
-                          </clipPath>
-                          </defs>
-                          </svg> 
-                        </div>
-                      </Link></td>
-                    </tr>
+
+              <Table isStriped aria-label="Example static collection table">
+              <TableHeader>
+                <TableColumn>Topic</TableColumn>
+                <TableColumn>Description</TableColumn>
+                <TableColumn>Created Date</TableColumn>
+                <TableColumn>Tags</TableColumn>
+                <TableColumn>Link</TableColumn>
+              </TableHeader>
+              <TableBody>
+                {itemsByTag.map((item)=>{
+                  return (
+                    <TableRow key={item._id}>
+                      <TableCell>{item.topic}</TableCell>
+                      <TableCell>{item.desc}</TableCell>
+                      <TableCell>{converUnixToDate(item.createdDate)}</TableCell>
+                      <TableCell>{item.tags.length}</TableCell>
+                      <TableCell><Link to={`/item/${item._id}`}><LinkIcon/></Link></TableCell>
+                    </TableRow>
                   )
-                  })
-                }
-            </table>
-            </div>)
+                })}
+              </TableBody>
+            </Table>
+            )
           }
           </div>
        </div>

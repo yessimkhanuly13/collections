@@ -2,6 +2,10 @@ import {Listbox, ListboxItem} from "@nextui-org/react";
 import { ItemCounter } from "../wrappers/ItemCounter";
 import { IconWrapper } from "../wrappers/IconWrapper";
 import { LayoutIcon } from "../icons/CollectionItem";
+import { ProfileIcon } from "../icons/ProfileIcon";
+import { CogIcon } from "../icons/CogIcon";
+import { TagIcon } from "../icons/TagIcon";
+import { ItemIcon } from "../icons/ItemIcons";
 import { useNavigate } from "react-router-dom";
 
 function Sidebar({collections, items, tags, vision}) {
@@ -55,7 +59,7 @@ function Sidebar({collections, items, tags, vision}) {
                 endContent={<ItemCounter number={items.length} />}
                 startContent={
                 <IconWrapper className="bg-default/50 text-foreground">
-                    <LayoutIcon className="text-lg " />
+                    <ItemIcon className="text-lg " />
                 </IconWrapper>
                 }
             >
@@ -66,7 +70,7 @@ function Sidebar({collections, items, tags, vision}) {
                 endContent={<ItemCounter number={tags.length} />}
                 startContent={
                 <IconWrapper className="bg-default/50 text-foreground">
-                    <LayoutIcon className="text-lg " />
+                    <TagIcon className="text-lg " />
                 </IconWrapper>
                 }
             >
@@ -77,7 +81,7 @@ function Sidebar({collections, items, tags, vision}) {
                 endContent={<ItemCounter/>}
                 startContent={
                 <IconWrapper className="bg-default/50 text-foreground">
-                    <LayoutIcon className="text-lg " />
+                    <ProfileIcon className="text-lg " />
                 </IconWrapper>
                 }
             >
@@ -88,7 +92,7 @@ function Sidebar({collections, items, tags, vision}) {
                 endContent={<ItemCounter/>}
                 startContent={
                 <IconWrapper className="bg-default/50 text-foreground">
-                    <LayoutIcon className="text-lg " />
+                    <CogIcon className="text-lg " />
                 </IconWrapper>
                 }
             >

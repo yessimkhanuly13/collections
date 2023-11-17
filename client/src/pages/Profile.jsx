@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import NavbarComponent from '../components/Navbar';
-import Button from '../components/Button';
-import Input from '../components/Input';
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
+import {Select, SelectItem, Input, Button} from "@nextui-org/react";
+import { useForm, Controller } from 'react-hook-form';
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -20,6 +20,8 @@ function Profile() {
     description: "",
     theme: "",
   });
+
+  const {control, handleSubmit} = useForm();
 
   const {setMessage, url, darkMode, message} = useContext(PopupContext)
 
@@ -41,18 +43,18 @@ function Profile() {
       })
   }
 
-  const addNewCollection = () =>{
-    console.log(collectionData);
-    axios.post(`${url}/collections/add`, {name: collectionData.name, description: collectionData.description, userId: user._id, theme: collectionData.theme})
-      .then((res)=>{
-        setMessage(res.data.message);
-      })
-      .catch((e)=>{
-        console.log(e);
-        setMessage(e.response.data.message);
+  const addNewCollection = (data) =>{
+    console.log(data);
+    // axios.post(`${url}/collections/add`, {...data, userId: user._id})
+    //   .then((res)=>{
+    //     setMessage(res.data.message);
+    //   })
+    //   .catch((e)=>{
+    //     console.log(e);
+    //     setMessage(e.response.data.message);
         
-      })
-      setCollectionData(null);
+    //   })
+    //   setCollectionData(null);
   }
 
   const handleDelete = (id) =>{
@@ -107,16 +109,61 @@ function Profile() {
     <div>
         <NavbarComponent/>
         <div className='p-3 flex justify-around'>
-          <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} name="name" placeholder="Name" onChange={handleData}/>
-          <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} name="description" placeholder="Description" onChange={handleData}/>
-          <select className={ darkMode ? 'bg-black' : 'bg-white text-black'} name="theme" onChange={handleData}>
-            <option value="Books">Books</option>
-            <option value="Signs">Signs</option>
-            <option value="Silverware">Silverware</option>
-          </select>
-          <Button name="Add new Collection" style={ !darkMode ? 'bg-black text-white' : 'text-black bg-white'} onClick={addNewCollection}/>
+          <form className='flex'>
+            <Controller control={control} name='name' 
+              render={({field})=><Input
+                {...field}
+                isRequired
+                type="text"
+                label="Name"
+                defaultValue=""
+                className="max-w-xs"
+              />}
+
+            />
+             <Controller control={control} name='description' 
+              render={({field})=><Input
+                {...field}
+                isRequired
+                type="text"
+                label="Name"
+                defaultValue=""
+                className="max-w-xs"
+              />}
+
+            />
+            <Controller name='theme' control={control}
+              render={({field})=><Select
+              {...field}
+              isRequired
+              label="Theme"
+              placeholder="Select a theme"
+              defaultSelectedKeys={""}
+              className="max-w-xs"
+            >
+                  <SelectItem key="Book" value="Book">
+                    Book
+                  </SelectItem>
+                  <SelectItem key="Sign" value="Sign">
+                    Sign
+                  </SelectItem>
+                  <SelectItem key="Silverware" value="Silverware">
+                    Silverware
+                  </SelectItem>
+                </Select>
+              }
+            />
+            <Button onClick={handleSubmit(addNewCollection)}>Add new Collection</Button>
+            
+            {/* <select className={ darkMode ? 'bg-black' : 'bg-white text-black'} name="theme" onChange={handleData}>
+              <option value="Books">Books</option>
+              <option value="Signs">Signs</option>
+              <option value="Silverware">Silverware</option>
+            </select> */}
+            {/* <Button name="Add new Collection" style={ !darkMode ? 'bg-black text-white' : 'text-black bg-white'} onClick={addNewCollection}/> */}
+          </form>
         </div>
-        <div className='p-2'>
+        {/* <div className='p-2'>
         <table className='border w-full text-center'>
                 <thead className=''>
                   <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
@@ -217,8 +264,8 @@ function Profile() {
                     )
                   })
                 }
-              </table>
-        </div>
+              </table> */}
+        {/* </div> */}
     </div>
   )
 }

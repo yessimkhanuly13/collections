@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
 import {Input, Button} from "@nextui-org/react";
@@ -11,23 +11,11 @@ function Registration() {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
 
-  const {control, handleSubmit, register} = useForm();
+  const {control, handleSubmit} = useForm();
 
-
-  const [user, setUser] = useState({
-    username:"",
-    password:"",
-  });
 
   const {setMessage, url, darkMode} = useContext(PopupContext);
 
-
-  const handleChange = (e) =>{
-
-    const {name, value} = e.target
-    setUser({...user, [name]:value});
-
-  }
 
   const handleRegistration = (data) =>{
     axios.post(`${url}/auth/registration`, data)
@@ -43,7 +31,7 @@ function Registration() {
     <div className={!darkMode ? "min-h-screen flex items-center justify-center bg-gray-100" : "min-h-screen flex items-center justify-center bg-black"}>
       <div className={!darkMode ? "max-w-md w-full p-4 bg-white rounded-lg shadow-md" : "max-w-md w-full p-4 bg-black rounded-lg shadow-md"}>
         <div className="text-2xl text-center font-semibold mb-4">Registration</div>
-        <form onSubmit={handleSubmit(handleRegistration)}>
+        <form>
           <div className="flex flex-col items-center">
             <Controller name='username' control={control} 
               render={({field})=> <Input {...field} isRequired type="email" label="Email"  placeholder="Enter your email" name='username'/>}
@@ -74,8 +62,7 @@ function Registration() {
             </div>
             <div className="flex justify-around mt-4">
                 <Button variant='shadow' color='danger' onClick={()=>navigate('/')}>Go Back</Button>
-                {/* <Button variant='shadow' color='success'>Submit</Button> */}
-                <button>Submit</button>
+                <Button variant='shadow' color='success' onClick={handleSubmit(handleRegistration)}>Submit</Button>
             </div>
           </form>
       </div>
