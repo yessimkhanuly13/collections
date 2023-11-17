@@ -46,17 +46,17 @@ function Profile() {
   }
 
   const addNewCollection = (data) =>{
-    console.log(data);
-    // axios.post(`${url}/collections/add`, {...data, userId: user._id})
-    //   .then((res)=>{
-    //     setMessage(res.data.message);
-    //   })
-    //   .catch((e)=>{
-    //     console.log(e);
-    //     setMessage(e.response.data.message);
+    // console.log(data);
+    axios.post(`${url}/collections/add`, {...data, userId: user._id})
+      .then((res)=>{
+        setMessage(res.data.message);
+      })
+      .catch((e)=>{
+        console.log(e);
+        setMessage(e.response.data.message);
         
-    //   })
-    //   setCollectionData(null);
+      })
+      setCollectionData(null);
   }
 
   const handleDelete = (id) =>{
