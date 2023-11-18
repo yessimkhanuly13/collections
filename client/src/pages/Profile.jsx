@@ -80,68 +80,6 @@ function Profile() {
   return (
     <div>
         <NavbarComponent/>
-        <Modal 
-          isOpen={isOpen} 
-          onOpenChange={onOpenChange}
-          placement="top-center"
-        >
-          <ModalContent className='flex flex-col items-center'>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1">Add new collection</ModalHeader>
-                <ModalBody>
-                    <Controller control={control} name='name' 
-                      render={({field})=><Input
-                        {...field}
-                        isRequired
-                        type="text"
-                        label="Name"
-                        className="max-w-xs"
-                      />}/>
-                      <Controller control={control} name='description' 
-                      render={({field})=><Input
-                        {...field}
-                        isRequired
-                        type="text"
-                        label="Description"
-                        className="max-w-xs"
-                      />}
-
-                    />
-                    <Controller name='theme' control={control}
-                      render={({field})=><Select
-                      {...field}
-                      isRequired
-                      label="Theme"
-                      placeholder="Select a theme"
-                      className="max-w-xs"
-                    >
-                          <SelectItem key="Book" value="Book">
-                            Book
-                          </SelectItem>
-                          <SelectItem key="Sign" value="Sign">
-                            Sign
-                          </SelectItem>
-                          <SelectItem key="Silverware" value="Silverware">
-                            Silverware
-                          </SelectItem>
-                        </Select>
-                      }
-                    />
-                </ModalBody>
-                <ModalFooter className='flex flex-col w-1/3 justify-around'>
-                <Button color="success" variant="flat" onPress={onClose} onClick={handleSubmit(addNewCollection)}>
-                    Add
-                  </Button>
-                <Button color="danger"  onPress={onClose}>
-                    Go Back
-                  </Button>
-                </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-
       <Modal 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}

@@ -3,7 +3,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
-import { Button } from '@nextui-org/react';
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox} from "@nextui-org/react";
+import { useForm, Controller } from 'react-hook-form';
 
 
 function Collection() {
@@ -23,6 +24,15 @@ function Collection() {
         customField3_value: "" 
     });
 
+    const [isSelected, setIsSelected] = useState(false);
+
+    const {control, handleSubmit, reset, watch} = useForm();
+    const customField1 = watch("customField1_bool", false);
+    const customField2 = watch("customField2_bool", false);
+    const customField3 = watch("customField3_bool", false);
+
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    
     const collectionId = useParams();
     
     const {setMessage, url, darkMode, message} = useContext(PopupContext)
@@ -81,20 +91,136 @@ function Collection() {
                 setMessage(e.response.data.message)
             })
     }
+    
 
     useEffect(()=>{
         getCollectionById();
+        console.log(customField1);
     }, [message])
 
   return (
     <div className='w-full'>
         <NavbarComponent/>
         <h1 className='text-center text-xl font-bold mt-4'>{collection.name}</h1>
+        <Modal 
+          isOpen={isOpen} 
+          onOpenChange={onOpenChange}
+          placement="top-center"
+        >
+          <ModalContent className='flex flex-col items-center'>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">Add new item</ModalHeader>
+                <ModalBody className='grid grid-cols-4 gap-3'>
+
+                        <Controller control={control} name='name' 
+                        render={({field})=><Input
+                            {...field}
+                            isRequired
+                            type="text"
+                            label="Topic"
+                            className="max-w-xs col-span-2"
+                        />}/>
+
+                        <Controller control={control} name='description' 
+                        render={({field})=><Input
+                            {...field}
+                            isRequired
+                            type="text"
+                            label="Description"
+                            className="max-w-xs col-span-2"
+                        />}/>
+                        
+                        <Controller control={control} name='customField1_bool'
+                        render={({field})=>
+                            <Checkbox {...field} className='col-span-4' isSelected={field.value} >
+                                Custom Field
+                            </Checkbox>}/>
+
+                       {customField1 && (<Controller control={control} name='customField1_name' 
+                      render={({field})=><Input
+                      isRequired
+                        {...field}
+                        type="text"
+                        label="Custom Field Name"
+                        className="max-w-xs col-span-2"
+                      />}/>)}
+
+                       {customField1 && <Controller control={control} name='customField1_value' 
+                      render={({field})=><Input
+                      isRequired
+                        {...field}
+                        type="text"
+                        label="Custom Field Value"
+                        className="max-w-xs col-span-2"
+                      />}/>}
+
+                       {customField1 && <Controller control={control} name='customField2_bool'
+                        render={({field})=>
+                            <Checkbox {...field} className='col-span-4' isSelected={field.value} >
+                                Custom Field
+                            </Checkbox>}/>}
+
+                      {customField2 && (<Controller control={control} name='customField2_name' 
+                      render={({field})=><Input
+                      isRequired
+                        {...field}
+                        type="text"
+                        label="Custom Field Name"
+                        className="max-w-xs col-span-2"
+                      />}/>)}
+
+                       {customField2 && (<Controller control={control} name='customField2_value' 
+                      render={({field})=><Input
+                      isRequired
+                        {...field}
+                        type="text"
+                        label="Custom Field Value"
+                        className="max-w-xs col-span-2"
+                      />}/>)}
+
+                        {customField2 && <Controller control={control} name='customField3_bool'
+                        render={({field})=>
+                            <Checkbox {...field} className='col-span-4' isSelected={field.value} >
+                                Custom Field
+                            </Checkbox>}/>}
+
+                      {customField2 && customField3 && ( <Controller control={control} name='customField3_name' 
+                      render={({field})=><Input
+                      isRequired
+                        {...field}
+                        type="text"
+                        label="Custom Field Name"
+                        className="max-w-xs col-span-2"
+                      />}/>)}
+
+                       {customField2 && customField3 && (<Controller control={control} name='customField3_value' 
+                      render={({field})=><Input
+                      isRequired
+                        {...field}
+                        type="text"
+                        label="Custom Field Value"
+                        className="max-w-xs col-span-2"
+                      />}/>)}
+                      
+                </ModalBody>
+                <ModalFooter className='flex w-1/3 justify-around'>
+                <Button color="success" variant="flat" onPress={onClose} onClick={handleSubmit((data)=>console.log(data))}>
+                    Add
+                  </Button>
+                <Button color="danger"  onPress={onClose}>
+                    Go Back
+                  </Button>
+                </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
         <div className='grid grid-cols-1 md:grid-cols-4 gap-3 mt-4 pr-2'>
             <div>
                 <p>{collection.description}</p>
-                <p>{collection.items.length}</p>
-                <Button>New Item</Button>
+                <p>{collection.items && collection.items.length}</p>
+                <Button onPress={onOpen}>New Item</Button>
             </div>
         </div>
 
