@@ -5,7 +5,6 @@ import axios from 'axios';
 import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input, useDisclosure, Modal, ModalBody, ModalContent, ModalHeader, Listbox, ListboxItem, LinkIcon} from "@nextui-org/react";
 import { Link } from 'react-router-dom';
 import { SearchIcon } from '../icons/SearchIcon';
-import { ListboxWrapper } from '../wrappers/ListBoxWrapper';
 
 
 function NavbarComponent() {
@@ -104,7 +103,6 @@ function NavbarComponent() {
                   placeholder="Type"
                   onChange={handleChange}
                 />
-                <ListboxWrapper>
                   <Listbox>
                     {searchResults && searchResults.map((item)=>{
                       return (
@@ -121,7 +119,6 @@ function NavbarComponent() {
                       )
                     })}
                   </Listbox>
-                </ListboxWrapper>
               </ModalBody>
             </>
           )}
