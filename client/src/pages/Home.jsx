@@ -139,10 +139,12 @@ function Home() {
             </Table>
           </div>}
         { isTags && <div className='flex flex-col col-span-2 mb-3'>
-              <div className='grid grid-cols-12 gap-2 text-center'>
+              <div className='grid grid-cols-6 gap-2 text-center'>
                 {tags.map((tag)=>{
                   return (
-                    <Button className='font-bold' variant='bordered' onClick={()=>getItemsByTag(tag._id)}>{tag.value}</Button>
+                    <div className='col-span-3 md:col-span-2 lg:col-span-1'>
+                      <Button className='font-bold' variant='bordered' onClick={()=>getItemsByTag(tag._id)}>{tag.value}</Button>
+                    </div>
                   )
                 })}
               </div>

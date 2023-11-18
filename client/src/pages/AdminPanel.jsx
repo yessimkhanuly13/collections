@@ -112,9 +112,9 @@ function AdminPanel() {
 
 
   return (
-    <div className='flex flex-col items-center p-2'>
+    <div className='grid grid-cols-1'>
       <NavbarComponent/>
-      <div className='w-5/6 mt-2'>
+      <div className='w-full mt-2'>
       <Table aria-label="Example table with dynamic content">
         <TableHeader columns={columns}>
           {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}

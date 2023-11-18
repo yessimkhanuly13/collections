@@ -5,7 +5,7 @@ import axios from 'axios';
 import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input, useDisclosure, Modal, ModalBody, ModalContent, ModalHeader, Listbox, ListboxItem, LinkIcon} from "@nextui-org/react";
 import { Link } from 'react-router-dom';
 import { SearchIcon } from '../icons/SearchIcon';
-
+import { DashboardIcon } from '../icons/DashboardIcon';
 
 function NavbarComponent() {
   const {setDarkMode, darkMode} = useContext(PopupContext);
@@ -65,6 +65,9 @@ function NavbarComponent() {
       <NavbarBrand className="mr-4">
         <Link to="/">
           <p className="text-xl hidden sm:block font-bold text-inherit">Collections</p>
+        </Link>
+        <Link to="/">
+          <DashboardIcon className="ml-2"/>
         </Link>
       </NavbarBrand>
     </NavbarContent>

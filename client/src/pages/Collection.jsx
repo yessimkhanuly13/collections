@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
+import { Button } from '@nextui-org/react';
 
 
 function Collection() {
@@ -88,6 +89,14 @@ function Collection() {
   return (
     <div className='w-full'>
         <NavbarComponent/>
+        <h1 className='text-center text-xl font-bold mt-4'>{collection.name}</h1>
+        <div className='grid grid-cols-1 md:grid-cols-4 gap-3 mt-4 pr-2'>
+            <div>
+                <p>{collection.description}</p>
+                <p>{collection.items.length}</p>
+                <Button>New Item</Button>
+            </div>
+        </div>
 
         {/* <div className='p-3 text-center'>
             <span className='text-xl font-bold'>{collection.name}</span>
