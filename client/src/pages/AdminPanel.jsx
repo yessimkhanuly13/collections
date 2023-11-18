@@ -12,7 +12,6 @@ import { EyeSlashFilledIcon } from '../icons/EyeSlashFilledIcon';
 
 function AdminPanel() {
   const [users, setUsers] = useState([]);
-  const [check, setCheck] = useState(false);
 
   const navigate = useNavigate();
 
@@ -50,14 +49,6 @@ function AdminPanel() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
 
     let path;
-
-    if(type === "update"){
-      path = roles.includes('admin') ? "user" : "admin";
-    }else if(type === "block"){
-      path = 'block';
-    }else if(type === "unblock"){
-      path = 'unblock';
-    }
 
       axios.put(`${url}/users/${path}/${id}`)
         .then((res)=>{
@@ -123,15 +114,6 @@ function AdminPanel() {
   return (
     <div className='flex flex-col items-center p-2'>
       <NavbarComponent/>
-
-      {/* <div>
-        <Button name="Block" style="bg-red-600" onClick={()=>handleUpdateUser('block')}/>
-        <Button name="Unblock" style="bg-lime-600" onClick={()=>handleUpdateUser('unblock')}/>
-        <Button name="Delete" style="bg-red-600" onClick={handleUserDelete}/>
-        <Button name="Give Admin" style="bg-lime-600" onClick={()=>handleUpdateUser('admin')}/>
-        <Button name="Remove Admin" style="bg-red-600" onClick={()=>handleUpdateUser('user')}/>
-        <Button name="Go Back" style="bg-lime-600" onClick={()=>navigate('/')}/>
-      </div> */}
       <div className='w-5/6 mt-2'>
       <Table aria-label="Example table with dynamic content">
         <TableHeader columns={columns}>
@@ -182,27 +164,6 @@ function AdminPanel() {
         </TableBody>
     </Table>
 
-      {/* <table className='border w-4/6 m-4'>
-        <thead className=''>
-          <tr className={ darkMode ? 'bg-slate-600' : 'bg-slate-50'}>
-            <th className='p-2'><input checked={check} onChange={handleSelectAllUsers}  type='checkbox'/></th>
-            <th className='p-2'>ID</th>
-            <th className='p-2'>Email</th>
-            <th className='p-2'>Roles</th>
-          </tr>
-        </thead>
-          <tbody className='text-center'>
-              {users && users.map((user, index) => {
-                  return (
-                    <tr className={!darkMode ? 'odd:bg-slate-100 even:bg-slate-50' : 'bg-black'} key={index}>
-                        <td><input onChange={()=>handleChange(user._id)} checked={selectedUsers.includes(user._id)} type='checkbox'/></td>
-                        <td>{user._id}</td>
-                        <td>{user.username}</td>
-                        <td>{user.roles.includes('admin') ? "admin" : "user" }</td>
-                    </tr>
-                  )})}
-          </tbody>
-      </table> */}
       </div>
     </div>
   )

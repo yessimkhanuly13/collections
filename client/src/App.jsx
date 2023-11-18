@@ -12,15 +12,13 @@ function App() {
   const url = import.meta.env.VITE_URL;
 
   useEffect(()=>{
-    const mode = localStorage.getItem('theme');
-    const body = document.body; 
-    console.log(body)
+    // const mode = localStorage.getItem('theme');
 
-    if(mode === 'light'){
-      setDarkMode(false);
-    }else{
-      setDarkMode(true);
-    }
+    // if(mode === 'light'){
+    //   setDarkMode(false);
+    // }else{
+    //   setDarkMode(true);
+    // }
 
   }, [])
   

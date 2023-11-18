@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input} from "@nextui-org/react";
+import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input, useDisclosure, Modal, ModalBody, ModalContent, ModalHeader, Listbox, ListboxItem, LinkIcon} from "@nextui-org/react";
 import { Link } from 'react-router-dom';
+import { SearchIcon } from '../icons/SearchIcon';
+import { ListboxWrapper } from '../wrappers/ListBoxWrapper';
 
 
 function NavbarComponent() {
@@ -22,7 +24,6 @@ function NavbarComponent() {
         console.log(res.data);
       })
       .catch((e)=>{console.log(e)})
-      console.log(`${url}/search?q=${e.target.value}`)
   } 
   
 
@@ -57,23 +58,75 @@ function NavbarComponent() {
     }
   },[])
 
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   return (
     <Navbar>
     <NavbarContent justify="start">
       <NavbarBrand className="mr-4">
         <Link to="/">
-          <p className="hidden sm:block font-bold text-inherit">Collections</p>
+          <p className="text-xl hidden sm:block font-bold text-inherit">Collections</p>
         </Link>
       </NavbarBrand>
     </NavbarContent>
     
-      <Input
-        onChange={handleChange}
-        placeholder="Type to search..."
-        size="sm"
-        type="search"
-      />
+    <NavbarContent justify="center">
+    <NavbarItem className='text-slate-400'>
+      <Button
+          startContent={
+            <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
+          }
+          onPress={onOpen}
+          variant='faded'
+        >Quick search...</Button>
+        </NavbarItem>
+    </NavbarContent>
+
+      <Modal 
+        backdrop="opaque" 
+        isOpen={isOpen} 
+        onOpenChange={onOpenChange}
+        placement="top"
+        classNames={{
+          backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+        }}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Search</ModalHeader>
+              <ModalBody className='mb-5'>
+              <Input
+                  autoFocus
+                  endContent={
+                    <SearchIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  placeholder="Type"
+                  onChange={handleChange}
+                />
+                <ListboxWrapper>
+                  <Listbox>
+                    {searchResults && searchResults.map((item)=>{
+                      return (
+                        <ListboxItem key={item._id}>
+                          <Link to={`/item/${item._id}`}>
+                            <div className='flex justify-between items-center'>
+                              <span className='text-l'>
+                                {item.topic? item.topic : item.desc}
+                              </span>
+                              <LinkIcon/>
+                            </div>
+                          </Link>
+                        </ListboxItem>
+                      )
+                    })}
+                  </Listbox>
+                </ListboxWrapper>
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
 
     <NavbarContent justify="end">
         {
