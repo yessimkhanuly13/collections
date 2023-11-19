@@ -80,7 +80,7 @@ class userController{
     async  blockUser(req, res){
         try{
             const userId = req.params.id;
-            await User.findByIdAndUpdate(userId, {blocked: "Blocked"}, {new: true});
+            await User.findByIdAndUpdate(userId, {status: "Blocked"}, {new: true});
 
             return res.json({message: "User is blocked!"})
 
@@ -93,7 +93,7 @@ class userController{
     async unblockUser(req, res){
         try{
             const userId = req.params.id;
-            await User.findByIdAndUpdate(userId, {blocked: ""}, {new : true});
+            await User.findByIdAndUpdate(userId, {status: "Active"}, {new : true});
 
             return res.json({message: "User is unblocked!"})
         }catch(e){

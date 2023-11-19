@@ -15,6 +15,10 @@ class authController{
 
             const validPass = bcrypt.compareSync(password, user.password);
 
+            if(user.status === "Blocked"){
+                return res.status(400).json({message: "User is blocked!"})
+            }
+
             if(!validPass){
                 return res.status(400).json({message:"Password isn't correct!"})
             }

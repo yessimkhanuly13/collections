@@ -16,9 +16,11 @@ function Profile() {
 
   const {control, handleSubmit, reset} = useForm();
 
-  const {setMessage, url, darkMode, message} = useContext(PopupContext)
+  const {setMessage, url, darkMode} = useContext(PopupContext)
 
-  const getAllUserCollections = (user) =>{
+  const getAllUserCollections = () =>{
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    setUser(user);
     axios.get(`${url}/collections/user/${user._id}`)
       .then((res)=>{
         setCollections(res.data);
@@ -30,23 +32,20 @@ function Profile() {
 
   const addNewCollection = (data) =>{
     axios.post(`${url}/collections/add`, {...data, userId: user._id})
-      .then((res)=>{
-        setMessage(res.data.message);
+      .then(()=>{
+        getAllUserCollections();
       })
       .catch((e)=>{
         console.log(e);
         setMessage(e.response.data.message);
         
       })
-      setCollectionData(null);
   }
 
   const handleDelete = (id) =>{
-    console.log('clicled')
     axios.delete(`${url}/collections/delete/${id}`)
-      .then((res)=>{
-        setMessage(res.data.message);
-        getAllUserCollections(user);
+      .then(()=>{
+        getAllUserCollections();
       })
       .catch((e)=>{
         setMessage(e.response.data.message);
@@ -57,8 +56,8 @@ function Profile() {
   const handleSaveUpdate = (data, id) => {
     console.log({...data, id: id})
     axios.put(`${url}/collections/update/${id}`, data)
-      .then((res)=>{
-        setMessage(res.data.message);
+      .then(()=>{
+        getAllUserCollections();
         setEditingCollectionId(null);
       })
       .catch((e)=>{
@@ -69,10 +68,8 @@ function Profile() {
 
 
   useEffect(()=>{
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    getAllUserCollections(currentUser);
-    setUser(currentUser);
-  },[message])
+    getAllUserCollections();
+  },[])
 
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -136,7 +133,7 @@ function Profile() {
                 <Button color="success" variant="flat" onPress={onClose} onClick={handleSubmit(addNewCollection)}>
                     Add
                   </Button>
-                <Button color="danger"  onPress={onClose}>
+                <Button color="danger" onPress={onClose}>
                     Go Back
                   </Button>
                 </ModalFooter>

@@ -45,17 +45,14 @@ function AdminPanel() {
         })
     }
 
-  const handleUpdateUser = (id, roles, type) =>{
+  const handleUpdateUser = (id, path) =>{
     const user = JSON.parse(localStorage.getItem('currentUser'));
-
-    let path;
-
       axios.put(`${url}/users/${path}/${id}`)
         .then((res)=>{
           setMessage(res.data.message);
           getAllUsers();
           if(id == user._id && path === 'block'){
-            localStorage.removeItem('currenUser')
+            localStorage.removeItem('currentUser')
             navigate('/');
           }
           if(id == user._id && path === 'user'){
@@ -83,84 +80,71 @@ function AdminPanel() {
 
   },[])
 
-    const columns = [
-      {
-        key: "username",
-        label: "USERNAME",
-      },
-      {
-        key: "roles",
-        label: "ROLE",
-      },
-      {
-        key: "status",
-        label: "STATUS",
-      },
-      {
-        key:"delete",
-        label: "DELETE"
-      },
-      {
-        key:"update",
-        label: "UPDATE"
-      },
-      {
-        key:"block",
-        label:"BLOCK"
-      }
-    ];
-
 
   return (
     <div className='grid grid-cols-1'>
       <NavbarComponent/>
       <div className='w-full mt-2'>
       <Table aria-label="Example table with dynamic content">
-        <TableHeader columns={columns}>
-          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+        <TableHeader >
+           <TableColumn key="username">Username</TableColumn>
+           <TableColumn key="role">Role</TableColumn>
+           <TableColumn key="status">Status</TableColumn>
+           <TableColumn key="delete">Delete</TableColumn>
+           <TableColumn key="update">Update</TableColumn>
+           <TableColumn key="block">Block</TableColumn>
         </TableHeader>
-        <TableBody items={users}>
-          {(item) => (
-            <TableRow key={item._id}>
-              <TableCell>{item.username}</TableCell>
-              <TableCell>{item.roles.includes('admin') ? 'Admin' : 'User'}</TableCell>
-              <TableCell>{item.status}</TableCell>
-              <TableCell>
-                  <div className="relative flex items-center p-3 gap-2">
-                    <Tooltip color="danger" content="Delete">
-                      <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                        <DeleteIcon onClick={()=>handleUserDelete(item._id)}/>
-                      </span>
-                    </Tooltip>
-                </div>
-              </TableCell>
-              <TableCell>
-                  <div className="relative flex items-center p-3 gap-2">
-                    <Tooltip color="danger" content="Update role">
-                      <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                        <EditIcon onClick={()=>handleUpdateUser(item._id, item.roles)}/>
-                      </span>
-                    </Tooltip>
-                </div>
-              </TableCell>
-              <TableCell>
-                  <div className="relative flex items-center p-3 gap-2">
-                    {item.status === "Active" ? (
-                    <Tooltip color="danger" content="Block">
-                      <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                        <EyeFilledIcon onClick={()=>handleUpdateUser(item._id, [], "block")}/>
-                      </span>
-                    </Tooltip>) : (
-                    <Tooltip color="danger" content="Unblock">
-                        <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                            <EyeSlashFilledIcon onClick={()=>handleUpdateUser(item._id, [], "unblock")}/>
-                        </span>
-                    </Tooltip>)
-                    }
-                </div>
-              </TableCell>
-            </TableRow>
-          )}
+        <TableBody>
+          {users.map((user)=>{
+            return (
+                <TableRow key={user._id}>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell>{user.roles.includes('admin') ? 'Admin' : 'User'}</TableCell>
+                  <TableCell>{user.status}</TableCell>
+                  <TableCell>
+                      <div className="relative flex items-center p-3 gap-2">
+                        <Tooltip color="danger" content="Delete">
+                          <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                            <DeleteIcon onClick={()=>handleUserDelete(user._id)}/>
+                          </span>
+                        </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                      <div className="relative flex items-center p-3 gap-2">
+                       {user.roles.includes('admin') ? ( <Tooltip color="danger" content="Remove Admin role">
+                          <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                            <EditIcon onClick={()=>handleUpdateUser(user._id, "user")}/>
+                          </span>
+                        </Tooltip>) 
+                        : 
+                        (<Tooltip color="danger" content="Give Admin role">
+                          <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                            <EditIcon onClick={()=>handleUpdateUser(user._id, "admin")}/>
+                          </span>
+                        </Tooltip>)
+                        }
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                      <div className="relative flex items-center p-3 gap-2">
+                        {user.status === "Active" ? (
+                        <Tooltip color="danger" content="Block">
+                          <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                            <EyeFilledIcon onClick={()=>handleUpdateUser(user._id, "block")}/>
+                          </span>
+                        </Tooltip>) : (
+                        <Tooltip color="danger" content="Unblock">
+                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                                <EyeSlashFilledIcon onClick={()=>handleUpdateUser(user._id, "unblock")}/>
+                            </span>
+                        </Tooltip>)
+                        }
+                    </div>
+                  </TableCell>
+                </TableRow>
+            )
+          })}
         </TableBody>
     </Table>
 

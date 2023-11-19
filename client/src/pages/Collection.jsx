@@ -3,28 +3,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter} from "@nextui-org/react";
 import { useForm, Controller } from 'react-hook-form';
 
 
 function Collection() {
     const [collection, setCollection] = useState({});
     const [isOwner, setIsOwner] = useState(false);
-    const [itemdata, setItemData] = useState({
-        topic:"",
-        desc:"",
-        customField1_bool: false,
-        customField1_name: "",
-        customField1_value: "",
-        customField2_bool: false,
-        customField2_name: "",
-        customField2_value: "",
-        customField3_bool: false,
-        customField3_name: "",
-        customField3_value: "" 
-    });
-
-    const [isSelected, setIsSelected] = useState(false);
 
     const {control, handleSubmit, reset, watch} = useForm();
     const customField1 = watch("customField1_bool", false);
@@ -95,13 +80,11 @@ function Collection() {
 
     useEffect(()=>{
         getCollectionById();
-        console.log(customField1);
-    }, [message])
+    }, [])
 
   return (
     <div className='w-full'>
         <NavbarComponent/>
-        <h1 className='text-center text-xl font-bold mt-4'>{collection.name}</h1>
         <Modal 
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
@@ -216,92 +199,80 @@ function Collection() {
           )}
         </ModalContent>
       </Modal>
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-3 mt-4 pr-2'>
-            <div>
+        <div className='grid grid-cols-1 md:grid-cols-4 gap-3 p-5'>
+            {/* <div className='flex flex-col items-center justify-center border rounded p-2'>
+                <span className='text-center font-bold text-xl'>Description</span>
                 <p>{collection.description}</p>
                 <p>{collection.items && collection.items.length}</p>
-                <Button onPress={onOpen}>New Item</Button>
-            </div>
-        </div>
 
-        {/* <div className='p-3 text-center'>
-            <span className='text-xl font-bold'>{collection.name}</span>
-        </div>
-        <div className='grid grid-cols-4 gap-3 p-3'>
-            { 
-                isOwner && (
-                    <div className='border row-span-2 flex flex-col items-center gap-3 p-2'>
-                        <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="topic" placeholder="Topic" />
-                        <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="desc" placeholder="Description"/>
-                        <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField1_bool" type="checkbox" checked={itemdata.customField1_bool}/>
-                       
-                        {
-                            itemdata.customField1_bool && (
-                                <div>
-                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField1_name" placeholder="Field Name 1"/>
-                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField1_value" placeholder="Field Value"/>
-                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField2_bool" type="checkbox" checked={itemdata.customField2_bool}/>
-                                </div>
-                            )
-                        }
-                        {
-                            itemdata.customField2_bool && (
-                                <div>
-                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField2_name" placeholder="Field Name 2"/>
-                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField2_value" placeholder="Field Value"/>
-                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField3_bool" type="checkbox" checked={itemdata.customField3_bool}/>
-                                </div>
-                            )
-                        }
-                        {
-                            itemdata.customField3_bool && (
-                                <div>
-                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField3_name" placeholder="Field Name 3"/>
-                                    <Input style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={handleData} name="customField3_value" placeholder="Field Value"/>
-                                </div>
-                            )
-                        }
-                        <Button name="Add new Item" style="bg-lime-600 w-full" onClick={addNewItem}/>
-                    </div>
-            )}
+                {isOwner && (<Button onPress={onOpen}>New Item</Button>)} 
+            </div> */}
+            <Card className='cols-span-1  md:col-span-4'>
+                <CardHeader className='flex justify-center p-2'>
+                    <h1 className='font-bold text-2xl'>{collection.name}</h1>
+                </CardHeader>
+                <Divider/>
+                <CardBody className='flex flex-col items-center gap-3'>
+                    <span className='font-bold text-xl'>Theme:</span>
+                    <p>{collection.theme}</p>
+                    <span className='font-bold text-xl'>Description:</span>
+                    <p>{collection.description}</p>
+                </CardBody>
+                <Divider/>
+                <CardFooter className='flex flex-col items-center gap-3 pb-2'>
+                    <span className='font-bold text-xl'>Items:</span>
+                    {isOwner && (<Button onPress={onOpen}>Add new item</Button>)}
+                </CardFooter>
+            </Card>
             {
                 collection.items && collection.items.map((item)=>{
-                    return (
-                        <div className='border flex flex-col items-center gap-3 p-2'>
-                            <p>Topic: {item.topic}</p>    
-                            <p>Desc: {item.desc}</p>
-                            <p>Created date: {new Date(item.createdDate).toLocaleString()}</p>
-                            {
-                                item.customField1_bool && (
-                                    <p>{item.customField1_name}: {item.customField1_value}</p>
-                                )
-                            }
-                            {
-                                item.customField2_bool && (
-                                    <p>{item.customField2_name}: {item.customField2_value}</p>
-                                )
-                            }
-                            {
-                                item.customField3_bool && (
-                                    <p>{item.customField3_name}: {item.customField3_value}</p>
-                                )
-                            }
-                            {
-                                isOwner && 
-                                (
-                                    <div className='w-full'>
-                                        <div className='flex w-full'>
-                                            <Button name="Delete" style="bg-red-600 w-1/2" onClick={()=>deleteItem(item._id)}/>
-                                            <Link to={`/item/${item._id}`} className='w-1/2'><Button name="Link" style="bg-lime-600 w-full"/></Link>
-                                        </div>
-                                    </div>
-                                )
-                            }
-                        </div>
+                    return (                    
+                        <Card>
+                            <CardHeader className='flex justify-center p-2'>
+                                <span className='text-center font-bold text-xl'>{item.topic}</span>
+                            </CardHeader>
+                            <Divider/>
+                            <CardBody className='flex flex-col items-center gap-3'>
+                                <span className='font-bold text-xl'>Description:</span>
+                                <p>{item.desc}</p>
+                                {item.customField1_bool && <div className={`grid grid-cols-1 md:grid-cols-${item.customField3_bool ? 3 : item.customField2_bool ? 2 : 1}`}>
+                                    <span className='col-span-1 md:col-span-4 text-center font-bold text-xl'>Custom fields:</span>
+                                    {
+                                        item.customField1_bool && (
+                                            <div className='flex flex-col p-2'>
+                                                <span className='text-l font-bold text-center'>{item.customField1_name}:</span>
+                                                <span>{item.customField1_value}</span>
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        item.customField2_bool && (
+                                            <div className='flex flex-col p-2'>
+                                                <span className='text-l font-bold text-center'>{item.customField2_name}:</span>
+                                                <span>{item.customField2_value}</span>
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        item.customField3_bool && (
+                                            <div className='flex flex-col p-2'>
+                                                <span className='text-l font-bold text-center'>{item.customField3_name}:</span>
+                                                <span>{item.customField3_value}</span>
+                                            </div>
+                                        )
+                                    }
+                                </div>}
+                            </CardBody>
+                            <Divider/>
+                            <CardFooter className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+                                <Button>Edit</Button>
+                                <Button>Delete</Button>
+                            </CardFooter>
+                        </Card>
                     )
                 })
-            }  
-        </div>       */}
+            }
+        </div>
     </div>
   )
 }
