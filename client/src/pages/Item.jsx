@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
+import { Divider, Button, Input } from '@nextui-org/react';
 
 function Item() {
   const [item, setItem] = useState({});
@@ -64,7 +65,53 @@ function Item() {
   return (
     <div>
       <NavbarComponent/>
-      <div className='w-full flex flex-col items-center gap-10 pb-10'>
+      <div className='grid grid-cols-1 md:grid-cols-4 gap-3 p-5'>
+        <div className='col-span-1 md:col-span-4'>
+              <div className='flex justify-center p-2'>
+                    <h1 className='font-bold text-2xl'>{item.topic}</h1>
+                </div>
+                <Divider/>
+                <div className='flex flex-col items-center gap-3'>
+                    <span className='font-bold text-xl'>Description:</span>
+                    <p>{item.desc}</p>
+                </div>
+                <Divider/>
+                <div className='flex flex-col items-center'>
+                    <span className='font-bold text-xl'>Tags:</span>
+                        <div className='flex justify-around gap-3'>
+                          {item.tags && item.tags.map((tag)=>{
+                            return (
+                              <div className='col-span-3 md:col-span-2 lg:col-span-1'>
+                                <Button className='font-bold' variant='bordered'>{tag.value}</Button>
+                              </div>
+                            )
+                          })}
+                        </div>
+                    {isOwner && (<Button variant='shadow' color='success'>New Tag</Button>)}
+                </div>
+                <Divider/>
+                <div className='flex flex-col items-center'>
+                    <span className='font-bold text-xl '>Comments:</span>
+                    {
+                      item.comments && item.comments.map((comment)=>{
+                        <p>{comment.username} : {comment.value}</p>
+                      })
+                    }
+                    <div>
+                      <Input
+                        isClearable
+                        type="text"
+                        label="Comment"
+                        variant="bordered"
+                        placeholder=""
+                        onClear={() => console.log("input cleared")}
+                        className="max-w-xl"
+                      />
+                    </div>
+                </div>
+        </div>      
+      </div>
+      {/* <div className='w-full flex flex-col items-center gap-10 pb-10'>
         <div className='w-full text-center p-3'>
             <span className='text-3xl text-center font-bold'>{item.topic}</span>
         </div>
@@ -124,8 +171,8 @@ function Item() {
           isOwner && (
             <div className='flex flex-col w-full justify-center'>
               <div className='flex flex-col w-full items-center gap-1'>
-                  {/* <Input placeholder="New tag" style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={(e)=>setTag(e.target.value)} />
-                  <Button name="Add" style="bg-lime-600" onClick={addTag} />       */}
+                  <Input placeholder="New tag" style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={(e)=>setTag(e.target.value)} />
+                  <Button name="Add" style="bg-lime-600" onClick={addTag} />      
               </div>
             </div>
           )
@@ -141,14 +188,14 @@ function Item() {
               })
           }
           <div className='flex'>
-            {/* <div className='w-4/5'> */}
-              {/* <Input style="w-full" onChange={handleMessage} type="text" placeholder="comment"/>
+            <div className='w-4/5'>
+              <Input style="w-full" onChange={handleMessage} type="text" placeholder="comment"/>
             </div>
-            <Button style="bg-lime-600 w-1/5" name="Send" onClick={sendCommentToServer}/> */}
+            <Button style="bg-lime-600 w-1/5" name="Send" onClick={sendCommentToServer}/>
           </div>
         </div>
       </div>
-      </div>
+      </div> */}
     </div>
   )
 }

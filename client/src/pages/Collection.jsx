@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
 import { useForm, Controller } from 'react-hook-form';
 
 
@@ -17,7 +17,7 @@ function Collection() {
     const customField3 = watch("customField3_bool", false);
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    
+    const navigate = useNavigate();
     const collectionId = useParams();
     
     const {setMessage, url, darkMode, message} = useContext(PopupContext)
@@ -37,39 +37,21 @@ function Collection() {
     }
 
 
-    const addNewItem = () =>{
+    const addNewItem = (data) =>{
 
-        const {topic, desc, customField1_bool, customField1_name, customField1_value, customField2_bool, customField2_name, customField2_value, customField3_bool, customField3_name, customField3_value} = itemdata;
-
-        axios.put(`${url}/collections/additem/${collection._id}`, {userId: collection.userId, topic, desc, customField1_bool, customField1_name, customField1_value, customField2_bool, customField2_name, customField2_value, customField3_bool, customField3_name, customField3_value })
-            .then((res)=>{
-                setMessage(res.data.message);
-                setItemData({
-                    topic:"",
-                    desc:""
-                });
+        axios.put(`${url}/collections/additem/${collection._id}`, {userId: collection.userId, ...data })
+            .then(()=>{
+                getCollectionById();
             })
             .catch((e)=>{
                 setMessage(e.response.data.message);
             })
     }
 
-    const handleData = (e) =>{
-        const fields = ['customField1_bool', 'customField2_bool', 'customField3_bool'];
-
-        const {name, value} = e.target;
-        if(fields.includes(name) ){
-            setItemData({...itemdata, [name]: !itemdata[name] })
-        }else{
-            setItemData({...itemdata, [name]: value});
-        }
-        console.log(e.target)
-    }
-
     const deleteItem = (id) =>{
         axios.delete(`${url}/collections/deleteitem/${collection._id}?id=${id}`)
             .then((res)=>{
-                setMessage(res.data.message)
+                getCollectionById();
             })
             .catch((e)=>{
                 console.log(e);
@@ -96,7 +78,7 @@ function Collection() {
                 <ModalHeader className="flex flex-col gap-1">Add new item</ModalHeader>
                 <ModalBody className='grid grid-cols-4 gap-3'>
 
-                        <Controller control={control} name='name' 
+                        <Controller control={control} name='topic' 
                         render={({field})=><Input
                             {...field}
                             isRequired
@@ -105,7 +87,7 @@ function Collection() {
                             className="max-w-xs col-span-2"
                         />}/>
 
-                        <Controller control={control} name='description' 
+                        <Controller control={control} name='desc' 
                         render={({field})=><Input
                             {...field}
                             isRequired
@@ -188,7 +170,7 @@ function Collection() {
                       
                 </ModalBody>
                 <ModalFooter className='flex w-1/3 justify-around'>
-                <Button color="success" variant="flat" onPress={onClose} onClick={handleSubmit((data)=>console.log(data))}>
+                <Button color="success" variant="flat" onPress={onClose} onClick={handleSubmit((data)=>addNewItem(data))}>
                     Add
                   </Button>
                 <Button color="danger"  onPress={onClose}>
@@ -207,23 +189,23 @@ function Collection() {
 
                 {isOwner && (<Button onPress={onOpen}>New Item</Button>)} 
             </div> */}
-            <Card className='cols-span-1  md:col-span-4'>
-                <CardHeader className='flex justify-center p-2'>
+            <div className='cols-span-1  md:col-span-4'>
+                <div className='flex justify-center p-2'>
                     <h1 className='font-bold text-2xl'>{collection.name}</h1>
-                </CardHeader>
+                </div>
                 <Divider/>
-                <CardBody className='flex flex-col items-center gap-3'>
+                <div className='flex flex-col items-center gap-3'>
                     <span className='font-bold text-xl'>Theme:</span>
                     <p>{collection.theme}</p>
                     <span className='font-bold text-xl'>Description:</span>
                     <p>{collection.description}</p>
-                </CardBody>
+                </div>
                 <Divider/>
-                <CardFooter className='flex flex-col items-center gap-3 pb-2'>
-                    <span className='font-bold text-xl'>Items:</span>
-                    {isOwner && (<Button onPress={onOpen}>Add new item</Button>)}
-                </CardFooter>
-            </Card>
+                <div className='flex flex-col items-center gap-3 pb-3'>
+                    <span className='font-bold text-xl'>Items: {collection.items ? collection.items.length : 0}</span>
+                    {isOwner && (<Button variant='shadow' color='success' onPress={onOpen}>Add new item</Button>)}
+                </div>
+            </div>
             {
                 collection.items && collection.items.map((item)=>{
                     return (                    
@@ -265,8 +247,8 @@ function Collection() {
                             </CardBody>
                             <Divider/>
                             <CardFooter className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-                                <Button>Edit</Button>
-                                <Button>Delete</Button>
+                                <Button variant='shadow' color='success' onClick={()=>navigate(`/item/${item._id}`)}><LinkIcon/></Button>
+                                <Button variant='shadow' color="danger" onClick={()=>deleteItem(item._id)}>Delete</Button>
                             </CardFooter>
                         </Card>
                     )
