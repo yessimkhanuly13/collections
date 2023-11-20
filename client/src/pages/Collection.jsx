@@ -27,7 +27,7 @@ function Collection() {
         axios.get(`${url}/collections/${collectionId.id}`)
             .then((res)=>{
                 setCollection(res.data)
-                if(res.data.userId === user._id){
+                if(res.data.userId === user._id || user.roles.includes('admin')){
                     setIsOwner(true);
                 }
             })

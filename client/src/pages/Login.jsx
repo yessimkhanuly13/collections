@@ -18,7 +18,7 @@ function Login() {
   const handleLogin = (data) => {
     axios.post(`${url}/auth/login`, data)
       .then((res) => {
-        navigate('/profile');
+        navigate(`/profile/${res.data._id}`);
         localStorage.setItem('currentUser', JSON.stringify(res.data));
       })
       .catch((e) => {

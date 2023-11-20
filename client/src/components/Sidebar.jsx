@@ -12,8 +12,10 @@ function Sidebar({collections, items, tags, vision}) {
     const navigate = useNavigate();
     const {setIsCollection, setIsItems, setIsTags} = vision;
     const handleActions = (key) =>{
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+
         if(key === "profile" ){
-            navigate('/profile')
+            navigate(`/profile/${user._id}`)
         }else if(key === "collection"){
             setIsCollection(true);
             setIsItems(false);
@@ -38,7 +40,7 @@ function Sidebar({collections, items, tags, vision}) {
         <Listbox
             aria-label="User Menu"
             onAction={(key) => handleActions(key)}
-            className="p-0 gap-0 divide-y divide-default-300/50 dark:divide-default-100/80 bg-content1 max-w-[300px] overflow-visible shadow-small rounded-medium"
+            className=" p-0 gap-0 divide-y divide-default-300/50 dark:divide-default-100/80 bg-content1 max-w-[300px] overflow-visible shadow-small rounded-medium"
             itemClasses={{
                 base: "px-3 first:rounded-t-medium last:rounded-b-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80",
             }}
@@ -52,7 +54,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                Collections
+                <span className="font-bold">Collections</span>
             </ListboxItem>
             <ListboxItem
                 key="items"
@@ -63,7 +65,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                Items
+                <span className="font-bold">Items</span>
             </ListboxItem>
             <ListboxItem
                 key="tags"
@@ -74,7 +76,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                Tags
+                <span className="font-bold">Tags</span>
             </ListboxItem>
             {JSON.parse(localStorage.getItem('currentUser')) && <ListboxItem
                 key="profile"
@@ -85,7 +87,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                Profile
+                <span className="font-bold">Profile</span>
             </ListboxItem>}
             {JSON.parse(localStorage.getItem('currentUser')) && JSON.parse(localStorage.getItem('currentUser')).roles.includes('admin') && <ListboxItem
                 key="admin"
@@ -96,7 +98,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                Admin Panel
+                <span className="font-bold">Admin Panel</span>
             </ListboxItem>}
             
         </Listbox>

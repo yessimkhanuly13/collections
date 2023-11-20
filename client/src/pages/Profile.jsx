@@ -2,17 +2,18 @@ import React, { useContext, useEffect, useState } from 'react'
 import NavbarComponent from '../components/Navbar';
 import axios from 'axios';
 import { PopupContext } from '../App';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {Select, SelectItem, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Table, TableBody, TableRow, TableColumn, LinkIcon, TableHeader, TableCell, Input} from "@nextui-org/react";
 import { useForm, Controller } from 'react-hook-form';
 import { DeleteIcon } from '../icons/DeleteIcon';
 import { EditIcon } from '../icons/EditIcon';
 
 function Profile() {
-  const [user, setUser] = useState({});
+  const [isOwner, setIsOwner] = useState(false);
   const [collections, setCollections] = useState([]);
   const [editingCollectionId, setEditingCollectionId] = useState(null);
 
+  const userId = useParams();
 
   const {control, handleSubmit, reset} = useForm();
 
@@ -20,8 +21,11 @@ function Profile() {
 
   const getAllUserCollections = () =>{
     const user = JSON.parse(localStorage.getItem('currentUser'));
-    setUser(user);
-    axios.get(`${url}/collections/user/${user._id}`)
+    if(user._id === userId.id || user.roles.includes('admin')){
+      setIsOwner(true);
+    }
+
+    axios.get(`${url}/collections/user/${userId.id}`)
       .then((res)=>{
         setCollections(res.data);
       })
@@ -31,7 +35,7 @@ function Profile() {
   }
 
   const addNewCollection = (data) =>{
-    axios.post(`${url}/collections/add`, {...data, userId: user._id})
+    axios.post(`${url}/collections/add`, {...data, userId: userId.id})
       .then(()=>{
         getAllUserCollections();
       })
@@ -69,6 +73,7 @@ function Profile() {
 
   useEffect(()=>{
     getAllUserCollections();
+    console.log(userId);
   },[])
 
 
@@ -143,7 +148,7 @@ function Profile() {
       </Modal>
       
       <div className='flex flex-col'>
-            <Table className='p-3' isStriped aria-label="Example static collection table">
+            {isOwner ? (<Table className='p-3' isStriped aria-label="Example static collection table">
               <TableHeader>
                 <TableColumn>Name</TableColumn>
                 <TableColumn>Description</TableColumn>
@@ -200,17 +205,49 @@ function Profile() {
                       <TableCell><div className="relative flex items-center p-3 gap-2 cursor-pointer">{editingCollectionId === collection._id ? (<div className='flex gap-2'>
                         <Button onClick={()=>{setEditingCollectionId(null); reset()}}>Cancel</Button>
                         <Button onClick={handleSubmit((data)=>handleSaveUpdate(data, collection._id))}>Update</Button>
-                      </div>) :(<EditIcon onClick={()=>setEditingCollectionId(collection._id)} />)}</div></TableCell>
+                      </div>) : (<EditIcon onClick={()=>setEditingCollectionId(collection._id)} />)}</div></TableCell>
                       <TableCell><div className="relative flex items-center p-3 gap-2 cursor-pointer"><DeleteIcon onClick={()=>handleDelete(collection._id)}/></div></TableCell>
                     </TableRow>
                   )
                 })}
               </TableBody>
-              </Table>
+              </Table>) : (
+                <Table className='p-3' isStriped aria-label="Example static collection table">
+                <TableHeader>
+                  <TableColumn>Name</TableColumn>
+                  <TableColumn>Description</TableColumn>
+                  <TableColumn>Theme</TableColumn>
+                  <TableColumn>Items</TableColumn>
+                  <TableColumn>Link</TableColumn>
+                </TableHeader>
+                <TableBody>
+                  {collections.map((collection)=>{
+                    return (
+                      <TableRow key={collection._id}>
+                        <TableCell> 
+                           {collection.name}
+                        </TableCell>
+                        <TableCell>
+                          {collection.description}
+                        </TableCell>
+                        <TableCell>
+                            {collection.theme}
+                        </TableCell>
+                        <TableCell>{collection.items.length}</TableCell>
+                        <TableCell><Link to={`/collection/${collection._id}`}><LinkIcon/></Link></TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+                </Table>
+
+              )}
           </div>
-          <div className='p-3 flex justify-end gap-3'>
+          {isOwner && (<div className='p-3 flex justify-end gap-3'>
             <Button color="success" variant='shadow' onPress={onOpen}>New Collection</Button>
-          </div>
+          </div>)}
+
+         
     </div>
   )
 }

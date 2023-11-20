@@ -133,11 +133,12 @@ class itemsController{
 
     async addNewComment(req, res, next){
         try{
-            const {username, value} = req.body
-            const comment = new Comment({username, value, createdDate: Date.now()});
+            const {username, value, userId} = req.body
+            const comment = new Comment({username, value, createdDate: Date.now(), userId});
             await comment.save();
 
             req.comment = comment;
+            console.log(comment);
             next();
         }catch(e){
             console.log(e);
@@ -149,7 +150,8 @@ class itemsController{
         try{   
             const id = req.params.id;
             const item = await Item.findById(id);
-
+            console.log(item);
+            console.log(req.comment);
             const comment = req.comment;
             item.comments.push(comment);
             await item.save();

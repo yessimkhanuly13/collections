@@ -1,30 +1,29 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
-import { Divider, Button, Input } from '@nextui-org/react';
+import { Divider, Button, Input, Card, User } from '@nextui-org/react';
+import { useForm, Controller } from 'react-hook-form';
+import { converUnixToDate } from '../functions/unixtodate';
 
 function Item() {
   const [item, setItem] = useState({});
   const {setMessage, url, darkMode, message} = useContext(PopupContext);
-  const [tag, setTag] = useState("");
   const [isOwner, setIsOwner] = useState(false);
-  const [comment, setComment] = useState("");
-  const [currentUser, setCurrentUser] = useState({});
+  const navigate = useNavigate();
 
   const itemId = useParams();
 
-  const handleMessage = (e) =>{
-    const {value} = e.target;
-    setComment(value);
-    console.log(value);
-  }
+  const {control, handleSubmit} = useForm();
 
-  const sendCommentToServer = () =>{
-    axios.post(`${url}/items/addcomment/${item._id}`, {value: comment, username: currentUser.username})
-      .then((res)=>{
-        console.log(res.data.message);
+  const sendCommentToServer = (data) =>{
+    const username = JSON.parse(localStorage.getItem('currentUser')).username;
+    const userId = JSON.parse(localStorage.getItem('currentUser'))._id;
+    console.log(data.value)
+    axios.post(`${url}/items/addcomment/${item._id}`, {value: data.value, username, userId})
+      .then(()=>{
+        getItemById();
       })
       .catch((e)=>{
         console.log(e);
@@ -34,24 +33,23 @@ function Item() {
 
   const getItemById = () =>{
     const user = JSON.parse(localStorage.getItem('currentUser'));
-    setCurrentUser(user);
     axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
         setItem(res.data)
-        if(res.data.userId === user._id){
+        if(res.data.userId === user._id || user.roles.includes('admin')){
           setIsOwner(true);
         }
-        console.log(res.data.userId)
+        console.log(res.data.comments)
       })
       .catch((e)=>{
         setMessage(e.response.data.message);
       })
   }
 
-  const addTag = () =>{
-      axios.put(`${url}/items/addtag/${itemId.id}`, {tag: tag})
-      .then((res)=>{
-        setMessage(res.data.message);
+  const addTag = (data) =>{
+      axios.put(`${url}/items/addtag/${itemId.id}`, {tag: data.tag})
+      .then(()=>{
+        getItemById();
       })
       .catch((e)=>{
         setMessage(e.response.data.message);
@@ -59,143 +57,118 @@ function Item() {
   }
 
   useEffect(()=>{
+    console.log( JSON.parse(localStorage.getItem('currentUser')).username)
     getItemById();
-  }, [message])
+  }, [])
   
   return (
     <div>
       <NavbarComponent/>
       <div className='grid grid-cols-1 md:grid-cols-4 gap-3 p-5'>
         <div className='col-span-1 md:col-span-4'>
-              <div className='flex justify-center p-2'>
+              <div className='flex justify-center p-3'>
                     <h1 className='font-bold text-2xl'>{item.topic}</h1>
                 </div>
                 <Divider/>
-                <div className='flex flex-col items-center gap-3'>
-                    <span className='font-bold text-xl'>Description:</span>
+                <div className='flex gap-3 p-5 items-center'>
+                    <span className='font-bold'>Description:</span>
                     <p>{item.desc}</p>
                 </div>
                 <Divider/>
-                <div className='flex flex-col items-center'>
-                    <span className='font-bold text-xl'>Tags:</span>
+                <div className='flex gap-3 p-5 items-center'>
+                    <span className='font-bold '>Tags:</span>
                         <div className='flex justify-around gap-3'>
                           {item.tags && item.tags.map((tag)=>{
                             return (
-                              <div className='col-span-3 md:col-span-2 lg:col-span-1'>
+                              <div className=''>
                                 <Button className='font-bold' variant='bordered'>{tag.value}</Button>
                               </div>
                             )
                           })}
                         </div>
-                    {isOwner && (<Button variant='shadow' color='success'>New Tag</Button>)}
                 </div>
+                {isOwner && (
+                      <div className='flex items-center gap-3 p-5'>
+                         <Controller name='tag' control={control}
+                          render={({field})=><Input
+                          {...field}
+                          type="text"
+                          label="New tag"
+                          placeholder=""
+                          className="max-w-xs"
+                        />}/>
+                        <Button onClick={handleSubmit(addTag)} variant='shadow' color='success'>
+                          Add
+                        </Button>
+                      </div>)}
                 <Divider/>
+                {item.customField1_bool && (
+                  <div className='flex flex-col justify-center p-5'>
+                      <span className='font-bold'>Custom fields:</span>
+                      <div className='grid grid-cols-1 md:grid-cols-3 gap-2'>
+                        <Card className='flex gap-3 p-4 items-center justify-center'>
+                          <div className='flex gap-3'>
+                            <p>{item.customField1_name}:</p>
+                            <p>{item.customField1_value}</p>
+                          </div>
+                        </Card>
+                        {item.customField2_bool && (<Card className='flex gap-3 items-center justify-center'>
+                          <div className='flex gap-3'>
+                            <p>{item.customField2_name}:</p>
+                            <p>{item.customField2_value}</p>
+                          </div>
+                        </Card>)}
+                        {item.customField3_bool && (<Card className='flex gap-3 items-center justify-center'>
+                          <div className='flex gap-3'>
+                            <p>{item.customField3_name}:</p>
+                            <p>{item.customField3_value}</p>
+                          </div>
+                        </Card>)}
+                      </div>
+                  </div>)}
+                  <Divider/>
                 <div className='flex flex-col items-center'>
-                    <span className='font-bold text-xl '>Comments:</span>
-                    {
-                      item.comments && item.comments.map((comment)=>{
-                        <p>{comment.username} : {comment.value}</p>
-                      })
-                    }
-                    <div>
-                      <Input
-                        isClearable
-                        type="text"
-                        label="Comment"
-                        variant="bordered"
-                        placeholder=""
-                        onClear={() => console.log("input cleared")}
-                        className="max-w-xl"
-                      />
-                    </div>
+                  <span className='font-bold'>Comments:</span>
+                    <div className='flex gap-3 p-5'>
+                      <div className='grid grid-cols-6 gap-2'>
+                          {
+                          item.comments && item.comments.map((comment)=>{
+                            return (
+                              <div className='col-span-6'>
+                                  <div className="ml-4">
+                                    <div className='flex justify-between'>
+                                      <h4 clas onClick={()=>navigate(`/profile/${comment.userId}`)} className="font-semibold cursor-pointer">{comment.username}</h4>
+                                      <h4>{converUnixToDate(comment.createdDate)}</h4>
+                                    </div>
+                                    <p className="text-gray-600">{comment.value}</p>
+                                  </div>
+                              </div>
+                            )
+                          })
+                        }
+                        <Controller name='value' control={control}
+                          render={({field})=><Input
+                          {...field}
+                          type="text"
+                          label="Comment"
+                          variant=""
+                          className="col-span-5"
+                        />}/>
+                        <div className='flex items-center'>
+                          <Button
+                            onClick={handleSubmit((sendCommentToServer))}
+                            variant='shadow'
+                            color='success'
+                            className="col-span-1"
+                          >
+                            Send
+                          </Button> 
+                        </div>
+                      </div>             
+                      </div>
                 </div>
         </div>      
       </div>
-      {/* <div className='w-full flex flex-col items-center gap-10 pb-10'>
-        <div className='w-full text-center p-3'>
-            <span className='text-3xl text-center font-bold'>{item.topic}</span>
-        </div>
-        <div className='flex flex-col w-full'>
-          <span className='text-2xl text-center font-bold'>Description</span>
-          <div className='flex p-3'>
-            <p>{item.desc}</p>
-          </div>
-        </div>
-        <span className='text-2xl font-bold text-center'>Fields</span>
-        <div className={`grid grid-cols-${item.customField3_bool ? 3 : item.customField2_bool ? 2 : 1} gap-3 w-full`}>
-          {
-            item.customField1_bool && (
-              <div className='flex flex-col flex justify-center items-center'>
-                <div className='border text-center w-1/3 '>
-                  <p className='text-xl font-bold'>{item.customField1_name}</p>
-                  <p>{item.customField1_value}</p>
-                </div>
-              </div>
-            )
-          }
-          {
-          item.customField2_bool && (
-            <div className='flex flex-col flex justify-center items-center'>
-              <div className='border text-center w-1/3'>
-                <p className='text-xl font-bold'>{item.customField2_name}</p>
-                <p>{item.customField2_value}</p>
-              </div>
-            </div>
-          )
-        }
-        {
-          item.customField3_bool && (
-            <div className='flex flex-col flex justify-center items-center'>
-              <div className='border text-center w-1/3'>
-                <p className='text-xl font-bold'>{item.customField3_name}</p>
-                <p>{item.customField3_value}</p>
-              </div>
-            </div>
-          )
-        }
-        </div>
-
-        <span className='text-2xl text-center font-bold'>Tags</span>
-        <div className='flex justify-center gap-2'>
-              {
-                item.tags && item.tags.map((tag)=>{
-                  return (
-                    <div className='shadow-md'>
-                      {tag.value}
-                      </div>
-                  )
-                })
-              }
-          </div>
-        {
-          isOwner && (
-            <div className='flex flex-col w-full justify-center'>
-              <div className='flex flex-col w-full items-center gap-1'>
-                  <Input placeholder="New tag" style={ darkMode ? 'bg-black' : 'bg-white text-black'} onChange={(e)=>setTag(e.target.value)} />
-                  <Button name="Add" style="bg-lime-600" onClick={addTag} />      
-              </div>
-            </div>
-          )
-        }
-      <div className='w-full flex flex-col items-center justify-center'>
-        <span className='text-2xl font-bold text-center'>Comments</span>
-        <div className='w-5/6 border'>
-          {
-              item.comments && item.comments.map((comment)=>{
-                return (
-                  <p>{comment.value}</p>
-                )
-              })
-          }
-          <div className='flex'>
-            <div className='w-4/5'>
-              <Input style="w-full" onChange={handleMessage} type="text" placeholder="comment"/>
-            </div>
-            <Button style="bg-lime-600 w-1/5" name="Send" onClick={sendCommentToServer}/>
-          </div>
-        </div>
-      </div>
-      </div> */}
     </div>
   )
 }
