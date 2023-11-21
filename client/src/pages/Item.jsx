@@ -35,6 +35,11 @@ function Item() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
+
+        const comments = res.data.comments; 
+        comments.sort((a, b)=> a.createdDate - b.createdDate);
+        res.data.comments = comments;
+        
         setItem(res.data)
         if(res.data.userId === user._id || user.roles.includes('admin')){
           setIsOwner(true);

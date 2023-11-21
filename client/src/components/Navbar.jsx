@@ -17,6 +17,7 @@ function NavbarComponent() {
   const navigate = useNavigate();
 
   const handleChange = (e) =>{
+    setSearchResults([]);
       axios.get(`${url}/search?q=${e.target.value}`)
       .then((res)=>{
         setSearchResults(res.data);
@@ -111,12 +112,15 @@ function NavbarComponent() {
                       return (
                         <ListboxItem key={item._id}>
                           <Link to={`/item/${item._id}`}>
-                            <div className='flex justify-between items-center'>
-                              <span className='text-l'>
-                                {item.topic? item.topic : item.desc}
-                              </span>
-                              <LinkIcon/>
-                            </div>
+                              <div className='grid grid-cols-3 gap-1'>
+                                <span className='text-l'>
+                                  {item.topic ? item.topic : item.desc ? item.desc : item.customField1_value ? item.customField1_value : item.customField2_value ? item.customField2_value : item.customField3_value}
+                                </span>
+                                <span className='text-l'>{item.topic ? "Topic" : item.desc ? "Desc" : "Custom field" }</span>
+                                <div className='flex justify-end'>
+                                  <LinkIcon/>
+                                </div>
+                              </div>
                           </Link>
                         </ListboxItem>
                       )
