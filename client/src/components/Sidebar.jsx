@@ -7,10 +7,15 @@ import { CogIcon } from "../icons/CogIcon";
 import { TagIcon } from "../icons/TagIcon";
 import { ItemIcon } from "../icons/ItemIcons";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { PopupContext } from "../App";
 
 function Sidebar({collections, items, tags, vision}) {
     const navigate = useNavigate();
     const {setIsCollection, setIsItems, setIsTags} = vision;
+    
+    const {darkMode} = useContext(PopupContext);
+
     const handleActions = (key) =>{
         const user = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -50,7 +55,7 @@ function Sidebar({collections, items, tags, vision}) {
                 endContent={<ItemCounter number={collections.length} />}
                 startContent={
                 <IconWrapper className="bg-default/50 text-foreground">
-                    <LayoutIcon className="text-lg " />
+                    <LayoutIcon className="text-lg " fill={`${darkMode ? "#f8fafc" : ""}`}/>
                 </IconWrapper>
                 }
             >
@@ -61,7 +66,7 @@ function Sidebar({collections, items, tags, vision}) {
                 endContent={<ItemCounter number={items.length} />}
                 startContent={
                 <IconWrapper className="bg-default/50 text-foreground">
-                    <ItemIcon className="text-lg " />
+                    <ItemIcon className="text-lg " fill={`${darkMode ? "#f8fafc" : ""}`}/>
                 </IconWrapper>
                 }
             >
@@ -72,7 +77,7 @@ function Sidebar({collections, items, tags, vision}) {
                 endContent={<ItemCounter number={tags.length} />}
                 startContent={
                 <IconWrapper className="bg-default/50 text-foreground">
-                    <TagIcon className="text-lg " />
+                    <TagIcon className="text-lg " fill={`${darkMode ? "#f8fafc" : ""}`}/>
                 </IconWrapper>
                 }
             >
@@ -83,7 +88,7 @@ function Sidebar({collections, items, tags, vision}) {
                 endContent={<ItemCounter/>}
                 startContent={
                 <IconWrapper className="bg-default/50 text-foreground">
-                    <ProfileIcon className="text-lg " />
+                    <ProfileIcon className="text-lg " fill={`${darkMode ? "#f8fafc" : ""}`}/>
                 </IconWrapper>
                 }
             >
@@ -94,7 +99,7 @@ function Sidebar({collections, items, tags, vision}) {
                 endContent={<ItemCounter/>}
                 startContent={
                 <IconWrapper className="bg-default/50 text-foreground">
-                    <CogIcon className="text-lg " />
+                    <CogIcon className="text-lg " fill={`${darkMode ? "#f8fafc" : ""}`}/>
                 </IconWrapper>
                 }
             >

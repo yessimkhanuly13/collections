@@ -6,6 +6,8 @@ import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input, useDiscl
 import { Link } from 'react-router-dom';
 import { SearchIcon } from '../icons/SearchIcon';
 import { DashboardIcon } from '../icons/DashboardIcon';
+import { LightIcon } from '../icons/LightIcon';
+import { DarkIcon } from '../icons/DarkIcon';
 
 function NavbarComponent() {
   const {setDarkMode, darkMode} = useContext(PopupContext);
@@ -17,9 +19,10 @@ function NavbarComponent() {
   const navigate = useNavigate();
 
   const handleChange = (e) =>{
-    setSearchResults([]);
+    console.log(searchResults)
       axios.get(`${url}/search?q=${e.target.value}`)
       .then((res)=>{
+        setSearchResults([]);
         setSearchResults(res.data);
         console.log(res.data);
       })
@@ -68,7 +71,7 @@ function NavbarComponent() {
           <p className="text-xl hidden sm:block font-bold text-inherit">Collections</p>
         </Link>
         <Link to="/">
-          <DashboardIcon className="ml-2"/>
+          <DashboardIcon className="ml-2" fill={`${darkMode ? "#f8fafc" : ""}`}/>
         </Link>
       </NavbarBrand>
     </NavbarContent>
@@ -108,11 +111,10 @@ function NavbarComponent() {
                   onChange={handleChange}
                 />
                   <Listbox>
-                    {searchResults && searchResults.map((item)=>{
+                    {searchResults && searchResults.map((item, index)=>{
                       return (
-                        <ListboxItem key={item._id}>
-                          <Link to={`/item/${item._id}`}>
-                              <div className='grid grid-cols-3 gap-1'>
+                        <ListboxItem key={`${item._id}-${index}`}>
+                              <div onClick={()=>navigate(`/item/${item._id}`)} className='grid grid-cols-3 gap-1'>
                                 <span className='text-l'>
                                   {item.topic ? item.topic : item.desc ? item.desc : item.customField1_value ? item.customField1_value : item.customField2_value ? item.customField2_value : item.customField3_value}
                                 </span>
@@ -121,7 +123,6 @@ function NavbarComponent() {
                                   <LinkIcon/>
                                 </div>
                               </div>
-                          </Link>
                         </ListboxItem>
                       )
                     })}
@@ -133,6 +134,17 @@ function NavbarComponent() {
       </Modal>
 
     <NavbarContent justify="end">
+        {darkMode ? (
+          <NavbarItem className="flex">
+            <DarkIcon className="cursor-pointer" fill="#f8fafc" onClick={toggleMode}/>
+          </NavbarItem>
+          ) : (
+          <NavbarItem className="flex">
+            <LightIcon className="cursor-pointer" onClick={toggleMode}/>
+          </NavbarItem>
+          )
+        }
+
         {
           !isLogged ? 
               (

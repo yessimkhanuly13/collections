@@ -16,7 +16,7 @@ export default function Router() {
           <Route path="/registration" element={<Registration/>}/>
           <Route path="/admin" element={<AdminPanel/>}/>
           <Route path="/collection/:id" element={<Collection/>}/>
-          <Route path="/item/:id" element={<Item/>}/>
+          <Route exact path="/item/:id" element={<Item/>}/>
         </Routes>
     )
 }

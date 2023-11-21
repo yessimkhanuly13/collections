@@ -41,7 +41,7 @@ function Item() {
         res.data.comments = comments;
         
         setItem(res.data)
-        if(res.data.userId === user._id || user.roles.includes('admin')){
+        if(user && res.data.userId === user._id || user && user.roles.includes('admin')){
           setIsOwner(true);
         }
         console.log(res.data.comments)
@@ -62,12 +62,11 @@ function Item() {
   }
 
   useEffect(()=>{
-    console.log( JSON.parse(localStorage.getItem('currentUser')).username)
     getItemById();
   }, [])
   
   return (
-    <div>
+    <div className='h-full'>
       <NavbarComponent/>
       <div className='grid grid-cols-1 md:grid-cols-4 gap-3 p-5'>
         <div className='col-span-1 md:col-span-4'>
@@ -140,7 +139,7 @@ function Item() {
                           item.comments && item.comments.map((comment)=>{
                             return (
                               <div className='col-span-6'>
-                                  <div className="ml-4">
+                                  <div className="">
                                     <div className='flex justify-between'>
                                       <h4 clas onClick={()=>navigate(`/profile/${comment.userId}`)} className="font-semibold cursor-pointer">{comment.username}</h4>
                                       <h4>{converUnixToDate(comment.createdDate)}</h4>
@@ -151,15 +150,15 @@ function Item() {
                             )
                           })
                         }
-                        <Controller name='value' control={control}
+                        {JSON.parse(localStorage.getItem('currentUser')) && (<Controller name='value' control={control}
                           render={({field})=><Input
                           {...field}
                           type="text"
                           label="Comment"
                           variant=""
                           className="col-span-5"
-                        />}/>
-                        <div className='flex items-center'>
+                        />}/>)}
+                        {JSON.parse(localStorage.getItem('currentUser')) && (<div className='flex items-center'>
                           <Button
                             onClick={handleSubmit((sendCommentToServer))}
                             variant='shadow'
@@ -168,7 +167,7 @@ function Item() {
                           >
                             Send
                           </Button> 
-                        </div>
+                        </div>)}
                       </div>             
                       </div>
                 </div>
