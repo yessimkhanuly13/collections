@@ -71,6 +71,12 @@ function Collection() {
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
           placement="top-center"
+          classNames={{
+            body: `${darkMode ? "dark" : ""} text-foreground bg-background`,
+            header: `${darkMode ? "dark" : ""}  text-foreground bg-background`,
+            footer: `${darkMode ? "dark" : ""} text-foreground bg-background`,
+            base: `${darkMode ? "dark" : ""} text-foreground bg-background`
+          }}
         >
           <ModalContent className='flex flex-col items-center'>
             {(onClose) => (
@@ -246,9 +252,9 @@ function Collection() {
                                 </div>}
                             </CardBody>
                             <Divider/>
-                            <CardFooter className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+                            <CardFooter className={`grid grid-cols-1 md:grid-cols-${isOwner ? "2" : "1"} gap-2`}>
                                 <Button variant='shadow' color='success' onClick={()=>navigate(`/item/${item._id}`)}><LinkIcon/></Button>
-                                <Button variant='shadow' color="danger" onClick={()=>deleteItem(item._id)}>Delete</Button>
+                                {isOwner && (<Button variant='shadow' color="danger" onClick={()=>deleteItem(item._id)}>Delete</Button>)}
                             </CardFooter>
                         </Card>
                     )

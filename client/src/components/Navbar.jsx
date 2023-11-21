@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +12,6 @@ import { DarkIcon } from '../icons/DarkIcon';
 function NavbarComponent() {
   const {setDarkMode, darkMode} = useContext(PopupContext);
   const [isLogged, setIsLogged] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const {url} = useContext(PopupContext);
 
@@ -53,12 +52,6 @@ function NavbarComponent() {
     }else{
       setIsLogged(false)
     }
-  
-    if(user && JSON.parse(user).roles.includes('admin')){
-        setIsAdmin(true);
-    }else{
-        setIsAdmin(false)
-    }
   },[])
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -83,6 +76,7 @@ function NavbarComponent() {
             <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
           }
           onPress={onOpen}
+          onClick={()=>setSearchResults([])}
           variant='faded'
         >Quick search...</Button>
         </NavbarItem>
@@ -94,7 +88,11 @@ function NavbarComponent() {
         onOpenChange={onOpenChange}
         placement="top"
         classNames={{
-          backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+          backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+          body: `${darkMode ? "dark" : ""} text-foreground bg-background`,
+          header: `${darkMode ? "dark" : ""}  text-foreground bg-background`,
+          footer: `${darkMode ? "dark" : ""} text-foreground bg-background`,
+          base: `${darkMode ? "dark" : ""} text-foreground bg-background`
         }}
       >
         <ModalContent>

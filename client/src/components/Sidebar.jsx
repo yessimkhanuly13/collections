@@ -14,7 +14,7 @@ function Sidebar({collections, items, tags, vision}) {
     const navigate = useNavigate();
     const {setIsCollection, setIsItems, setIsTags} = vision;
     
-    const {darkMode} = useContext(PopupContext);
+    const {darkMode} = useContext(PopupContext)
 
     const handleActions = (key) =>{
         const user = JSON.parse(localStorage.getItem('currentUser'));

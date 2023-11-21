@@ -86,6 +86,12 @@ function Profile() {
           isOpen={isOpen} 
           onOpenChange={onOpenChange}
           placement="top-center"
+          classNames={{
+            body: `${darkMode ? "dark" : ""} text-foreground bg-background`,
+            header: `${darkMode ? "dark" : ""}  text-foreground bg-background`,
+            footer: `${darkMode ? "dark" : ""} text-foreground bg-background`,
+            base: `${darkMode ? "dark" : ""} text-foreground bg-background`
+          }}
         >
           <ModalContent className='flex flex-col items-center'>
             {(onClose) => (
