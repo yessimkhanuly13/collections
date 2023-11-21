@@ -6,24 +6,35 @@ import { PopupContext } from '../App';
 import { EyeSlashFilledIcon } from '../icons/EyeSlashFilledIcon';
 import { EyeFilledIcon } from '../icons/EyeFilledIcon';
 import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 
 
 function Login() {
   const navigate = useNavigate();
-  const {setMessage, url, darkMode} = useContext(PopupContext);
+  const {url, darkMode} = useContext(PopupContext);
   const [isVisible, setIsVisible] = useState(false);
-  const {control, handleSubmit} = useForm();
+  const [errMessage, setErrMessage] = useState("");
+
+  const schema = yup.object().shape({
+      username: yup.string().required("Username is required"),
+      password: yup.string().min(4, "Password must be at least 4 characters").required("Password is required")
+  })
+
+  const {control, handleSubmit, formState: {errors}  } = useForm({resolver: yupResolver(schema)});
+
+
 
   const handleLogin = (data) => {
     axios.post(`${url}/auth/login`, data)
-      .then((res) => {
+      .then((res) => { 
         navigate(`/profile/${res.data._id}`);
         localStorage.setItem('currentUser', JSON.stringify(res.data));
       })
       .catch((e) => {
         console.log(e);
-        setMessage(e.response.data.message);
+        setErrMessage(e.response.data.message);
       });
   }
 
@@ -32,16 +43,24 @@ function Login() {
     <div className={!darkMode ? "min-h-screen flex items-center justify-center bg-gray-100" : "min-h-screen flex items-center justify-center bg-black"}>
       <div className={!darkMode ? "max-w-md w-full p-4 bg-white rounded-lg shadow-md" : "max-w-md w-full p-4 bg-black rounded-lg shadow-md"}>
         <div className="text-2xl text-center font-semibold mb-4">Login</div>
+        <div className='text-l text-center text-rose-600 mb-2'>{errMessage}</div>
         <form>
           <div className="flex flex-col items-center">
           <Controller name='username' control={control} 
-              render={({field})=> <Input {...field} isRequired type="email" label="Email"  placeholder="Enter your email" name='username'/>}
+              render={({field})=><Input 
+              {...field} 
+              isRequired
+              errorMessage={errors.username?.message}
+              type="email" 
+              label="Email"  
+              placeholder="Enter your email" 
+              />}
             />
             <Controller name='password' control={control}
               render={({field})=><Input
               {...field}
               isRequired
-              name="password"
+              errorMessage={errors.password?.message}
               label="Password"
               placeholder="Enter your password"
               endContent={

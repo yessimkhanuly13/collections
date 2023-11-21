@@ -252,7 +252,7 @@ function Collection() {
                                 </div>}
                             </CardBody>
                             <Divider/>
-                            <CardFooter className={`grid grid-cols-1 md:grid-cols-${isOwner ? "2" : "1"} gap-2`}>
+                            <CardFooter className={`grid grid-cols-1 ${isOwner ? "md:grid-cols-2 gap-2" : "md:grid-cols-1"}`}>
                                 <Button variant='shadow' color='success' onClick={()=>navigate(`/item/${item._id}`)}><LinkIcon/></Button>
                                 {isOwner && (<Button variant='shadow' color="danger" onClick={()=>deleteItem(item._id)}>Delete</Button>)}
                             </CardFooter>
