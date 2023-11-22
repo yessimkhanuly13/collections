@@ -11,7 +11,7 @@ import { LikedBtn } from '../icons/LikedBtn';
 
 function Item() {
   const [item, setItem] = useState({});
-  const {setMessage, url, darkMode, message} = useContext(PopupContext);
+  const {setMessage, url, darkMode} = useContext(PopupContext);
   const [isOwner, setIsOwner] = useState(false);
   const [currentUsername, setCurrentUsername] = useState('');
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ function Item() {
   }
 
   const addLike = (commentId) =>{
-    axios.put(`http://localhost:3434/items/addlike/${item._id}/${currentUsername}?commentId=${commentId}`)
+    axios.put(`${url}/items/addlike/${item._id}/${currentUsername}?commentId=${commentId}`)
       .then(()=>{
         getItemById();
       })

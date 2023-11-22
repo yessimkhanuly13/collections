@@ -172,8 +172,10 @@ class itemsController{
             
             const comment = await Comment.findById(commentId);
 
+            
             if( comment.likes.includes(username)){
-                comment.likes.filter((user)=>user !== username);
+                const likes = comment.likes.filter((user)=>user !== username);
+                comment.likes = likes;
             }else{
                 comment.likes.push(username);
             }

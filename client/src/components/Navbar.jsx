@@ -2,20 +2,28 @@ import { useContext, useEffect, useState } from 'react'
 import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input, useDisclosure, Modal, ModalBody, ModalContent, ModalHeader, Listbox, ListboxItem, LinkIcon} from "@nextui-org/react";
+import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input, useDisclosure, Modal, ModalBody, ModalContent, ModalHeader, Listbox, ListboxItem, LinkIcon, Select, SelectItem} from "@nextui-org/react";
 import { Link } from 'react-router-dom';
 import { SearchIcon } from '../icons/SearchIcon';
 import { DashboardIcon } from '../icons/DashboardIcon';
 import { LightIcon } from '../icons/LightIcon';
 import { DarkIcon } from '../icons/DarkIcon';
+import { useTranslation } from "react-i18next";
+
 
 function NavbarComponent() {
   const {setDarkMode, darkMode} = useContext(PopupContext);
   const [isLogged, setIsLogged] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [open, setOpen] = useState(false)
   const {url} = useContext(PopupContext);
 
   const navigate = useNavigate();
+  const {t, i18n} = useTranslation();
+
+  const changeLanguage = (lang) =>{
+    i18n.changeLanguage(lang)
+  }
 
   const handleChange = (e) =>{
     console.log(searchResults)
@@ -61,7 +69,7 @@ function NavbarComponent() {
     <NavbarContent justify="start">
       <NavbarBrand className="mr-4">
         <Link to="/">
-          <p className="text-xl hidden sm:block font-bold text-inherit">Collections</p>
+          <p className="text-xl hidden sm:block font-bold text-inherit">{t('navbar.header')}</p>
         </Link>
         <Link to="/">
           <DashboardIcon className="ml-2" fill={`${darkMode ? "#f8fafc" : ""}`}/>
@@ -78,7 +86,7 @@ function NavbarComponent() {
           onPress={onOpen}
           onClick={()=>setSearchResults([])}
           variant='faded'
-        >Quick search...</Button>
+        >{t('navbar.search')}</Button>
         </NavbarItem>
     </NavbarContent>
 
@@ -116,7 +124,7 @@ function NavbarComponent() {
                                 <span className='text-l'>
                                   {item.topic ? item.topic : item.desc ? item.desc : item.customField1_value ? item.customField1_value : item.customField2_value ? item.customField2_value : item.customField3_value}
                                 </span>
-                                <span className='text-l'>{item.topic ? "Topic" : item.desc ? "Desc" : "Custom field" }</span>
+                                <span className='text-l'>{item.topic ? t('topic') : item.desc ? t('desc') : t('custom_field') }</span>
                                 <div className='flex justify-end'>
                                   <LinkIcon/>
                                 </div>
@@ -132,6 +140,26 @@ function NavbarComponent() {
       </Modal>
 
     <NavbarContent justify="end">
+          <NavbarItem className="flex">
+            <Select
+              className="max-w-xs"
+              label="Lang"
+              placeholder="Select a lang"
+              selectionMode="single"
+              onOpenChange={setOpen}
+              onChange={(e)=>changeLanguage(e.target.value)}
+            >
+              <SelectItem key="en" value="en" className="capitalize">
+                English
+              </SelectItem>
+              <SelectItem key="ru" value="ru" className="capitalize">
+                Русский
+              </SelectItem>
+                  
+            </Select>
+          </NavbarItem>
+
+
         {darkMode ? (
           <NavbarItem className="flex">
             <DarkIcon className="cursor-pointer" fill="#f8fafc" onClick={toggleMode}/>
@@ -148,13 +176,13 @@ function NavbarComponent() {
               (
                 <NavbarItem className="flex">
                     <Button color="success" variant="shadow" onClick={()=>navigate('/login')}>
-                        Sign In
+                        {t('signin')}
                     </Button>
                 </NavbarItem>
               ) : (
                   <NavbarItem className="flex">
                       <Button color="danger" variant="shadow" onClick={handleLogout}>
-                          Log out
+                        {t('logout')}
                       </Button>
                     </NavbarItem>
               )

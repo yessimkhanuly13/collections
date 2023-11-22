@@ -1,0 +1,11 @@
+ {
+    "navbar": {
+        "header" : "Collections",
+        "search" : "Quick search...",
+        "topic" : "Topic", 
+        "desc" : "Description",
+        "custom_field" : "Custom field",
+        "signin" : "Sign In",
+        "logout" : "Log Out"
+    }
+ }
