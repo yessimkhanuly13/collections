@@ -9,6 +9,7 @@ itemsRouter.delete('/delete/:id', itemsController.deleteFromCollection, itemsCon
 itemsRouter.put('/update/:id', itemsController.update);
 itemsRouter.put('/addtag/:id',itemsController.addTag, itemsController.addTagToItem);
 itemsRouter.post('/addcomment/:id', itemsController.addNewComment, itemsController.addCommentToItem);
+itemsRouter.put('/addlike/:id/:username', itemsController.commentLikeHandle);
 itemsRouter.delete('/delcomment/:id', itemsController.deleteCommentFromItem);
 
 

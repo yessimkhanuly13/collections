@@ -164,6 +164,37 @@ class itemsController{
         }
     }
 
+    async commentLikeHandle(req, res){
+        try{
+            const commentId = req.query.commentId;
+            const username = req.params.username;
+            const id = req.params.id;
+            
+            const comment = await Comment.findById(commentId);
+
+            if( comment.likes.includes(username)){
+                comment.likes.filter((user)=>user !== username);
+            }else{
+                comment.likes.push(username);
+            }
+            
+            await comment.save();
+
+            const item = await Item.findById(id);
+
+            const comments = item.comments.filter((itemComment)=>JSON.stringify(itemComment._id) !== JSON.stringify(comment._id));
+            comments.push(comment);
+  
+            item.comments = comments;
+            await item.save();
+
+            return res.json({message: "Like successfully added!"})
+        }catch(e){
+            console.log(e);
+            res.json({message: "Something went wrong!"})
+        }
+    }
+
     async deleteCommentFromItem(req, res){
         try{
             const commentId = req.query.commentid;

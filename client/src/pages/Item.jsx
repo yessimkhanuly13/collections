@@ -6,11 +6,14 @@ import NavbarComponent from '../components/Navbar';
 import { Divider, Button, Input, Card, User } from '@nextui-org/react';
 import { useForm, Controller } from 'react-hook-form';
 import { converUnixToDate } from '../functions/unixtodate';
+import { LikeBtn } from '../icons/LikeBtn';
+import { LikedBtn } from '../icons/LikedBtn';
 
 function Item() {
   const [item, setItem] = useState({});
   const {setMessage, url, darkMode, message} = useContext(PopupContext);
   const [isOwner, setIsOwner] = useState(false);
+  const [currentUsername, setCurrentUsername] = useState('');
   const navigate = useNavigate();
 
   const itemId = useParams();
@@ -33,6 +36,7 @@ function Item() {
 
   const getItemById = () =>{
     const user = JSON.parse(localStorage.getItem('currentUser'));
+    setCurrentUsername(user.username);
     axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
 
@@ -58,6 +62,16 @@ function Item() {
       })
       .catch((e)=>{
         setMessage(e.response.data.message);
+      })
+  }
+
+  const addLike = (commentId) =>{
+    axios.put(`http://localhost:3434/items/addlike/${item._id}/${currentUsername}?commentId=${commentId}`)
+      .then(()=>{
+        getItemById();
+      })
+      .catch((e)=>{
+        console.log(e);
       })
   }
 
@@ -141,10 +155,15 @@ function Item() {
                               <div className='col-span-6'>
                                   <div className="">
                                     <div className='flex justify-between'>
-                                      <h4 clas onClick={()=>navigate(`/profile/${comment.userId}`)} className="font-semibold cursor-pointer">{comment.username}</h4>
-                                      <h4>{converUnixToDate(comment.createdDate)}</h4>
+                                      <div className='flex items-center gap-1'>
+                                        <h4 onClick={()=>navigate(`/profile/${comment.userId}`)} className="font-semibold cursor-pointer">{comment.username}</h4>
+                                        <h4 className='text-default-400 text-xs'>{converUnixToDate(comment.createdDate)}</h4>
+                                        </div>
+                                      <div className='flex gap-1  items-center'>
+                                        <div className='flex justify-end cursor-pointer' onClick={()=>addLike(comment._id)}>{comment.likes.includes(currentUsername) ? (<LikedBtn/>) :(<LikeBtn/>)}</div>
+                                      </div>
                                     </div>
-                                    <p className="text-gray-600">{comment.value}</p>
+                                    <p className="text-default-600">{comment.value}</p>
                                   </div>
                               </div>
                             )
@@ -173,6 +192,9 @@ function Item() {
                 </div>
         </div>      
       </div>
+      {
+        currentUsername
+      }
     </div>
   )
 }
