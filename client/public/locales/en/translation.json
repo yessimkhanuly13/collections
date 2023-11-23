@@ -76,6 +76,11 @@
         "tags": "Tags",
         "profile": "Profile",
         "admin_panel": "Admin Panel"
+    },
+    "search":{
+        "type": "Type",
+        "search": "Search",
+        "empty": "Empty"
     }
 
  }

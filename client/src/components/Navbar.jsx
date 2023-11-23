@@ -82,6 +82,24 @@ function NavbarComponent() {
           <DashboardIcon className="ml-2" fill={`${darkMode ? "#f8fafc" : ""}`}/>
         </Link>
       </NavbarBrand>
+      <NavbarItem className="flex md:hidden">
+              <Select
+                className="max-w-l w-16"
+                label={t('lang')}
+                selectionMode="single"
+                onOpenChange={setOpen}
+                onChange={(e)=>changeLanguage(e.target.value)}
+                selectedKeys={[t('defaultLang')]}
+              >
+                <SelectItem key="en" value="en" className="capitalize">
+                  En
+                </SelectItem>
+                <SelectItem key="ru" value="ru" className="capitalize">
+                  Ру
+                </SelectItem>
+                    
+              </Select>
+        </NavbarItem>
     </NavbarContent>
     
     <NavbarContent justify="center">
@@ -113,17 +131,19 @@ function NavbarComponent() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Search</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">{t('search.search')}</ModalHeader>
               <ModalBody className='mb-5'>
               <Input
                   autoFocus
                   endContent={
                     <SearchIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
-                  placeholder="Type"
+                  placeholder={t('search.type')}
                   onChange={handleChange}
                 />
-                  <Listbox>
+                  <Listbox 
+                    emptyContent={t('search.empty')}
+                  >
                     {searchResults && searchResults.map((item, index)=>{
                       return (
                         <ListboxItem key={`${item._id}-${index}`}>
@@ -147,26 +167,24 @@ function NavbarComponent() {
       </Modal>
 
     <NavbarContent justify="end">
-          <NavbarItem className="flex">
-            <Select
-              className="max-w-l w-20"
-              label={t('lang')}
-              selectionMode="single"
-              onOpenChange={setOpen}
-              onChange={(e)=>changeLanguage(e.target.value)}
-              selectedKeys={[t('defaultLang')]}
-            >
-              <SelectItem key="en" value="en" className="capitalize">
-                En
-              </SelectItem>
-              <SelectItem key="ru" value="ru" className="capitalize">
-                Ру
-              </SelectItem>
-                  
-            </Select>
-          </NavbarItem>
-
-
+      <NavbarItem className="hidden md:flex">
+              <Select
+                className="max-w-l w-20"
+                label={t('lang')}
+                selectionMode="single"
+                onOpenChange={setOpen}
+                onChange={(e)=>changeLanguage(e.target.value)}
+                selectedKeys={[t('defaultLang')]}
+              >
+                <SelectItem key="en" value="en" className="capitalize">
+                  En
+                </SelectItem>
+                <SelectItem key="ru" value="ru" className="capitalize">
+                  Ру
+                </SelectItem>
+                    
+              </Select>
+        </NavbarItem>
         {darkMode ? (
           <NavbarItem className="flex">
             <DarkIcon className="cursor-pointer" fill="#f8fafc" onClick={toggleMode}/>
