@@ -8,16 +8,19 @@ import { EyeFilledIcon } from '../icons/EyeFilledIcon';
 import {useForm, Controller} from 'react-hook-form';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup'
+import { useTranslation } from 'react-i18next';
 
 function Registration() {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const [errMessage, setErrMessage] = useState('');
 
+  const {t} = useTranslation();
+
   const schema = yup.object().shape({
-    username: yup.string().required("Username is required"),
-    password: yup.string().min(4, "Password must be at least 4 characters").required("Password is required"),
-    confirmPassword: yup.string().oneOf([yup.ref("password"), null], "Passwords don't match!").required("Password confirmation is required")
+    username: yup.string().required(t('auth.username_check')),
+    password: yup.string().min(4, t('auth.pass_len_check')).required(t('auth.pass_check')),
+    confirmPassword: yup.string().oneOf([yup.ref("password"), null], t('auth.pass_confirm_check')).required(t('auth.pass_confirm'))
   })
 
   const {control, handleSubmit, formState:{errors}} = useForm({
@@ -41,7 +44,7 @@ function Registration() {
   return (
     <div className={!darkMode ? "min-h-screen flex items-center justify-center bg-gray-100" : "min-h-screen flex items-center justify-center bg-black"}>
       <div className={!darkMode ? "max-w-md w-full p-4 bg-white rounded-lg shadow-md" : "max-w-md w-full p-4 bg-black rounded-lg shadow-md"}>
-        <div className="text-2xl text-center font-semibold mb-4">Registration</div>
+        <div className="text-2xl text-center font-semibold mb-4">{t('auth.registration')}</div>
         <div className='text-l text-center text-rose-600 mb-2'>{errMessage}</div>
         <form>
           <div className="flex flex-col items-center">
@@ -50,8 +53,8 @@ function Registration() {
               isRequired 
               errorMessage={errors.username?.message}
               type="email" 
-              label="Email"  
-              placeholder="Enter your email" 
+              label={t('auth.username')}  
+              placeholder={t('auth.enter_username')}
               name='username'/>}
             />
             <Controller name='password' control={control}
@@ -59,8 +62,8 @@ function Registration() {
               {...field}
               isRequired
               errorMessage={errors.password?.message}
-              label="Password"
-              placeholder="Enter your password"
+              label={t('auth.pass')}
+              placeholder={t('auth.enter_pass')}
               endContent={
                 <button className="focus:outline-none" type="button" onClick={()=>setIsVisible(!isVisible)}>
                   {isVisible ? (
@@ -79,8 +82,8 @@ function Registration() {
               {...field}
               isRequired
               errorMessage={errors.confirmPassword?.message}
-              label="Confirm password"
-              placeholder="Enter your password"
+              label={t('auth.confirm_password')}
+              placeholder={t('auth.confirm_password')}
               endContent={
                 <button className="focus:outline-none" type="button" onClick={()=>setIsVisible(!isVisible)}>
                   {isVisible ? (
@@ -95,12 +98,12 @@ function Registration() {
             />}
             />
               <p className={ !darkMode ? "text-sm text-gray-500 text-center my-2" : "text-sm text-white text-center my-2"}>
-                Already have an account? <Link className="text-lime-600 hover:underline" to="/login">Sign In here</Link>
+                {t('auth.already_have_an_account')} <Link className="text-lime-600 hover:underline" to="/login">{t('auth.sign_in_here')}</Link>
               </p>
             </div>
             <div className="flex justify-around mt-4">
-                <Button variant='shadow' color='danger' onClick={()=>navigate('/')}>Go Back</Button>
-                <Button variant='shadow' color='success' onClick={handleSubmit(handleRegistration)}>Submit</Button>
+                <Button variant='shadow' color='danger' onClick={()=>navigate('/')}>{t('buttons.go_back')}</Button>
+                <Button variant='shadow' color='success' onClick={handleSubmit(handleRegistration)}>{t('buttons.submit')}</Button>
             </div>
           </form>
       </div>

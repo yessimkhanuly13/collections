@@ -4,8 +4,76 @@
         "search" : "Quick search...",
         "topic" : "Topic", 
         "desc" : "Description",
-        "custom_field" : "Custom field",
+        "custom_field" : "Custom field"
+    },
+    "collection": {
+        "name": "Name",
+        "description": "Description",
+        "theme": "Theme",
+        "items": "Items",
+        "link": "Link",
+        "select_theme": "Select a theme"
+    },
+    "item":{
+        "topic": "Topic",
+        "desc": "Description",
+        "created_date": "Created date",
+        "tags": "Tags",
+        "link": "Link",
+        "custom_field_bool": "Custom Fields",
+        "custom_field_name": "Custom Field Name",
+        "custom_field_value": "Custom Field Value",
+        "comments" : "Comments",
+        "comment" : "Comment"
+
+    },
+    "auth":{
+        "login": "Login",
+        "registration": "Registration",
+        "enter_username": "Enter your username",
+        "enter_pass":"Enter your password",
+        "username": "Username",
+        "pass" : "Password",
+        "dont_have_an_account": "Don't have an account?",
+        "already_have_an_account": "Already have an account?",
+        "register_here": "Register here",
+        "sign_in_here": "Sign In here",
+        "confirm_password": "Confirm password",
+        "username_check": "Username is required",
+        "pass_len_check": "Password must be at least 4 characters",
+        "pass_confirm_check": "Passwords don't match!",
+        "pass_check": "Password is required",
+        "pass_confirm": "Password confirmation is required"
+    },
+
+    "buttons": {
+        "add": "Add",
+        "go_back": "Go back",
+        "submit": "Submit",
+        "add_new_item": "Add new Item",
+        "add_new_collection": "Add new Collection",
+        "delete": "Delete",
         "signin" : "Sign In",
-        "logout" : "Log Out"
+        "logout" : "Log Out",
+        "update" : "Update"
+    },
+    "admin_panel": {
+        "username": "Username",
+        "role": "Role",
+        "status": "Status",
+        "delete": "Delete",
+        "update": "Update",
+        "block": "Block",
+        "update_hint": "Remove admin role",
+        "update_hint_2": "Give admin role",
+        "unblock": "unblock"
+    },
+    "sidebar": {
+        "collections": "Collections",
+        "items": "Items",
+        "tags": "Tags",
+        "profile": "Profile",
+        "admin_panel": "Admin Panel"
     }
+
  }

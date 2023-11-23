@@ -9,12 +9,14 @@ import { ItemIcon } from "../icons/ItemIcons";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { PopupContext } from "../App";
+import { useTranslation } from "react-i18next";
 
 function Sidebar({collections, items, tags, vision}) {
     const navigate = useNavigate();
     const {setIsCollection, setIsItems, setIsTags} = vision;
     
     const {darkMode} = useContext(PopupContext)
+    const {t} = useTranslation();
 
     const handleActions = (key) =>{
         const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -59,7 +61,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                <span className="font-bold">Collections</span>
+                <span className="font-bold">{t('sidebar.collections')}</span>
             </ListboxItem>
             <ListboxItem
                 key="items"
@@ -70,7 +72,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                <span className="font-bold">Items</span>
+                <span className="font-bold">{t('sidebar.items')}</span>
             </ListboxItem>
             <ListboxItem
                 key="tags"
@@ -81,7 +83,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                <span className="font-bold">Tags</span>
+                <span className="font-bold">{t('sidebar.tags')}</span>
             </ListboxItem>
             {JSON.parse(localStorage.getItem('currentUser')) && <ListboxItem
                 key="profile"
@@ -92,7 +94,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                <span className="font-bold">Profile</span>
+                <span className="font-bold">{t('sidebar.profile')}</span>
             </ListboxItem>}
             {JSON.parse(localStorage.getItem('currentUser')) && JSON.parse(localStorage.getItem('currentUser')).roles.includes('admin') && <ListboxItem
                 key="admin"
@@ -103,7 +105,7 @@ function Sidebar({collections, items, tags, vision}) {
                 </IconWrapper>
                 }
             >
-                <span className="font-bold">Admin Panel</span>
+                <span className="font-bold">{t('sidebar.admin_panel')}</span>
             </ListboxItem>}
             
         </Listbox>

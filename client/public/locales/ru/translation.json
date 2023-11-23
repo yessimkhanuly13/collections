@@ -4,8 +4,75 @@
         "search" : "Быстрый поиск...",
         "topic" : "Тема", 
         "desc" : "Описание",
-        "custom_field" : "Доп. поле",
+        "custom_field" : "Доп. поле"
+    },
+    "collection": {
+        "name": "Наименование",
+        "description": "Описание",
+        "theme": "Тема",
+        "items": "Айтемы",
+        "link": "Ссылка",
+        "select_theme": "Выбрать тему"
+    },
+    "item":{
+        "topic": "Заголовок",
+        "desc": "Описание",
+        "created_date": "Дата создания",
+        "tags": "Тэги",
+        "link": "Ссылка",
+        "custom_field_bool": "Дополнительные сторковые поля",
+        "custom_field_name": "Наименование строкового поле",
+        "custom_field_value": "Значение строкового поле",
+        "comments": "Комментарии",
+        "comment": "Комментарий"
+
+    },
+    "auth":{
+        "login": "Войти",
+        "registration": "Регистрация",
+        "enter_username": "Введите почту",
+        "enter_pass":"Введите пароль",
+        "username": "Почта",
+        "pass" : "Пароль",
+        "dont_have_an_account": "Нету учетной записи?",
+        "already_have_an_account": "Есть учетная запись?",
+        "register_here": "Зарегистрироваться",
+        "sign_in_here": "Войти",
+        "confirm_password": "Подтвердите пароль",
+        "username_check": "Имя пользователя обязателен",
+        "pass_len_check": "Пароль должен быть не менее 4 символов",
+        "pass_confirm_check": "Пароли не совпадают",
+        "pass_check": "Пароль обязателен",
+        "pass_confirm": "Подтверждение пароля обязательно"
+    },
+
+    "buttons": {
+        "add": "Добавить",
+        "go_back": "Вернуться",
+        "submit": "Отправить",
+        "add_new_item": "Добавить новый Айтем",
+        "add_new_collection": "Добавить новую Коллекцию",
+        "delete": "Удалить",
         "signin" : "Войти",
-        "logout" : "Выйти"
+        "logout" : "Выйти",
+        "update" : "Обновить"
+    },
+    "admin_panel": {
+        "username": "Имя пользователя",
+        "role": "Роль",
+        "status": "Статус",
+        "delete": "Удаление",
+        "update": "Обновление",
+        "block": "Блокировка",
+        "update_hint": "Убрать роль админа",
+        "update_hint_2": "Дать роль админа",
+        "unblock": "Разблокировка"
+    },
+    "sidebar": {
+        "collections": "Коллекции",
+        "items": "Айтемы",
+        "tags": "Тэги",
+        "profile": "Профиль",
+        "admin_panel": "Админ Панель"
     }
  }

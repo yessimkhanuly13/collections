@@ -5,7 +5,7 @@ import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
 import { useForm, Controller } from 'react-hook-form';
-
+import { useTranslation } from "react-i18next";
 
 function Collection() {
     const [collection, setCollection] = useState({});
@@ -19,6 +19,8 @@ function Collection() {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const navigate = useNavigate();
     const collectionId = useParams();
+
+    const {t} = useTranslation();
     
     const {setMessage, url, darkMode, message} = useContext(PopupContext)
 
@@ -42,6 +44,7 @@ function Collection() {
         axios.put(`${url}/collections/additem/${collection._id}`, {userId: collection.userId, ...data })
             .then(()=>{
                 getCollectionById();
+                reset();
             })
             .catch((e)=>{
                 setMessage(e.response.data.message);
@@ -81,7 +84,7 @@ function Collection() {
           <ModalContent className='flex flex-col items-center'>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1">Add new item</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1">{t('buttons.add_new_item')}</ModalHeader>
                 <ModalBody className='grid grid-cols-4 gap-3'>
 
                         <Controller control={control} name='topic' 
@@ -89,7 +92,7 @@ function Collection() {
                             {...field}
                             isRequired
                             type="text"
-                            label="Topic"
+                            label={t('item.topic')}
                             className="max-w-xs col-span-2"
                         />}/>
 
@@ -98,14 +101,14 @@ function Collection() {
                             {...field}
                             isRequired
                             type="text"
-                            label="Description"
+                            label={t('item.desc')}
                             className="max-w-xs col-span-2"
                         />}/>
                         
                         <Controller control={control} name='customField1_bool'
                         render={({field})=>
                             <Checkbox {...field} className='col-span-4' isSelected={field.value} >
-                                Custom Field
+                                {t('item.custom_field_bool')}
                             </Checkbox>}/>
 
                        {customField1 && (<Controller control={control} name='customField1_name' 
@@ -113,7 +116,7 @@ function Collection() {
                       isRequired
                         {...field}
                         type="text"
-                        label="Custom Field Name"
+                        label={t('item.custom_field_name')}
                         className="max-w-xs col-span-2"
                       />}/>)}
 
@@ -122,14 +125,14 @@ function Collection() {
                       isRequired
                         {...field}
                         type="text"
-                        label="Custom Field Value"
+                        label={t('item.custom_field_value')}
                         className="max-w-xs col-span-2"
                       />}/>}
 
                        {customField1 && <Controller control={control} name='customField2_bool'
                         render={({field})=>
                             <Checkbox {...field} className='col-span-4' isSelected={field.value} >
-                                Custom Field
+                                {t('item.custom_field_bool')}
                             </Checkbox>}/>}
 
                       {customField2 && (<Controller control={control} name='customField2_name' 
@@ -137,7 +140,7 @@ function Collection() {
                       isRequired
                         {...field}
                         type="text"
-                        label="Custom Field Name"
+                        label={t('item.custom_field_name')}
                         className="max-w-xs col-span-2"
                       />}/>)}
 
@@ -146,14 +149,14 @@ function Collection() {
                       isRequired
                         {...field}
                         type="text"
-                        label="Custom Field Value"
+                        label={t('item.custom_field_value')}
                         className="max-w-xs col-span-2"
                       />}/>)}
 
                         {customField2 && <Controller control={control} name='customField3_bool'
                         render={({field})=>
                             <Checkbox {...field} className='col-span-4' isSelected={field.value} >
-                                Custom Field
+                                {t('item.custom_field_bool')}
                             </Checkbox>}/>}
 
                       {customField2 && customField3 && ( <Controller control={control} name='customField3_name' 
@@ -161,7 +164,7 @@ function Collection() {
                       isRequired
                         {...field}
                         type="text"
-                        label="Custom Field Name"
+                        label={t('item.custom_field_name')}
                         className="max-w-xs col-span-2"
                       />}/>)}
 
@@ -170,17 +173,17 @@ function Collection() {
                       isRequired
                         {...field}
                         type="text"
-                        label="Custom Field Value"
+                        label={t('item.custom_field_value')}
                         className="max-w-xs col-span-2"
                       />}/>)}
                       
                 </ModalBody>
                 <ModalFooter className='flex w-1/3 justify-around'>
                 <Button color="success" variant="flat" onPress={onClose} onClick={handleSubmit((data)=>addNewItem(data))}>
-                    Add
+                    {t('buttons.add')}
                   </Button>
-                <Button color="danger"  onPress={onClose}>
-                    Go Back
+                <Button color="danger" onClick={()=>reset()} onPress={onClose}>
+                    {t('buttons.go_back')}
                   </Button>
                 </ModalFooter>
             </>
@@ -201,15 +204,15 @@ function Collection() {
                 </div>
                 <Divider/>
                 <div className='flex flex-col items-center gap-3'>
-                    <span className='font-bold text-xl'>Theme:</span>
+                    <span className='font-bold text-xl'>{t('collection.theme')}:</span>
                     <p>{collection.theme}</p>
-                    <span className='font-bold text-xl'>Description:</span>
+                    <span className='font-bold text-xl'>{t('collection.description')}:</span>
                     <p>{collection.description}</p>
                 </div>
                 <Divider/>
                 <div className='flex flex-col items-center gap-3 pb-3'>
-                    <span className='font-bold text-xl'>Items: {collection.items ? collection.items.length : 0}</span>
-                    {isOwner && (<Button variant='shadow' color='success' onPress={onOpen}>Add new item</Button>)}
+                    <span className='font-bold text-xl'>{t('collection.items')}: {collection.items ? collection.items.length : 0}</span>
+                    {isOwner && (<Button variant='shadow' color='success' onPress={onOpen}>{t('buttons.add_new_item')}</Button>)}
                 </div>
             </div>
             {
@@ -221,10 +224,10 @@ function Collection() {
                             </CardHeader>
                             <Divider/>
                             <CardBody className='flex flex-col items-center gap-3'>
-                                <span className='font-bold text-xl'>Description:</span>
+                                <span className='font-bold text-xl'>{t('item.desc')}:</span>
                                 <p>{item.desc}</p>
                                 {item.customField1_bool && <div className={`grid grid-cols-1 md:grid-cols-${item.customField3_bool ? 3 : item.customField2_bool ? 2 : 1}`}>
-                                    <span className='col-span-1 md:col-span-4 text-center font-bold text-xl'>Custom fields:</span>
+                                    <span className='col-span-1 md:col-span-4 text-center font-bold text-xl'>{t('item.custom_field_bool')}:</span>
                                     {
                                         item.customField1_bool && (
                                             <div className='flex flex-col p-2'>
@@ -254,7 +257,7 @@ function Collection() {
                             <Divider/>
                             <CardFooter className={`grid grid-cols-1 ${isOwner ? "md:grid-cols-2 gap-2" : "md:grid-cols-1"}`}>
                                 <Button variant='shadow' color='success' onClick={()=>navigate(`/item/${item._id}`)}><LinkIcon/></Button>
-                                {isOwner && (<Button variant='shadow' color="danger" onClick={()=>deleteItem(item._id)}>Delete</Button>)}
+                                {isOwner && (<Button variant='shadow' color="danger" onClick={()=>deleteItem(item._id)}>{t('buttons.delete')}</Button>)}
                             </CardFooter>
                         </Card>
                     )

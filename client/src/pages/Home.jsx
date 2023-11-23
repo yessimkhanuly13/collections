@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { converUnixToDate } from '../functions/unixtodate';
 import Sidebar from '../components/Sidebar';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, LinkIcon, Button} from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -19,6 +20,7 @@ function Home() {
   const [isItems, setIsItems] = useState(false);
   const [isTags, setIsTags] = useState(false);
 
+  const {t} = useTranslation();
 
   const {setMessage, darkMode, url} = useContext(PopupContext);
 
@@ -93,11 +95,11 @@ function Home() {
          {isCollection &&  <div className='flex flex-col'>
             <Table isStriped aria-label="Example static collection table">
               <TableHeader>
-                <TableColumn>Name</TableColumn>
-                <TableColumn>Description</TableColumn>
-                <TableColumn>Theme</TableColumn>
-                <TableColumn>Items</TableColumn>
-                <TableColumn>Link</TableColumn>
+                <TableColumn>{t('collection.name')}</TableColumn>
+                <TableColumn>{t('collection.description')}</TableColumn>
+                <TableColumn>{t('collection.theme')}</TableColumn>
+                <TableColumn>{t('collection.items')}</TableColumn>
+                <TableColumn>{t('collection.link')}</TableColumn>
               </TableHeader>
               <TableBody>
                 {collections.map((collection)=>{
@@ -117,11 +119,11 @@ function Home() {
          { isItems && <div className='flex flex-col'> 
             <Table isStriped aria-label="Example static collection table">
               <TableHeader>
-                <TableColumn>Topic</TableColumn>
-                <TableColumn>Description</TableColumn>
-                <TableColumn>Created Date</TableColumn>
-                <TableColumn>Tags</TableColumn>
-                <TableColumn>Link</TableColumn>
+                <TableColumn>{t('item.topic')}</TableColumn>
+                <TableColumn>{t('item.desc')}</TableColumn>
+                <TableColumn>{t('item.created_date')}</TableColumn>
+                <TableColumn>{t('item.tags')}</TableColumn>
+                <TableColumn>{t('item.link')}</TableColumn>
               </TableHeader>
               <TableBody>
                 {oldestItems.map((item)=>{

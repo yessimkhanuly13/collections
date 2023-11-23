@@ -7,11 +7,14 @@ import {Select, SelectItem, Modal, ModalContent, ModalHeader, ModalBody, ModalFo
 import { useForm, Controller } from 'react-hook-form';
 import { DeleteIcon } from '../icons/DeleteIcon';
 import { EditIcon } from '../icons/EditIcon';
+import { useTranslation } from "react-i18next";
 
 function Profile() {
   const [isOwner, setIsOwner] = useState(false);
   const [collections, setCollections] = useState([]);
   const [editingCollectionId, setEditingCollectionId] = useState(null);
+
+  const {t} = useTranslation();
 
   const userId = useParams();
 
@@ -96,14 +99,14 @@ function Profile() {
           <ModalContent className='flex flex-col items-center'>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1">Add new collection</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1">{t('buttons.add_new_collection')}</ModalHeader>
                 <ModalBody>
                     <Controller control={control} name='name' 
                       render={({field})=><Input
                         {...field}
                         isRequired
                         type="text"
-                        label="Name"
+                        label={t('collection.name')}
                         defaultValue=""
                         className="max-w-xs"
                       />}/>
@@ -112,7 +115,7 @@ function Profile() {
                         {...field}
                         isRequired
                         type="text"
-                        label="Description"
+                        label={t('collection.description')}
                         defaultValue=""
                         className="max-w-xs"
                       />}
@@ -122,8 +125,8 @@ function Profile() {
                       render={({field})=><Select
                       {...field}
                       isRequired
-                      label="Theme"
-                      placeholder="Select a theme"
+                      label={t('collection.theme')}
+                      placeholder={t('collection.select_theme')}
                       defaultSelectedKeys={""}
                       className="max-w-xs"
                     >
@@ -142,10 +145,10 @@ function Profile() {
                 </ModalBody>
                 <ModalFooter className='flex flex-col w-1/3 justify-around'>
                 <Button color="success" variant="flat" onPress={onClose} onClick={handleSubmit(addNewCollection)}>
-                    Add
+                    {t('buttons.add')}
                   </Button>
                 <Button color="danger" onPress={onClose}>
-                    Go Back
+                    {t('buttons.go_back')}
                   </Button>
                 </ModalFooter>
             </>
@@ -156,13 +159,13 @@ function Profile() {
       <div className='flex flex-col'>
             {isOwner ? (<Table className='p-3' isStriped aria-label="Example static collection table">
               <TableHeader>
-                <TableColumn>Name</TableColumn>
-                <TableColumn>Description</TableColumn>
-                <TableColumn>Theme</TableColumn>
-                <TableColumn>Items</TableColumn>
-                <TableColumn>Link</TableColumn>
-                <TableColumn>Update</TableColumn>
-                <TableColumn>Delete</TableColumn>
+                <TableColumn>{t('collection.name')}</TableColumn>
+                <TableColumn>{t('collection.description')}</TableColumn>
+                <TableColumn>{t('collection.theme')}</TableColumn>
+                <TableColumn>{t('collection.items')}</TableColumn>
+                <TableColumn>{t('collection.link')}</TableColumn>
+                <TableColumn>{t('buttons.update')}</TableColumn>
+                <TableColumn>{t('buttons.delete')}</TableColumn>
               </TableHeader>
               <TableBody>
                 {collections.map((collection)=>{
@@ -170,14 +173,14 @@ function Profile() {
                     <TableRow key={collection._id}>
                       <TableCell>{editingCollectionId === collection._id ? 
                         (<Controller control={control} name='name'
-                          render={({field})=><Input {...field} defaultValue={collection.name} name='name' placeholder='Name'/>}
+                          render={({field})=><Input {...field} defaultValue={collection.name} name='name' placeholder={t('collection.name')}/>}
                         />) 
                         :
                          collection.name}
                       </TableCell>
                       <TableCell>{editingCollectionId === collection._id ? 
                         (<Controller control={control} name='description' 
-                          render={({field})=><Input {...field} defaultValue={collection.description} name='description' placeholder='Description'/>}
+                          render={({field})=><Input {...field} defaultValue={collection.description} name='description' placeholder={t('collection.description')}/>}
                         />) 
                         :
                         collection.description}
@@ -187,8 +190,8 @@ function Profile() {
                           render={({field})=><Select
                           {...field}
                           isRequired
-                          label="Theme"
-                          placeholder="Select a theme"
+                          label={t('collection.theme')}
+                          placeholder={t('collection.select_theme')}
                           defaultSelectedKeys={[collection.theme]}
                           className="max-w-xs"
                         >
@@ -209,8 +212,8 @@ function Profile() {
                       <TableCell>{collection.items.length}</TableCell>
                       <TableCell><Link to={`/collection/${collection._id}`}><LinkIcon/></Link></TableCell>
                       <TableCell><div className="relative flex items-center p-3 gap-2 cursor-pointer">{editingCollectionId === collection._id ? (<div className='flex gap-2'>
-                        <Button onClick={()=>{setEditingCollectionId(null); reset()}}>Cancel</Button>
-                        <Button onClick={handleSubmit((data)=>handleSaveUpdate(data, collection._id))}>Update</Button>
+                        <Button onClick={()=>{setEditingCollectionId(null); reset()}}>{t('buttons.go_back')}</Button>
+                        <Button onClick={handleSubmit((data)=>handleSaveUpdate(data, collection._id))}>{t('buttons.update')}</Button>
                       </div>) : (<EditIcon onClick={()=>setEditingCollectionId(collection._id)} />)}</div></TableCell>
                       <TableCell><div className="relative flex items-center p-3 gap-2 cursor-pointer"><DeleteIcon onClick={()=>handleDelete(collection._id)}/></div></TableCell>
                     </TableRow>
@@ -220,11 +223,11 @@ function Profile() {
               </Table>) : (
                 <Table className='p-3' isStriped aria-label="Example static collection table">
                 <TableHeader>
-                  <TableColumn>Name</TableColumn>
-                  <TableColumn>Description</TableColumn>
-                  <TableColumn>Theme</TableColumn>
-                  <TableColumn>Items</TableColumn>
-                  <TableColumn>Link</TableColumn>
+                  <TableColumn>{t('collection.name')}</TableColumn>
+                  <TableColumn>{t('collection.description')}</TableColumn>
+                  <TableColumn>{t('collection.items')}</TableColumn>
+                  <TableColumn>{t('collection.theme')}</TableColumn>
+                  <TableColumn>{t('collection.link')}</TableColumn>
                 </TableHeader>
                 <TableBody>
                   {collections.map((collection)=>{
@@ -250,7 +253,7 @@ function Profile() {
               )}
           </div>
           {isOwner && (<div className='p-3 flex justify-end gap-3'>
-            <Button color="success" variant='shadow' onPress={onOpen}>New Collection</Button>
+            <Button color="success" variant='shadow' onPress={onOpen}>{t('buttons.add_new_collection')}</Button>
           </div>)}
 
          

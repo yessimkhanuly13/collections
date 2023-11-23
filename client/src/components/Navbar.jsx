@@ -16,12 +16,17 @@ function NavbarComponent() {
   const [isLogged, setIsLogged] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [open, setOpen] = useState(false)
+
   const {url} = useContext(PopupContext);
+
+  
 
   const navigate = useNavigate();
   const {t, i18n} = useTranslation();
 
   const changeLanguage = (lang) =>{
+    localStorage.removeItem('lang');
+    localStorage.setItem('lang', lang);
     i18n.changeLanguage(lang)
   }
 
@@ -54,12 +59,18 @@ function NavbarComponent() {
   
   useEffect(()=>{
     const user = localStorage.getItem('currentUser');
+    const lang = localStorage.getItem('lang');
+
+    lang ? changeLanguage(lang) : changeLanguage('en');
+
   
     if(user){
       setIsLogged(true)
     }else{
       setIsLogged(false)
     }
+
+
   },[])
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -124,7 +135,7 @@ function NavbarComponent() {
                                 <span className='text-l'>
                                   {item.topic ? item.topic : item.desc ? item.desc : item.customField1_value ? item.customField1_value : item.customField2_value ? item.customField2_value : item.customField3_value}
                                 </span>
-                                <span className='text-l'>{item.topic ? t('topic') : item.desc ? t('desc') : t('custom_field') }</span>
+                                <span className='text-l'>{item.topic ? t('navbar.topic') : item.desc ? t('navbar.desc') : t('navbar.custom_field') }</span>
                                 <div className='flex justify-end'>
                                   <LinkIcon/>
                                 </div>
@@ -142,7 +153,7 @@ function NavbarComponent() {
     <NavbarContent justify="end">
           <NavbarItem className="flex">
             <Select
-              className="max-w-xs"
+              className="max-w-l w-20"
               label="Lang"
               placeholder="Select a lang"
               selectionMode="single"
@@ -150,10 +161,10 @@ function NavbarComponent() {
               onChange={(e)=>changeLanguage(e.target.value)}
             >
               <SelectItem key="en" value="en" className="capitalize">
-                English
+                En
               </SelectItem>
               <SelectItem key="ru" value="ru" className="capitalize">
-                Русский
+                Ру
               </SelectItem>
                   
             </Select>
@@ -176,13 +187,13 @@ function NavbarComponent() {
               (
                 <NavbarItem className="flex">
                     <Button color="success" variant="shadow" onClick={()=>navigate('/login')}>
-                        {t('signin')}
+                        {t('buttons.signin')}
                     </Button>
                 </NavbarItem>
               ) : (
                   <NavbarItem className="flex">
                       <Button color="danger" variant="shadow" onClick={handleLogout}>
-                        {t('logout')}
+                        {t('buttons.logout')}
                       </Button>
                     </NavbarItem>
               )

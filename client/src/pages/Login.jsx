@@ -8,7 +8,7 @@ import { EyeFilledIcon } from '../icons/EyeFilledIcon';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
+import { useTranslation } from "react-i18next";
 
 
 function Login() {
@@ -17,13 +17,15 @@ function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const [errMessage, setErrMessage] = useState("");
 
+  const {t} = useTranslation();
+
+
   const schema = yup.object().shape({
-      username: yup.string().required("Username is required"),
-      password: yup.string().min(4, "Password must be at least 4 characters").required("Password is required")
+      username: yup.string().required(t('auth.username_check')),
+      password: yup.string().min(4, t('auth.pass_len_check')).required(t('auth.pass_check'))
   })
 
   const {control, handleSubmit, formState: {errors}  } = useForm({resolver: yupResolver(schema)});
-
 
 
   const handleLogin = (data) => {
@@ -42,7 +44,7 @@ function Login() {
   return (
     <div className={!darkMode ? "min-h-screen flex items-center justify-center bg-gray-100" : "min-h-screen flex items-center justify-center bg-black"}>
       <div className={!darkMode ? "max-w-md w-full p-4 bg-white rounded-lg shadow-md" : "max-w-md w-full p-4 bg-black rounded-lg shadow-md"}>
-        <div className="text-2xl text-center font-semibold mb-4">Login</div>
+        <div className="text-2xl text-center font-semibold mb-4">{t('auth.login')}</div>
         <div className='text-l text-center text-rose-600 mb-2'>{errMessage}</div>
         <form>
           <div className="flex flex-col items-center">
@@ -52,8 +54,8 @@ function Login() {
               isRequired
               errorMessage={errors.username?.message}
               type="email" 
-              label="Email"  
-              placeholder="Enter your email" 
+              label={t('auth.enter_username')}  
+              placeholder={t('auth.enter_username')} 
               />}
             />
             <Controller name='password' control={control}
@@ -61,8 +63,8 @@ function Login() {
               {...field}
               isRequired
               errorMessage={errors.password?.message}
-              label="Password"
-              placeholder="Enter your password"
+              label={t('auth.pass')}
+              placeholder={t('auth.enter_pass')}
               endContent={
                 <button className="focus:outline-none" type="button" onClick={()=>setIsVisible(!isVisible)}>
                   {isVisible ? (
@@ -77,12 +79,12 @@ function Login() {
             />}         
             />
             <p className={!darkMode ? "text-sm text-gray-500 text-center my-2" : "text-sm text-white text-center my-2"}>
-              Don't have an account? <Link className="text-lime-600 hover:underline" to="/registration">Register here</Link>
+              {t('auth.dont_have_an_account')} <Link className="text-lime-600 hover:underline" to="/registration">{t('auth.register_here')}</Link>
             </p>
           </div>
           <div className="flex justify-around mt-4">
-              <Button variant='shadow' color='danger' onClick={()=>navigate('/')}>Go Back</Button>
-              <Button variant='shadow' color='success' onClick={handleSubmit(handleLogin)}>Submit</Button>
+              <Button variant='shadow' color='danger' onClick={()=>navigate('/')}>{t('buttons.go_back')}</Button>
+              <Button variant='shadow' color='success' onClick={handleSubmit(handleLogin)}>{t('buttons.submit')}</Button>
           </div>
         </form>
       </div>
