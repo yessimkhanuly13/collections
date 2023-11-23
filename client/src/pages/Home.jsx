@@ -3,10 +3,10 @@ import NavbarComponent from "../components/Navbar"
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
-import { converUnixToDate } from '../functions/unixtodate';
 import Sidebar from '../components/Sidebar';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, LinkIcon, Button} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
+import UnixToDate from '../components/Unixtodate';
 
 
 
@@ -131,7 +131,7 @@ function Home() {
                     <TableRow key={item._id}>
                       <TableCell>{item.topic}</TableCell>
                       <TableCell>{item.desc}</TableCell>
-                      <TableCell>{converUnixToDate(item.createdDate)}</TableCell>
+                      <TableCell><UnixToDate unix={item.createdDate}/></TableCell>
                       <TableCell>{item.tags.length}</TableCell>
                       <TableCell><Link to={`/item/${item._id}`}><LinkIcon/></Link></TableCell>
                     </TableRow>
@@ -141,7 +141,7 @@ function Home() {
             </Table>
           </div>}
         { isTags && <div className='flex flex-col col-span-2 mb-3'>
-              <div className='grid grid-cols-6 gap-2 text-center'>
+              <div className='grid grid-cols-3  md:grid-cols-6 gap-2 text-center'>
                 {tags.map((tag)=>{
                   return (
                     <div className='col-span-3 md:col-span-2 lg:col-span-1'>
@@ -156,11 +156,11 @@ function Home() {
 
               <Table isStriped aria-label="Example static collection table">
               <TableHeader>
-                <TableColumn>Topic</TableColumn>
-                <TableColumn>Description</TableColumn>
-                <TableColumn>Created Date</TableColumn>
-                <TableColumn>Tags</TableColumn>
-                <TableColumn>Link</TableColumn>
+                <TableColumn>{t('item.topic')}</TableColumn>
+                <TableColumn>{t('item.desc')}</TableColumn>
+                <TableColumn>{t('item.created_date')}</TableColumn>
+                <TableColumn>{t('item.tags')}</TableColumn>
+                <TableColumn>{t('item.link')}</TableColumn>
               </TableHeader>
               <TableBody>
                 {itemsByTag.map((item)=>{
@@ -168,7 +168,7 @@ function Home() {
                     <TableRow key={item._id}>
                       <TableCell>{item.topic}</TableCell>
                       <TableCell>{item.desc}</TableCell>
-                      <TableCell>{converUnixToDate(item.createdDate)}</TableCell>
+                      <TableCell><UnixToDate unix={item.createdDate}/></TableCell>
                       <TableCell>{item.tags.length}</TableCell>
                       <TableCell><Link to={`/item/${item._id}`}><LinkIcon/></Link></TableCell>
                     </TableRow>

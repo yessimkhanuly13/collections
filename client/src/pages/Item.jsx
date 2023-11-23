@@ -5,7 +5,7 @@ import { PopupContext } from '../App';
 import NavbarComponent from '../components/Navbar';
 import { Divider, Button, Input, Card, User } from '@nextui-org/react';
 import { useForm, Controller } from 'react-hook-form';
-import { converUnixToDate } from '../functions/unixtodate';
+import UnixToDate from '../components/Unixtodate';
 import { LikeBtn } from '../icons/LikeBtn';
 import { LikedBtn } from '../icons/LikedBtn';
 import { useTranslation } from "react-i18next";
@@ -103,7 +103,7 @@ function Item() {
                 <Divider/>
                 <div className='flex gap-3 p-5 items-center'>
                     <span className='font-bold '>{t('item.tags')}:</span>
-                        <div className='flex justify-around gap-3'>
+                        <div className='grid grid-cols-1 md:flex justify-around gap-3'>
                           {item.tags && item.tags.map((tag)=>{
                             return (
                               <div className=''>
@@ -119,7 +119,7 @@ function Item() {
                           render={({field})=><Input
                           {...field}
                           type="text"
-                          label="New tag"
+                          label={t('item.new_tag')}
                           placeholder=""
                           className="max-w-xs"
                         />}/>
@@ -165,10 +165,10 @@ function Item() {
                                     <div className='flex justify-between'>
                                       <div className='flex items-center gap-1'>
                                         <h4 onClick={()=>navigate(`/profile/${comment.userId}`)} className="font-semibold cursor-pointer">{comment.username}</h4>
-                                        <h4 className='text-default-400 text-xs'>{converUnixToDate(comment.createdDate)}</h4>
+                                        <h4 className='text-default-400 text-xs'><UnixToDate unix={comment.createdDate}/></h4>
                                         </div>
                                       <div className='flex gap-1  items-center'>
-                                        <div className='text-xs'>{comment.likes.length > 1 ? `${comment.likes.length} likes` : `${comment.likes.length} like` } </div>
+                                        <div className='text-xs'>{comment.likes.length <= 1 ? `${comment.likes.length} ${t('item.like')}` : comment.likes.length < 5 ? `${comment.likes.length} ${t('item.likes')}` : `${comment.likes} ${t('item.likes_5')}` } </div>
                                         <div className='flex justify-end cursor-pointer' onClick={()=>addLike(comment._id)}>{comment.likes.includes(currentUsername) ? (<LikedBtn/>) :(<LikeBtn/>)}</div>
                                       </div>
                                     </div>
@@ -201,9 +201,6 @@ function Item() {
                 </div>
         </div>      
       </div>
-      {
-        currentUsername
-      }
     </div>
   )
 }

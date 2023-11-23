@@ -226,11 +226,11 @@ function Collection() {
                             <CardBody className='flex flex-col items-center gap-3'>
                                 <span className='font-bold text-xl'>{t('item.desc')}:</span>
                                 <p>{item.desc}</p>
-                                {item.customField1_bool && <div className={`grid grid-cols-1 md:grid-cols-${item.customField3_bool ? 3 : item.customField2_bool ? 2 : 1}`}>
-                                    <span className='col-span-1 md:col-span-4 text-center font-bold text-xl'>{t('item.custom_field_bool')}:</span>
+                                {item.customField1_bool && <div className={`grid grid-cols-1`}>
+                                    <span className='col-span-1 text-center font-bold text-xl'>{t('item.custom_field_bool')}:</span>
                                     {
                                         item.customField1_bool && (
-                                            <div className='flex flex-col p-2'>
+                                            <div className='flex justify-around'>
                                                 <span className='text-l font-bold text-center'>{item.customField1_name}:</span>
                                                 <span>{item.customField1_value}</span>
                                             </div>
@@ -238,7 +238,7 @@ function Collection() {
                                     }
                                     {
                                         item.customField2_bool && (
-                                            <div className='flex flex-col p-2'>
+                                            <div className='flex justify-around'>
                                                 <span className='text-l font-bold text-center'>{item.customField2_name}:</span>
                                                 <span>{item.customField2_value}</span>
                                             </div>
@@ -246,7 +246,7 @@ function Collection() {
                                     }
                                     {
                                         item.customField3_bool && (
-                                            <div className='flex flex-col p-2'>
+                                            <div className='flex justify-around'>
                                                 <span className='text-l font-bold text-center'>{item.customField3_name}:</span>
                                                 <span>{item.customField3_value}</span>
                                             </div>

@@ -26,7 +26,11 @@
         "custom_field_name": "Custom Field Name",
         "custom_field_value": "Custom Field Value",
         "comments" : "Comments",
-        "comment" : "Comment"
+        "comment" : "Comment",
+        "like" : "like",
+        "likes" : "likes",
+        "likes_5" : "likes",
+        "new_tag": "New tag"
 
     },
     "auth":{
@@ -81,6 +85,9 @@
         "type": "Type",
         "search": "Search",
         "empty": "Empty"
+    }, 
+    "date": {
+        "ago": "ago"
     }
 
  }
