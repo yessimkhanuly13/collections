@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input, useDisclosure, Modal, ModalBody, ModalContent, ModalHeader, Listbox, ListboxItem, LinkIcon, Select, SelectItem} from "@nextui-org/react";
+import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input, useDisclosure, Modal, ModalBody, ModalContent, ModalHeader, Listbox, ListboxItem, LinkIcon, Select, SelectItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle} from "@nextui-org/react";
 import { Link } from 'react-router-dom';
 import { SearchIcon } from '../icons/SearchIcon';
 import { DashboardIcon } from '../icons/DashboardIcon';
@@ -15,6 +15,7 @@ function NavbarComponent() {
   const {setDarkMode, darkMode} = useContext(PopupContext);
   const [isLogged, setIsLogged] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [open, setOpen] = useState(false)
 
   const {url} = useContext(PopupContext);
@@ -72,34 +73,18 @@ function NavbarComponent() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   return (
-    <Navbar>
+    <Navbar 
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}>
     <NavbarContent justify="start">
-      <NavbarBrand className="mr-4">
+      <NavbarBrand className="md:mr-4">
         <Link to="/">
           <p className="text-xl hidden sm:block font-bold text-inherit">{t('navbar.header')}</p>
         </Link>
         <Link to="/">
-          <DashboardIcon className="ml-2" fill={`${darkMode ? "#f8fafc" : ""}`}/>
+          <DashboardIcon className="md:ml-2" fill={`${darkMode ? "#f8fafc" : ""}`}/>
         </Link>
       </NavbarBrand>
-      <NavbarItem className="flex md:hidden">
-              <Select
-                className="max-w-l w-16"
-                label={t('lang')}
-                selectionMode="single"
-                onOpenChange={setOpen}
-                onChange={(e)=>changeLanguage(e.target.value)}
-                selectedKeys={[t('defaultLang')]}
-              >
-                <SelectItem key="en" value="en" className="capitalize">
-                  En
-                </SelectItem>
-                <SelectItem key="ru" value="ru" className="capitalize">
-                  Ру
-                </SelectItem>
-                    
-              </Select>
-        </NavbarItem>
     </NavbarContent>
     
     <NavbarContent justify="center">
@@ -186,20 +171,22 @@ function NavbarComponent() {
               </Select>
         </NavbarItem>
         {darkMode ? (
-          <NavbarItem className="flex">
+          <NavbarItem className="hidden md:flex">
             <DarkIcon className="cursor-pointer" fill="#f8fafc" onClick={toggleMode}/>
           </NavbarItem>
           ) : (
-          <NavbarItem className="flex">
+          <NavbarItem className="hidden md:flex">
             <LightIcon className="cursor-pointer" onClick={toggleMode}/>
           </NavbarItem>
           )
         }
-
+        <NavbarContent className="sm:hidden" justify="start">
+          <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
+        </NavbarContent>
         {
           !isLogged ? 
               (
-                <NavbarItem className="flex">
+                <NavbarItem className=" flex ">
                     <Button color="success" variant="shadow" onClick={()=>navigate('/login')}>
                         {t('buttons.signin')}
                     </Button>
@@ -213,7 +200,41 @@ function NavbarComponent() {
               )
         }
       </NavbarContent>
+        <NavbarMenu>
+          <NavbarMenuItem>
+              <NavbarItem className="flex justify-between md:hidden">
+                  <Select
+                    className="max-w-l w-20"
+                    label={t('lang')}
+                    selectionMode="single"
+                    onOpenChange={setOpen}
+                    onChange={(e)=>changeLanguage(e.target.value)}
+                    selectedKeys={[t('defaultLang')]}
+                  >
+                    <SelectItem key="en" value="en" className="capitalize">
+                      En
+                    </SelectItem>
+                    <SelectItem key="ru" value="ru" className="capitalize">
+                      Ру
+                    </SelectItem>
+                        
+                  </Select>
 
+                 <div className='flex justify-center items-center'>
+                  {darkMode ? (
+                    <NavbarItem className="flex mt-2 md:hidden">
+                      <DarkIcon className="cursor-pointer" fill="#f8fafc" onClick={toggleMode}/>
+                    </NavbarItem>
+                    ) : (
+                    <NavbarItem className="flex md:hidden">
+                      <LightIcon className="cursor-pointer" onClick={toggleMode}/>
+                    </NavbarItem>
+                    )
+                  }
+                </div>
+            </NavbarItem>
+          </NavbarMenuItem>
+        </NavbarMenu>
   </Navbar>
   )
 }
