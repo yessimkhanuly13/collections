@@ -1,4 +1,6 @@
  {
+    "lang": "Language",
+    "defaultLang": "en",
     "navbar": {
         "header" : "Collections",
         "search" : "Quick search...",

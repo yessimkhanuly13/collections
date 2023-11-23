@@ -59,11 +59,7 @@ function NavbarComponent() {
   
   useEffect(()=>{
     const user = localStorage.getItem('currentUser');
-    const lang = localStorage.getItem('lang');
 
-    lang ? changeLanguage(lang) : changeLanguage('en');
-
-  
     if(user){
       setIsLogged(true)
     }else{
@@ -154,11 +150,11 @@ function NavbarComponent() {
           <NavbarItem className="flex">
             <Select
               className="max-w-l w-20"
-              label="Lang"
-              placeholder="Select a lang"
+              label={t('lang')}
               selectionMode="single"
               onOpenChange={setOpen}
               onChange={(e)=>changeLanguage(e.target.value)}
+              selectedKeys={[t('defaultLang')]}
             >
               <SelectItem key="en" value="en" className="capitalize">
                 En

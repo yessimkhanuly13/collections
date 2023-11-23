@@ -1,4 +1,6 @@
 {
+    "lang": "Язык",
+    "defaultLang": "ru",
     "navbar": {
         "header" : "Коллекции",
         "search" : "Быстрый поиск...",
