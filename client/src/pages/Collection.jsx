@@ -222,24 +222,27 @@ function Collection() {
                                     <span className='col-span-1 text-center font-bold text-xl'>{t('item.custom_field_bool')}:</span>
                                     {
                                         item.customField1_bool && (
-                                            <div className='flex justify-around'>
-                                                <span className='text-l font-bold text-center'>{item.customField1_name}:</span>
-                                                <span>{item.customField1_value}</span>
+                                            <div className='flex gap-3'>
+                                                <span className='text-l font-bold text-center'>{item.customField1_name}</span>
+                                                <span>:</span>
+                                                <span> {item.customField1_value}</span>
                                             </div>
                                         )
                                     }
                                     {
                                         item.customField2_bool && (
-                                            <div className='flex justify-around'>
-                                                <span className='text-l font-bold text-center'>{item.customField2_name}:</span>
+                                            <div className='flex gap-3'>
+                                                <span className='text-l font-bold text-center'>{item.customField2_name}</span>
+                                                <span>:</span>
                                                 <span>{item.customField2_value}</span>
                                             </div>
                                         )
                                     }
                                     {
                                         item.customField3_bool && (
-                                            <div className='flex justify-around'>
-                                                <span className='text-l font-bold text-center'>{item.customField3_name}:</span>
+                                            <div className='flex gap-3'>
+                                                <span className='text-l font-bold text-center'>{item.customField3_name}</span>
+                                                <span>:</span>
                                                 <span>{item.customField3_value}</span>
                                             </div>
                                         )
