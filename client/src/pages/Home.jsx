@@ -22,7 +22,7 @@ function Home() {
 
   const {t} = useTranslation();
 
-  const {setMessage, darkMode, url} = useContext(PopupContext);
+  const { darkMode, url} = useContext(PopupContext);
 
   const getAllItems = () =>{
     axios.get(`${url}/items/all`)
@@ -30,7 +30,7 @@ function Home() {
         setOldestItems(getOldestItems(res.data));
       })
       .catch((e)=>{
-        setMessage(e.response.data.message);
+        console.log(e);
       })
   }
 
@@ -46,7 +46,7 @@ function Home() {
         setCollections(getBiggestCollections(res.data));
       })
       .catch((e)=>{
-        setMessage(e.response.data.message);
+        console.log(e)
       })
   }
   
@@ -63,7 +63,6 @@ function Home() {
       })
       .catch((e)=>{
         console.log(e);
-        setMessage(e.response.data.message)
       })
   }
 
@@ -75,7 +74,6 @@ function Home() {
       })
       .catch((e)=>{
         console.log(e);
-        setMessage(e.response.data.message);
       })
   }
 

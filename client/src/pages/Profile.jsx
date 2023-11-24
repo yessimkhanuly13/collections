@@ -20,9 +20,10 @@ function Profile() {
 
   const {control, handleSubmit, reset} = useForm();
 
-  const {setMessage, url, darkMode} = useContext(PopupContext)
+  const {url, darkMode} = useContext(PopupContext)
 
   const getAllUserCollections = () =>{
+    reset();
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if(user._id === userId.id || user.roles.includes('admin')){
       setIsOwner(true);
@@ -33,7 +34,7 @@ function Profile() {
         setCollections(res.data);
       })
       .catch((e)=>{
-        setMessage(e.response.data.message);
+        console.log(e);
       })
   }
 
@@ -41,11 +42,10 @@ function Profile() {
     axios.post(`${url}/collections/add`, {...data, userId: userId.id})
       .then(()=>{
         getAllUserCollections();
+        reset();
       })
       .catch((e)=>{
-        console.log(e);
-        setMessage(e.response.data.message);
-        
+        console.log(e);        
       })
   }
 
@@ -55,7 +55,7 @@ function Profile() {
         getAllUserCollections();
       })
       .catch((e)=>{
-        setMessage(e.response.data.message);
+        console.log(e);
       })
   }
 
@@ -68,7 +68,6 @@ function Profile() {
         setEditingCollectionId(null);
       })
       .catch((e)=>{
-        setMessage(e.response.data.message);
         console.log(e);
       })
   };

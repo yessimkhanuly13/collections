@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 
 function Item() {
   const [item, setItem] = useState({});
-  const {setMessage, url, darkMode} = useContext(PopupContext);
+  const {url, darkMode} = useContext(PopupContext);
   const [isOwner, setIsOwner] = useState(false);
   const [currentUsername, setCurrentUsername] = useState('');
   const navigate = useNavigate();
@@ -32,7 +32,6 @@ function Item() {
       })
       .catch((e)=>{
         console.log(e);
-        setMessage(e.response.data.message);
       })
   }
 
@@ -53,7 +52,7 @@ function Item() {
         console.log(res.data.comments)
       })
       .catch((e)=>{
-        setMessage(e.response.data.message);
+        console.log(e);
       })
 
       setTimeout(getItemById, 3000);
@@ -66,7 +65,7 @@ function Item() {
         reset({tag: ""})
       })
       .catch((e)=>{
-        setMessage(e.response.data.message);
+        console.log(e)
       })
   }
 

@@ -1,12 +1,10 @@
 import { createContext, useEffect, useState } from "react"
-import Popup from "./components/Popup"
 import Router from "./router/Router";
 import { useTranslation } from "react-i18next";
 
 export const PopupContext = createContext();
 
 function App() {
-  const [message, setMessage] = useState('');
   const [darkMode, setDarkMode] = useState(false);
 
   const {i18n} = useTranslation();
@@ -29,8 +27,7 @@ function App() {
   
   return (
     <div className={`${ darkMode ? "dark" : ""} text-foreground bg-background w-full min-w-screen min-h-screen h-full bg-cover`}>
-      <PopupContext.Provider value={{message, setMessage, setDarkMode, darkMode, url}} >
-        {message && <Popup message={message} handleCloseError={()=>setMessage('')} darkMode={darkMode}/>}
+      <PopupContext.Provider value={{setDarkMode, darkMode, url}} >
         <Router/>
       </PopupContext.Provider>
     </div>

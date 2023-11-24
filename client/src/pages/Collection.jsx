@@ -34,7 +34,7 @@ function Collection() {
                 }
             })
             .catch((e)=>{
-                setMessage(e.response.data.message)
+                console.log(e)
             })
     }
 
@@ -47,18 +47,17 @@ function Collection() {
                 reset();
             })
             .catch((e)=>{
-                setMessage(e.response.data.message);
+                console.log(e)
             })
     }
 
     const deleteItem = (id) =>{
         axios.delete(`${url}/collections/deleteitem/${collection._id}?id=${id}`)
-            .then((res)=>{
+            .then(()=>{
                 getCollectionById();
             })
             .catch((e)=>{
                 console.log(e);
-                setMessage(e.response.data.message)
             })
     }
     

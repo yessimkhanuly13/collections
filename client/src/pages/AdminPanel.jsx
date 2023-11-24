@@ -17,7 +17,7 @@ function AdminPanel() {
 
   const {t} = useTranslation();
 
-  const {setMessage, url, darkMode} = useContext(PopupContext)
+  const {url, darkMode} = useContext(PopupContext)
 
   const getAllUsers = () =>{
     axios.get(`${url}/users/all`)
@@ -26,7 +26,7 @@ function AdminPanel() {
         console.log(res.data)
       })
       .catch((e)=>{
-        setMessage(e.response.data.message)
+        console.log(e)
       })
   } 
 
@@ -34,8 +34,7 @@ function AdminPanel() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     
       axios.delete(`${url}/users/delete/${id}`)
-        .then((res)=>{
-          setMessage(res.data.message);
+        .then(()=>{
           getAllUsers();
           if(id == user._id){
             localStorage.removeItem('currentUser');
@@ -43,15 +42,14 @@ function AdminPanel() {
           }
         })
         .catch((e)=>{
-          setMessage(e.response.data.message)
+          console.log(e);
         })
     }
 
   const handleUpdateUser = (id, path) =>{
     const user = JSON.parse(localStorage.getItem('currentUser'));
       axios.put(`${url}/users/${path}/${id}`)
-        .then((res)=>{
-          setMessage(res.data.message);
+        .then(()=>{
           getAllUsers();
           if(id == user._id && path === 'block'){
             localStorage.removeItem('currentUser')
@@ -66,7 +64,7 @@ function AdminPanel() {
           }
         })
         .catch((e)=>{
-          setMessage(e.response.data.message)
+          console.log(e);
         })
   }
    
@@ -75,7 +73,6 @@ function AdminPanel() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if( user && !user.roles.includes('admin')){
       navigate('/');
-      setMessage('For admins only!');
     }else if(!user){
       navigate('/')
     }
