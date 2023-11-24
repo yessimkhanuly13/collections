@@ -36,9 +36,9 @@
     "auth":{
         "login": "Войти",
         "registration": "Регистрация",
-        "enter_username": "Введите почту",
+        "enter_username": "Введите имя пользователя",
         "enter_pass":"Введите пароль",
-        "username": "Почта",
+        "username": "Имя пользователя",
         "pass" : "Пароль",
         "dont_have_an_account": "Нету учетной записи?",
         "already_have_an_account": "Есть учетная запись?",

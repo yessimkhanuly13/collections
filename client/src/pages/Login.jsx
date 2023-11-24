@@ -54,7 +54,7 @@ function Login() {
               isRequired
               errorMessage={errors.username?.message}
               type="email" 
-              label={t('auth.enter_username')}  
+              label={t('auth.username')}  
               placeholder={t('auth.enter_username')} 
               />}
             />

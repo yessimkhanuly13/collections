@@ -22,7 +22,7 @@ function Collection() {
 
     const {t} = useTranslation();
     
-    const {setMessage, url, darkMode, message} = useContext(PopupContext)
+    const {url, darkMode, message} = useContext(PopupContext)
 
     const getCollectionById = () =>{
         const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -106,11 +106,11 @@ function Collection() {
                         
                         <Controller control={control} name='customField1_bool'
                         render={({field})=>
-                            <Checkbox {...field} className='col-span-4' isSelected={field.value} >
+                            <Checkbox {...field} className='col-span-4' isSelected={customField1} >
                                 {t('item.custom_field_bool')}
                             </Checkbox>}/>
 
-                       {customField1 && (<Controller control={control} name='customField1_name' 
+                    { customField1 && (<Controller control={control} name='customField1_name' 
                       render={({field})=><Input
                       isRequired
                         {...field}
@@ -119,31 +119,7 @@ function Collection() {
                         className="max-w-xs col-span-2"
                       />}/>)}
 
-                       {customField1 && <Controller control={control} name='customField1_value' 
-                      render={({field})=><Input
-                      isRequired
-                        {...field}
-                        type="text"
-                        label={t('item.custom_field_value')}
-                        className="max-w-xs col-span-2"
-                      />}/>}
-
-                       {customField1 && <Controller control={control} name='customField2_bool'
-                        render={({field})=>
-                            <Checkbox {...field} className='col-span-4' isSelected={field.value} >
-                                {t('item.custom_field_bool')}
-                            </Checkbox>}/>}
-
-                      {customField2 && (<Controller control={control} name='customField2_name' 
-                      render={({field})=><Input
-                      isRequired
-                        {...field}
-                        type="text"
-                        label={t('item.custom_field_name')}
-                        className="max-w-xs col-span-2"
-                      />}/>)}
-
-                       {customField2 && (<Controller control={control} name='customField2_value' 
+                    {customField1 && (<Controller control={control} name='customField1_value' 
                       render={({field})=><Input
                       isRequired
                         {...field}
@@ -152,24 +128,48 @@ function Collection() {
                         className="max-w-xs col-span-2"
                       />}/>)}
 
-                        {customField2 && <Controller control={control} name='customField3_bool'
+                    <Controller control={control} name='customField2_bool'
                         render={({field})=>
-                            <Checkbox {...field} className='col-span-4' isSelected={field.value} >
+                            <Checkbox {...field} className='col-span-4'  isSelected={customField2} >
                                 {t('item.custom_field_bool')}
-                            </Checkbox>}/>}
+                            </Checkbox>}/>
 
-                      {customField2 && customField3 && ( <Controller control={control} name='customField3_name' 
+                    {customField2 && (<Controller control={control} name='customField2_name' 
                       render={({field})=><Input
-                      isRequired
+                        isRequired
                         {...field}
                         type="text"
                         label={t('item.custom_field_name')}
                         className="max-w-xs col-span-2"
                       />}/>)}
 
-                       {customField2 && customField3 && (<Controller control={control} name='customField3_value' 
+                    {customField2 && (<Controller control={control} name='customField2_value' 
                       render={({field})=><Input
-                      isRequired
+                        isRequired
+                        {...field}
+                        type="text"
+                        label={t('item.custom_field_value')}
+                        className="max-w-xs col-span-2"
+                      />}/>)}
+
+                    <Controller control={control} name='customField3_bool'
+                        render={({field})=>
+                            <Checkbox {...field} className='col-span-4' isSelected={customField3} >
+                                {t('item.custom_field_bool')}
+                            </Checkbox>}/>
+
+                    {customField3 && (<Controller control={control} name='customField3_name' 
+                      render={({field})=><Input
+                        isRequired
+                        {...field}
+                        type="text"
+                        label={t('item.custom_field_name')}
+                        className="max-w-xs col-span-2"
+                      />}/>)}
+
+                    {customField3 && (<Controller control={control} name='customField3_value' 
+                      render={({field})=><Input
+                        isRequired
                         {...field}
                         type="text"
                         label={t('item.custom_field_value')}
@@ -190,13 +190,6 @@ function Collection() {
         </ModalContent>
       </Modal>
         <div className='grid grid-cols-1 md:grid-cols-4 gap-3 p-5'>
-            {/* <div className='flex flex-col items-center justify-center border rounded p-2'>
-                <span className='text-center font-bold text-xl'>Description</span>
-                <p>{collection.description}</p>
-                <p>{collection.items && collection.items.length}</p>
-
-                {isOwner && (<Button onPress={onOpen}>New Item</Button>)} 
-            </div> */}
             <div className='cols-span-1  md:col-span-4'>
                 <div className='flex justify-center p-2'>
                     <h1 className='font-bold text-2xl'>{collection.name}</h1>
