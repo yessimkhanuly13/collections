@@ -1,13 +1,12 @@
 import { useContext, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
-import {Input, Button} from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
 import { PopupContext } from '../App';
-import { EyeSlashFilledIcon } from '../icons/EyeSlashFilledIcon';
-import { EyeFilledIcon } from '../icons/EyeFilledIcon';
-import {useForm, Controller} from 'react-hook-form';
+import { EyeSlashFilledIcon, EyeFilledIcon } from '../icons/index';
+import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
-import {yupResolver} from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useTranslation } from 'react-i18next';
 
 function Registration() {

@@ -7,7 +7,7 @@ export const PopupContext = createContext();
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
-  const {i18n} = useTranslation();
+  const { i18n } = useTranslation();
 
   const url = import.meta.env.VITE_URL;
 

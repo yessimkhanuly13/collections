@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-import NavbarComponent from '../components/Navbar';
+import { NavbarComponent } from '../components/index';
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link, useParams } from 'react-router-dom';
-import {Select, SelectItem, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Table, TableBody, TableRow, TableColumn, LinkIcon, TableHeader, TableCell, Input} from "@nextui-org/react";
+import { Select, SelectItem, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Table, TableBody, TableRow, TableColumn, LinkIcon, TableHeader, TableCell, Input} from "@nextui-org/react";
 import { useForm, Controller } from 'react-hook-form';
-import { DeleteIcon } from '../icons/DeleteIcon';
-import { EditIcon } from '../icons/EditIcon';
+import { DeleteIcon, EditIcon } from '../icons/index';
 import { useTranslation } from "react-i18next";
+import { CURRENT_USER } from '../const';
 
 function Profile() {
   const [isOwner, setIsOwner] = useState(false);
@@ -24,7 +24,7 @@ function Profile() {
 
   const getAllUserCollections = () =>{
     reset();
-    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const user = JSON.parse(CURRENT_USER);
     if(user._id === userId.id || user.roles.includes('admin')){
       setIsOwner(true);
     }

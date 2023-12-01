@@ -3,12 +3,10 @@ import axios from 'axios'
 import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip} from "@nextui-org/react";
-import { EditIcon } from '../icons/EditIcon';
-import { DeleteIcon } from '../icons/DeleteIcon';
-import NavbarComponent from '../components/Navbar';
-import { EyeFilledIcon } from '../icons/EyeFilledIcon';
-import { EyeSlashFilledIcon } from '../icons/EyeSlashFilledIcon';
+import { DeleteIcon, EditIcon, EyeFilledIcon, EyeSlashFilledIcon } from '../icons/index';
+import { NavbarComponent } from '../components/index';
 import { useTranslation } from "react-i18next";
+import { CURRENT_USER } from '../const/index';
 
 
 function AdminPanel() {
@@ -31,7 +29,7 @@ function AdminPanel() {
   } 
 
   const handleUserDelete = (id) =>{
-    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const user = JSON.parse(CURRENT_USER);
     
       axios.delete(`${url}/users/delete/${id}`)
         .then(()=>{
@@ -47,7 +45,7 @@ function AdminPanel() {
     }
 
   const handleUpdateUser = (id, path) =>{
-    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const user = JSON.parse(CURRENT_USER);
       axios.put(`${url}/users/${path}/${id}`)
         .then(()=>{
           getAllUsers();
@@ -70,7 +68,7 @@ function AdminPanel() {
    
   useEffect(()=>{
     getAllUsers();
-    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const user = JSON.parse(CURRENT_USER);
     if( user && !user.roles.includes('admin')){
       navigate('/');
     }else if(!user){

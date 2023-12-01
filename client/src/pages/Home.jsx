@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import NavbarComponent from "../components/Navbar"
+import { NavbarComponent, Sidebar, UnixToDate } from "../components/index.js"
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, LinkIcon, Button} from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, LinkIcon, Button} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
-import UnixToDate from '../components/Unixtodate';
 
 
 

@@ -2,13 +2,12 @@ import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { PopupContext } from '../App';
-import NavbarComponent from '../components/Navbar';
-import { Divider, Button, Input, Card, User } from '@nextui-org/react';
+import { NavbarComponent, UnixToDate } from '../components/index';
+import { Divider, Button, Input, Card } from '@nextui-org/react';
 import { useForm, Controller } from 'react-hook-form';
-import UnixToDate from '../components/Unixtodate';
-import { LikeBtn } from '../icons/LikeBtn';
-import { LikedBtn } from '../icons/LikedBtn';
+import { LikeBtn, LikedBtn } from '../icons/index';
 import { useTranslation } from "react-i18next";
+import { CURRENT_USER } from '../const';
 
 function Item() {
   const [item, setItem] = useState({});
@@ -23,8 +22,8 @@ function Item() {
   const {control, handleSubmit, reset} = useForm();
 
   const sendCommentToServer = (data) =>{
-    const username = JSON.parse(localStorage.getItem('currentUser')).username;
-    const userId = JSON.parse(localStorage.getItem('currentUser'))._id;
+    const username = JSON.parse(CURRENT_USER).username;
+    const userId = JSON.parse(CURRENT_USER)._id;
     axios.post(`${url}/items/addcomment/${item._id}`, {value: data.value, username, userId})
       .then(()=>{
         reset({value: ""});
@@ -36,7 +35,7 @@ function Item() {
   }
 
   const getItemById = () =>{
-    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const user = JSON.parse(CURRENT_USER);
     user && setCurrentUsername(user.username);
     axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
@@ -177,7 +176,7 @@ function Item() {
                             )
                           })
                         }
-                        {JSON.parse(localStorage.getItem('currentUser')) && (<Controller name='value' control={control}
+                        {JSON.parse(CURRENT_USER) && (<Controller name='value' control={control}
                           render={({field})=><Input
                           {...field}
                           type="text"
@@ -185,7 +184,7 @@ function Item() {
                           variant=""
                           className="col-span-5"
                         />}/>)}
-                        {JSON.parse(localStorage.getItem('currentUser')) && (<div className='flex items-center'>
+                        {JSON.parse(CURRENT_USER) && (<div className='flex items-center'>
                           <Button
                             onClick={handleSubmit((sendCommentToServer))}
                             variant='shadow'

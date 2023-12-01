@@ -1,11 +1,6 @@
 import {Listbox, ListboxItem} from "@nextui-org/react";
-import { ItemCounter } from "../wrappers/ItemCounter";
-import { IconWrapper } from "../wrappers/IconWrapper";
-import { LayoutIcon } from "../icons/CollectionItem";
-import { ProfileIcon } from "../icons/ProfileIcon";
-import { CogIcon } from "../icons/CogIcon";
-import { TagIcon } from "../icons/TagIcon";
-import { ItemIcon } from "../icons/ItemIcons";
+import { ItemCounter, IconWrapper } from "../wrappers/index";
+import { CogIcon, TagIcon, ItemIcon, ProfileIcon, LayoutIcon } from "../icons/index";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { PopupContext } from "../App";

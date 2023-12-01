@@ -2,13 +2,17 @@ import { useContext, useEffect, useState } from 'react'
 import { PopupContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {Navbar,  NavbarBrand, NavbarContent, NavbarItem, Button, Input, useDisclosure, Modal, ModalBody, ModalContent, ModalHeader, Listbox, ListboxItem, LinkIcon, Select, SelectItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle} from "@nextui-org/react";
+import { Navbar,  NavbarBrand, NavbarContent, 
+  NavbarItem, Button, Input, 
+  useDisclosure, Modal, ModalBody, 
+  ModalContent, ModalHeader, Listbox, 
+  ListboxItem, LinkIcon, Select, 
+  SelectItem, NavbarMenu, NavbarMenuItem, 
+  NavbarMenuToggle } from "@nextui-org/react";
 import { Link } from 'react-router-dom';
-import { SearchIcon } from '../icons/SearchIcon';
-import { DashboardIcon } from '../icons/DashboardIcon';
-import { LightIcon } from '../icons/LightIcon';
-import { DarkIcon } from '../icons/DarkIcon';
+import { SearchIcon, DashboardIcon, LightIcon, DarkIcon } from '../icons/index';
 import { useTranslation } from "react-i18next";
+import { CURRENT_USER } from '../const/index';
 
 
 function NavbarComponent() {
@@ -59,9 +63,8 @@ function NavbarComponent() {
   }
   
   useEffect(()=>{
-    const user = localStorage.getItem('currentUser');
 
-    if(user){
+    if(CURRENT_USER){
       setIsLogged(true)
     }else{
       setIsLogged(false)

@@ -2,10 +2,11 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
-import NavbarComponent from '../components/Navbar';
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
+import { NavbarComponent } from '../components/index';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
+import { CURRENT_USER } from '../const';
 
 function Collection() {
     const [collection, setCollection] = useState({});
@@ -25,7 +26,7 @@ function Collection() {
     const {url, darkMode, message} = useContext(PopupContext)
 
     const getCollectionById = () =>{
-        const user = JSON.parse(localStorage.getItem('currentUser'));
+        const user = JSON.parse(CURRENT_USER);
         axios.get(`${url}/collections/${collectionId.id}`)
             .then((res)=>{
                 setCollection(res.data)
