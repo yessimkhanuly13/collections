@@ -1,17 +1,18 @@
 import { useContext, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
-import { Input, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { PopupContext } from '../App';
-import { EyeSlashFilledIcon, EyeFilledIcon } from '../icons/index';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useTranslation } from 'react-i18next';
+import { InputController, InputPassEndContent } from '../components/index';
 
 function Registration() {
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisiblePass, setIsVisiblePass] = useState(false);
+  const [isVisibleConfPass, setIsVisibleConfPass] = useState(false);
   const [errMessage, setErrMessage] = useState('');
 
   const {t} = useTranslation();
@@ -47,54 +48,37 @@ function Registration() {
         <div className='text-l text-center text-rose-600 mb-2'>{errMessage}</div>
         <form>
           <div className="flex flex-col items-center">
-            <Controller name='username' control={control} 
-              render={({field})=> <Input {...field} 
-              isRequired 
-              errorMessage={errors.username?.message}
-              type="email" 
-              label={t('auth.username')}  
+            <InputController 
+              name='username' 
+              control={control}
               placeholder={t('auth.enter_username')}
-              name='username'/>}
+              label={t('auth.username')}
+              type='email'
+              errors={errors?.username?.message}
             />
-            <Controller name='password' control={control}
-              render={({field})=><Input
-              {...field}
-              isRequired
-              errorMessage={errors.password?.message}
-              label={t('auth.pass')}
+            <InputController
+              name='password' 
+              control={control}
               placeholder={t('auth.enter_pass')}
+              label={t('auth.pass')}
+              type={isVisiblePass ? "text" : "password"}
+              errors={errors?.password?.message}
               endContent={
-                <button className="focus:outline-none" type="button" onClick={()=>setIsVisible(!isVisible)}>
-                  {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  )}
-                </button>
+                <InputPassEndContent isVisible={isVisiblePass} setIsVisible={setIsVisiblePass}/>
               }
-              type={isVisible ? "text" : "password"}
-              className='mt-2'
-            />}
+              style="mt-2"
             />
-            <Controller name='confirmPassword' control={control}
-              render={({field})=><Input
-              {...field}
-              isRequired
-              errorMessage={errors.confirmPassword?.message}
-              label={t('auth.confirm_password')}
-              placeholder={t('auth.confirm_password')}
+            <InputController 
+              name='confirmPassword' 
+              control={control}
+              placeholder={t('auth.enter_pass')}
+              label={t('auth.pass')}
+              type={isVisibleConfPass ? "text" : "password"}
+              errors={errors?.confirmPassword?.message}
               endContent={
-                <button className="focus:outline-none" type="button" onClick={()=>setIsVisible(!isVisible)}>
-                  {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  )}
-                </button>
+                <InputPassEndContent isVisible={isVisibleConfPass} setIsVisible={setIsVisibleConfPass}/>
               }
-              type={isVisible ? "text" : "password"}
-              className='mt-2'
-            />}
+              style="mt-2"
             />
               <p className={ !darkMode ? "text-sm text-gray-500 text-center my-2" : "text-sm text-white text-center my-2"}>
                 {t('auth.already_have_an_account')} <Link className="text-lime-600 hover:underline" to="/login">{t('auth.sign_in_here')}</Link>

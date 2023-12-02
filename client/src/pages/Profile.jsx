@@ -24,8 +24,7 @@ function Profile() {
 
   const getAllUserCollections = () =>{
     reset();
-    const user = JSON.parse(CURRENT_USER);
-    if(user._id === userId.id || user.roles.includes('admin')){
+    if(CURRENT_USER._id === userId.id || CURRENT_USER.roles.includes('admin')){
       setIsOwner(true);
     }
 
@@ -75,7 +74,6 @@ function Profile() {
 
   useEffect(()=>{
     getAllUserCollections();
-    console.log(userId);
   },[])
 
 

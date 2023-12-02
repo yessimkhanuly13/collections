@@ -26,11 +26,10 @@ function Collection() {
     const {url, darkMode, message} = useContext(PopupContext)
 
     const getCollectionById = () =>{
-        const user = JSON.parse(CURRENT_USER);
         axios.get(`${url}/collections/${collectionId.id}`)
             .then((res)=>{
                 setCollection(res.data)
-                if(res.data.userId === user._id || user.roles.includes('admin')){
+                if(res.data.userId === CURRENT_USER._id || CURRENT_USER.roles.includes('admin')){
                     setIsOwner(true);
                 }
             })

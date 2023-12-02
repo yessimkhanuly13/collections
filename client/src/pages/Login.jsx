@@ -30,8 +30,9 @@ function Login() {
   const handleLogin = (data) => {
     axios.post(`${url}/auth/login`, data)
       .then((res) => { 
-        navigate(`/profile/${res.data._id}`);
         localStorage.setItem('currentUser', JSON.stringify(res.data));
+        navigate(`/profile/${res.data._id}`);
+        console.log(res.data)
       })
       .catch((e) => {
         console.log(e);

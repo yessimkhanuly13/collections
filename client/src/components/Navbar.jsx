@@ -12,7 +12,7 @@ import { Navbar,  NavbarBrand, NavbarContent,
 import { Link } from 'react-router-dom';
 import { SearchIcon, DashboardIcon, LightIcon, DarkIcon } from '../icons/index';
 import { useTranslation } from "react-i18next";
-import { CURRENT_USER } from '../const/index';
+import { CURRENT_USER, url } from '../const/index';
 
 
 function NavbarComponent() {
@@ -21,9 +21,6 @@ function NavbarComponent() {
   const [searchResults, setSearchResults] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [open, setOpen] = useState(false)
-
-  const {url} = useContext(PopupContext);
-
   
 
   const navigate = useNavigate();

@@ -29,12 +29,11 @@ function AdminPanel() {
   } 
 
   const handleUserDelete = (id) =>{
-    const user = JSON.parse(CURRENT_USER);
-    
+
       axios.delete(`${url}/users/delete/${id}`)
         .then(()=>{
           getAllUsers();
-          if(id == user._id){
+          if(id == CURRENT_USER._id){
             localStorage.removeItem('currentUser');
             navigate('/');
           }
@@ -45,19 +44,19 @@ function AdminPanel() {
     }
 
   const handleUpdateUser = (id, path) =>{
-    const user = JSON.parse(CURRENT_USER);
+    
       axios.put(`${url}/users/${path}/${id}`)
         .then(()=>{
           getAllUsers();
-          if(id == user._id && path === 'block'){
+          if(id == CURRENT_USER._id && path === 'block'){
             localStorage.removeItem('currentUser')
             navigate('/');
           }
-          if(id == user._id && path === 'user'){
-            const role = user.roles.filter((role)=>role !== 'admin');
-            user.roles = role;
+          if(id == CURRENT_USER._id && path === 'user'){
+            const role = CURRENT_USER.roles.filter((role)=>role !== 'admin');
+            CURRENT_USER.roles = role;
             localStorage.removeItem('currentUser');
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('currentUser', CURRENT_USER);
             navigate('/');
           }
         })
@@ -68,10 +67,9 @@ function AdminPanel() {
    
   useEffect(()=>{
     getAllUsers();
-    const user = JSON.parse(CURRENT_USER);
-    if( user && !user.roles.includes('admin')){
+    if( CURRENT_USER && !CURRENT_USER.roles.includes('admin')){
       navigate('/');
-    }else if(!user){
+    }else if(!CURRENT_USER){
       navigate('/')
     }
 

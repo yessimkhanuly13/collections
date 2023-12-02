@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { PopupContext } from "../App";
 import { useTranslation } from "react-i18next";
+import { routes, CURRENT_USER } from '../const/index'
 
 function Sidebar({collections, items, tags, vision}) {
     const navigate = useNavigate();
@@ -14,10 +15,9 @@ function Sidebar({collections, items, tags, vision}) {
     const {t} = useTranslation();
 
     const handleActions = (key) =>{
-        const user = JSON.parse(localStorage.getItem('currentUser'));
-
+        
         if(key === "profile" ){
-            navigate(`/profile/${user._id}`)
+            navigate(`/profile/${CURRENT_USER._id}`)
         }else if(key === "collection"){
             setIsCollection(true);
             setIsItems(false);
@@ -31,7 +31,7 @@ function Sidebar({collections, items, tags, vision}) {
             setIsItems(false);
             setIsTags(true);
         }else if(key === "admin"){
-            navigate('/admin')
+            navigate(routes.admin)
         }
     }
     

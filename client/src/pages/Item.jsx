@@ -22,8 +22,8 @@ function Item() {
   const {control, handleSubmit, reset} = useForm();
 
   const sendCommentToServer = (data) =>{
-    const username = JSON.parse(CURRENT_USER).username;
-    const userId = JSON.parse(CURRENT_USER)._id;
+    const username = CURRENT_USER.username;
+    const userId = CURRENT_USER._id;
     axios.post(`${url}/items/addcomment/${item._id}`, {value: data.value, username, userId})
       .then(()=>{
         reset({value: ""});
@@ -35,8 +35,7 @@ function Item() {
   }
 
   const getItemById = () =>{
-    const user = JSON.parse(CURRENT_USER);
-    user && setCurrentUsername(user.username);
+    CURRENT_USER && setCurrentUsername(CURRENT_USER.username);
     axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
 
@@ -176,7 +175,7 @@ function Item() {
                             )
                           })
                         }
-                        {JSON.parse(CURRENT_USER) && (<Controller name='value' control={control}
+                        {CURRENT_USER && (<Controller name='value' control={control}
                           render={({field})=><Input
                           {...field}
                           type="text"
@@ -184,7 +183,7 @@ function Item() {
                           variant=""
                           className="col-span-5"
                         />}/>)}
-                        {JSON.parse(CURRENT_USER) && (<div className='flex items-center'>
+                        {CURRENT_USER && (<div className='flex items-center'>
                           <Button
                             onClick={handleSubmit((sendCommentToServer))}
                             variant='shadow'
