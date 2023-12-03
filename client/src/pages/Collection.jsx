@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
-import { CheckboxController, InputController, NavbarComponent } from '../components/index';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
-import { useForm } from 'react-hook-form';
+import { NavbarComponent, InputController, CheckboxController } from '../components/index';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
+import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
 import { CURRENT_USER } from '../const';
 
@@ -86,116 +86,112 @@ function Collection() {
                 <ModalHeader className="flex flex-col gap-1">{t('buttons.add_new_item')}</ModalHeader>
                 <ModalBody className='grid grid-cols-4 gap-3'>
 
-                        <InputController
+                    <InputController
                             control={control}
                             type="text"
                             label={t('item.topic')}
-                            className="max-w-xs col-span-2"
                             name="topic"
                             style="max-w-xs col-span-2"
-                        />
-                        
-                        <InputController
+                    />
+
+                    <InputController
                             control={control}
                             type="text"
                             label={t('item.desc')}
-                            className="max-w-xs col-span-2"
-                        />
-                        
-                        <CheckboxController 
+                            style="max-w-xs col-span-2"
+                            name="topic"
+                    />
+
+                    <CheckboxController 
                             control={control} 
                             name="customField1_bool"
                             style="col-span-4"
                             bool={customField1}
                             value={t('item.custom_field_bool')}
-                        />
-                        { 
-                            customField1 && (
+                    />
+
+                    { 
+                        customField1 && (
+                            <>
                                 <InputController 
                                     name='customField1_name'
                                     control={control}
                                     label={t('item.custom_field_name')}
-                                    style="max-w-xs col-span-2"
+                                    style="col-span-2"
                                     type="text"
                                 />
-                            )
-                        }
-                        {
-                            customField1 && ( 
-                                <InputController
+
+                                <InputController 
+                                    name='customField1_value'
                                     control={control}
-                                    name="customField1_value"
                                     label={t('item.custom_field_value')}
-                                    type="text"
                                     style="max-w-xs col-span-2"
+                                    type="text"
                                 />
-                            )
-                        }
-                        
-                        <CheckboxController 
+                            </>
+                        )
+                    }
+
+                    <CheckboxController 
                             control={control} 
                             name="customField2_bool"
                             style="col-span-4"
                             bool={customField2}
                             value={t('item.custom_field_bool')}
-                        />
+                    />
 
-                        {
-                            customField2 && (
-                                <InputController
+                    { 
+                        customField2 && (
+                            <>
+                                <InputController 
+                                    name='customField2_name'
                                     control={control}
-                                    name="customField2_name"
-                                    type="text"
                                     label={t('item.custom_field_name')}
-                                    style="max-w-xs col-span-2"
-                                />
-                            )
-                        }
-
-                        {
-                            customField2 && (
-                                <InputController
-                                    control={control}
-                                    name="customField2_value"
+                                    style="col-span-2"
                                     type="text"
+                                />
+
+                                <InputController 
+                                    name='customField2_value'
+                                    control={control}
                                     label={t('item.custom_field_value')}
                                     style="max-w-xs col-span-2"
+                                    type="text"
                                 />
-                            )
-                        }
+                            </>
+                        )
+                    }
 
-                        <CheckboxController 
+                    <CheckboxController 
                             control={control} 
                             name="customField3_bool"
                             style="col-span-4"
-                            bool={customField2}
+                            bool={customField3}
                             value={t('item.custom_field_bool')}
-                        />
-                    
-                        {
-                            customField3 && (
-                                <InputController
+                    />
+
+                    { 
+                        customField3 && (
+                            <>
+                                <InputController 
+                                    name='customField3_name'
                                     control={control}
-                                    name="customField3_name"
                                     label={t('item.custom_field_name')}
-                                    style="max-w-xs col-span-2"
+                                    style="col-span-2"
                                     type="text"
                                 />
-                            )
-                        }
 
-                        {
-                            customField3 && (
-                                <InputController
+                                <InputController 
+                                    name='customField3_value'
                                     control={control}
-                                    name="customField3_value"
                                     label={t('item.custom_field_value')}
                                     style="max-w-xs col-span-2"
                                     type="text"
                                 />
-                            )
-                        }
-                      
+                            </>
+                        )
+                    }
+
                 </ModalBody>
                 <ModalFooter className='flex w-1/3 justify-around'>
                 <Button color="success" variant="flat" onPress={onClose} onClick={handleSubmit((data)=>addNewItem(data))}>
