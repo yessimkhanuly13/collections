@@ -67,8 +67,7 @@ function NavbarComponent() {
       setIsLogged(false)
     }
 
-
-  },[])
+  },[CURRENT_USER])
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 

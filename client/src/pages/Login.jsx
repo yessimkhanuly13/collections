@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Input, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import axios from 'axios';
 import { PopupContext } from '../App';
-import { EyeSlashFilledIcon, EyeFilledIcon } from '../icons/index';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useTranslation } from "react-i18next";
+import { InputController, InputPassEndContent } from '../components/index';
 
 
 function Login() {
@@ -31,8 +31,7 @@ function Login() {
     axios.post(`${url}/auth/login`, data)
       .then((res) => { 
         localStorage.setItem('currentUser', JSON.stringify(res.data));
-        navigate(`/profile/${res.data._id}`);
-        console.log(res.data)
+        navigate('/');
       })
       .catch((e) => {
         console.log(e);
@@ -48,36 +47,25 @@ function Login() {
         <div className='text-l text-center text-rose-600 mb-2'>{errMessage}</div>
         <form>
           <div className="flex flex-col items-center">
-          <Controller name='username' control={control} 
-              render={({field})=><Input 
-              {...field} 
-              isRequired
-              errorMessage={errors.username?.message}
+            <InputController 
+              control={control} 
+              name="username" 
               type="email" 
-              label={t('auth.username')}  
-              placeholder={t('auth.enter_username')} 
-              />}
-            />
-            <Controller name='password' control={control}
-              render={({field})=><Input
-              {...field}
-              isRequired
-              errorMessage={errors.password?.message}
+              label={t('auth.username')}
+              placeholder={t('auth.enter_username')}
+              errors={errors.username?.message}/>
+
+            <InputController
+              control={control}
+              name="password"
+              type={ isVisible ? "text" : "password"}
               label={t('auth.pass')}
               placeholder={t('auth.enter_pass')}
-              endContent={
-                <button className="focus:outline-none" type="button" onClick={()=>setIsVisible(!isVisible)}>
-                  {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  )}
-                </button>
-              }
-              type={isVisible ? "text" : "password"}
-              className='mt-2'
-            />}         
-            />
+              errors={errors?.password?.message}
+              endContent={<InputPassEndContent isVisible={isVisible} setIsVisible={setIsVisible}/>}
+              className="mt-2"
+            />  
+
             <p className={!darkMode ? "text-sm text-gray-500 text-center my-2" : "text-sm text-white text-center my-2"}>
               {t('auth.dont_have_an_account')} <Link className="text-lime-600 hover:underline" to="/registration">{t('auth.register_here')}</Link>
             </p>
