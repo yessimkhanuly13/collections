@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
-import { NavbarComponent } from '../components/index';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
-import { useForm, Controller } from 'react-hook-form';
+import { CheckboxController, InputController, NavbarComponent } from '../components/index';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
+import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
 import { CURRENT_USER } from '../const';
 
@@ -86,95 +86,115 @@ function Collection() {
                 <ModalHeader className="flex flex-col gap-1">{t('buttons.add_new_item')}</ModalHeader>
                 <ModalBody className='grid grid-cols-4 gap-3'>
 
-                        <Controller control={control} name='topic' 
-                        render={({field})=><Input
-                            {...field}
-                            isRequired
+                        <InputController
+                            control={control}
                             type="text"
                             label={t('item.topic')}
                             className="max-w-xs col-span-2"
-                        />}/>
-
-                        <Controller control={control} name='desc' 
-                        render={({field})=><Input
-                            {...field}
-                            isRequired
+                            name="topic"
+                            style="max-w-xs col-span-2"
+                        />
+                        
+                        <InputController
+                            control={control}
                             type="text"
                             label={t('item.desc')}
                             className="max-w-xs col-span-2"
-                        />}/>
+                        />
                         
-                        <Controller control={control} name='customField1_bool'
-                        render={({field})=>
-                            <Checkbox {...field} className='col-span-4' isSelected={customField1} >
-                                {t('item.custom_field_bool')}
-                            </Checkbox>}/>
+                        <CheckboxController 
+                            control={control} 
+                            name="customField1_bool"
+                            style="col-span-4"
+                            bool={customField1}
+                            value={t('item.custom_field_bool')}
+                        />
+                        { 
+                            customField1 && (
+                                <InputController 
+                                    name='customField1_name'
+                                    control={control}
+                                    label={t('item.custom_field_name')}
+                                    style="max-w-xs col-span-2"
+                                    type="text"
+                                />
+                            )
+                        }
+                        {
+                            customField1 && ( 
+                                <InputController
+                                    control={control}
+                                    name="customField1_value"
+                                    label={t('item.custom_field_value')}
+                                    type="text"
+                                    style="max-w-xs col-span-2"
+                                />
+                            )
+                        }
+                        
+                        <CheckboxController 
+                            control={control} 
+                            name="customField2_bool"
+                            style="col-span-4"
+                            bool={customField2}
+                            value={t('item.custom_field_bool')}
+                        />
 
-                    { customField1 && (<Controller control={control} name='customField1_name' 
-                      render={({field})=><Input
-                      isRequired
-                        {...field}
-                        type="text"
-                        label={t('item.custom_field_name')}
-                        className="max-w-xs col-span-2"
-                      />}/>)}
+                        {
+                            customField2 && (
+                                <InputController
+                                    control={control}
+                                    name="customField2_name"
+                                    type="text"
+                                    label={t('item.custom_field_name')}
+                                    style="max-w-xs col-span-2"
+                                />
+                            )
+                        }
 
-                    {customField1 && (<Controller control={control} name='customField1_value' 
-                      render={({field})=><Input
-                      isRequired
-                        {...field}
-                        type="text"
-                        label={t('item.custom_field_value')}
-                        className="max-w-xs col-span-2"
-                      />}/>)}
+                        {
+                            customField2 && (
+                                <InputController
+                                    control={control}
+                                    name="customField2_value"
+                                    type="text"
+                                    label={t('item.custom_field_value')}
+                                    style="max-w-xs col-span-2"
+                                />
+                            )
+                        }
 
-                    <Controller control={control} name='customField2_bool'
-                        render={({field})=>
-                            <Checkbox {...field} className='col-span-4'  isSelected={customField2} >
-                                {t('item.custom_field_bool')}
-                            </Checkbox>}/>
+                        <CheckboxController 
+                            control={control} 
+                            name="customField3_bool"
+                            style="col-span-4"
+                            bool={customField2}
+                            value={t('item.custom_field_bool')}
+                        />
+                    
+                        {
+                            customField3 && (
+                                <InputController
+                                    control={control}
+                                    name="customField3_name"
+                                    label={t('item.custom_field_name')}
+                                    style="max-w-xs col-span-2"
+                                    type="text"
+                                />
+                            )
+                        }
 
-                    {customField2 && (<Controller control={control} name='customField2_name' 
-                      render={({field})=><Input
-                        isRequired
-                        {...field}
-                        type="text"
-                        label={t('item.custom_field_name')}
-                        className="max-w-xs col-span-2"
-                      />}/>)}
-
-                    {customField2 && (<Controller control={control} name='customField2_value' 
-                      render={({field})=><Input
-                        isRequired
-                        {...field}
-                        type="text"
-                        label={t('item.custom_field_value')}
-                        className="max-w-xs col-span-2"
-                      />}/>)}
-
-                    <Controller control={control} name='customField3_bool'
-                        render={({field})=>
-                            <Checkbox {...field} className='col-span-4' isSelected={customField3} >
-                                {t('item.custom_field_bool')}
-                            </Checkbox>}/>
-
-                    {customField3 && (<Controller control={control} name='customField3_name' 
-                      render={({field})=><Input
-                        isRequired
-                        {...field}
-                        type="text"
-                        label={t('item.custom_field_name')}
-                        className="max-w-xs col-span-2"
-                      />}/>)}
-
-                    {customField3 && (<Controller control={control} name='customField3_value' 
-                      render={({field})=><Input
-                        isRequired
-                        {...field}
-                        type="text"
-                        label={t('item.custom_field_value')}
-                        className="max-w-xs col-span-2"
-                      />}/>)}
+                        {
+                            customField3 && (
+                                <InputController
+                                    control={control}
+                                    name="customField3_value"
+                                    label={t('item.custom_field_value')}
+                                    style="max-w-xs col-span-2"
+                                    type="text"
+                                />
+                            )
+                        }
                       
                 </ModalBody>
                 <ModalFooter className='flex w-1/3 justify-around'>

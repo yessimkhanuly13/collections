@@ -63,7 +63,7 @@ function Login() {
               placeholder={t('auth.enter_pass')}
               errors={errors?.password?.message}
               endContent={<InputPassEndContent isVisible={isVisible} setIsVisible={setIsVisible}/>}
-              className="mt-2"
+              style="mt-2"
             />  
 
             <p className={!darkMode ? "text-sm text-gray-500 text-center my-2" : "text-sm text-white text-center my-2"}>

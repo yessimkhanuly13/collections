@@ -3,7 +3,8 @@ import Sidebar from "./Sidebar";
 import UnixToDate from "./Unixtodate";
 import InputController from "./InputController";
 import InputPassEndContent from "./InputPassEndContent";
+import CheckboxController from "./CheckboxController";
 
 export {
-    NavbarComponent, Sidebar, UnixToDate, InputController, InputPassEndContent
+    NavbarComponent, Sidebar, UnixToDate, InputController, InputPassEndContent, CheckboxController
 }
