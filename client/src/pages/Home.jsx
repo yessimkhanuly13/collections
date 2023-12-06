@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { NavbarComponent, Sidebar, UnixToDate } from "../components/index.js"
+import { NavbarComponent, Sidebar } from "../components/index.js"
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Link } from 'react-router-dom';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, LinkIcon, Button} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
-
+import { collectionTable } from '../const/index.js';
+import ItemTable from '../components/ItemTable.jsx';
 
 
 
@@ -18,6 +19,7 @@ function Home() {
   const [isItems, setIsItems] = useState(false);
   const [isTags, setIsTags] = useState(false);
 
+  const col = collectionTable();
   const {t} = useTranslation();
 
   const { darkMode, url} = useContext(PopupContext);
@@ -79,7 +81,7 @@ function Home() {
     getAllItems();
     getCollections();
     getAllTags();
-
+    console.log(col);
   },[])
 
   return (
@@ -113,28 +115,7 @@ function Home() {
               </Table>
           </div>}
          { isItems && <div className='flex flex-col'> 
-            <Table isStriped aria-label="Example static collection table">
-              <TableHeader>
-                <TableColumn>{t('item.topic')}</TableColumn>
-                <TableColumn>{t('item.desc')}</TableColumn>
-                <TableColumn>{t('item.created_date')}</TableColumn>
-                <TableColumn>{t('item.tags')}</TableColumn>
-                <TableColumn>{t('item.link')}</TableColumn>
-              </TableHeader>
-              <TableBody>
-                {oldestItems.map((item)=>{
-                  return (
-                    <TableRow key={item._id}>
-                      <TableCell>{item.topic}</TableCell>
-                      <TableCell>{item.desc}</TableCell>
-                      <TableCell><UnixToDate unix={item.createdDate}/></TableCell>
-                      <TableCell>{item.tags.length}</TableCell>
-                      <TableCell><Link to={`/item/${item._id}`}><LinkIcon/></Link></TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
+            <ItemTable items={oldestItems}/>
           </div>}
         { isTags && <div className='flex flex-col col-span-2 mb-3'>
               <div className='grid grid-cols-3  md:grid-cols-6 gap-2 text-center'>
@@ -149,29 +130,7 @@ function Home() {
           </div>}
           { 
             isTags && itemsByTag.length > 0 && (
-
-              <Table isStriped aria-label="Example static collection table">
-              <TableHeader>
-                <TableColumn>{t('item.topic')}</TableColumn>
-                <TableColumn>{t('item.desc')}</TableColumn>
-                <TableColumn>{t('item.created_date')}</TableColumn>
-                <TableColumn>{t('item.tags')}</TableColumn>
-                <TableColumn>{t('item.link')}</TableColumn>
-              </TableHeader>
-              <TableBody>
-                {itemsByTag.map((item)=>{
-                  return (
-                    <TableRow key={item._id}>
-                      <TableCell>{item.topic}</TableCell>
-                      <TableCell>{item.desc}</TableCell>
-                      <TableCell><UnixToDate unix={item.createdDate}/></TableCell>
-                      <TableCell>{item.tags.length}</TableCell>
-                      <TableCell><Link to={`/item/${item._id}`}><LinkIcon/></Link></TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
+              <ItemTable items={itemsByTag}/>
             )
           }
           </div>

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
 import { NavbarComponent, InputController, CheckboxController } from '../components/index';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
 import { CURRENT_USER } from '../const';
 

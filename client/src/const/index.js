@@ -1,4 +1,6 @@
 export {routes} from './routes'
+export {itemTable, collectionTable} from './tableColumns'
+
 
 const CURRENT_USER = JSON.parse(localStorage.getItem('currentUser'))
 const THEME = localStorage.getItem('theme')
