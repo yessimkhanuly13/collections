@@ -2,8 +2,7 @@ import React from 'react'
 import { Controller } from 'react-hook-form'
 import { Input } from '@nextui-org/react'
 
-function InputController(props) {
-    const {name, label, placeholder, type, endContent, errors, control, style} = props;
+function InputController({name, label, placeholder, type, endContent, errors, control, style, defaultValue}) {
 
   return (
     <Controller name={name} control={control} 
@@ -17,6 +16,7 @@ function InputController(props) {
               placeholder={placeholder}
               endContent={endContent}
               className={style}
+              defaultValue={defaultValue}
               />}
     />
   )

@@ -44,19 +44,19 @@ function AdminPanel() {
     }
 
   const handleUpdateUser = (id, path) =>{
-    
+      const user = JSON.parse(localStorage.getItem('currentUser'))
       axios.put(`${url}/users/${path}/${id}`)
         .then(()=>{
           getAllUsers();
-          if(id == CURRENT_USER._id && path === 'block'){
+          if(id == user._id && path === 'block'){
             localStorage.removeItem('currentUser')
             navigate('/');
           }
-          if(id == CURRENT_USER._id && path === 'user'){
-            const role = CURRENT_USER.roles.filter((role)=>role !== 'admin');
-            CURRENT_USER.roles = role;
+          if(id == user._id && path === 'user'){
+            const role = user.roles.filter((role)=>role !== 'admin');
+            user.roles = role;
             localStorage.removeItem('currentUser');
-            localStorage.setItem('currentUser', CURRENT_USER);
+            localStorage.setItem('currentUser', user);
             navigate('/');
           }
         })
@@ -67,9 +67,10 @@ function AdminPanel() {
    
   useEffect(()=>{
     getAllUsers();
-    if( CURRENT_USER && !CURRENT_USER.roles.includes('admin')){
+    const user = JSON.parse(localStorage.getItem('currentUser'))
+    if( user && !user.roles.includes('admin')){
       navigate('/');
-    }else if(!CURRENT_USER){
+    }else if(!user){
       navigate('/')
     }
 

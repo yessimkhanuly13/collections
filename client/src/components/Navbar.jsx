@@ -60,14 +60,14 @@ function NavbarComponent() {
   }
   
   useEffect(()=>{
-
-    if(CURRENT_USER){
+    const user = JSON.parse(localStorage.getItem('currentUser'))
+    if(user){
       setIsLogged(true)
     }else{
       setIsLogged(false)
     }
 
-  },[CURRENT_USER])
+  },[])
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 

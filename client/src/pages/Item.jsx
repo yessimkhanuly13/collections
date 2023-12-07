@@ -7,7 +7,6 @@ import { Divider, Button, Input, Card } from '@nextui-org/react';
 import { useForm, Controller } from 'react-hook-form';
 import { LikeBtn, LikedBtn } from '../icons/index';
 import { useTranslation } from "react-i18next";
-import { CURRENT_USER } from '../const';
 
 function Item() {
   const [item, setItem] = useState({});
@@ -22,8 +21,9 @@ function Item() {
   const {control, handleSubmit, reset} = useForm();
 
   const sendCommentToServer = (data) =>{
-    const username = CURRENT_USER.username;
-    const userId = CURRENT_USER._id;
+    const user = JSON.parse(localStorage.getItem('currentUser'))
+    const username = user.username;
+    const userId = user._id;
     axios.post(`${url}/items/addcomment/${item._id}`, {value: data.value, username, userId})
       .then(()=>{
         reset({value: ""});
@@ -35,7 +35,8 @@ function Item() {
   }
 
   const getItemById = () =>{
-    CURRENT_USER && setCurrentUsername(CURRENT_USER.username);
+    const user = JSON.parse(localStorage.getItem('currentUser'))
+    user && setCurrentUsername(user.username);
     axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
 
@@ -175,7 +176,7 @@ function Item() {
                             )
                           })
                         }
-                        {CURRENT_USER && (<Controller name='value' control={control}
+                        { JSON.parse(localStorage.getItem('currentUser')) && (<Controller name='value' control={control}
                           render={({field})=><Input
                           {...field}
                           type="text"
@@ -183,7 +184,7 @@ function Item() {
                           variant=""
                           className="col-span-5"
                         />}/>)}
-                        {CURRENT_USER && (<div className='flex items-center'>
+                        { JSON.parse(localStorage.getItem('currentUser')) && (<div className='flex items-center'>
                           <Button
                             onClick={handleSubmit((sendCommentToServer))}
                             variant='shadow'

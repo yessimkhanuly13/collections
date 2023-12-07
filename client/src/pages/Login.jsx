@@ -31,6 +31,7 @@ function Login() {
     axios.post(`${url}/auth/login`, data)
       .then((res) => { 
         localStorage.setItem('currentUser', JSON.stringify(res.data));
+        console.log(res.data)
         navigate('/');
       })
       .catch((e) => {

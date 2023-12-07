@@ -3,10 +3,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { PopupContext } from '../App';
 import { NavbarComponent, InputController, CheckboxController } from '../components/index';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
-import { CURRENT_USER } from '../const';
 
 function Collection() {
     const [collection, setCollection] = useState({});
@@ -26,10 +25,11 @@ function Collection() {
     const {url, darkMode, message} = useContext(PopupContext)
 
     const getCollectionById = () =>{
+        const user = JSON.parse(localStorage.getItem('currentUser'))
         axios.get(`${url}/collections/${collectionId.id}`)
             .then((res)=>{
                 setCollection(res.data)
-                if(res.data.userId === CURRENT_USER._id || CURRENT_USER.roles.includes('admin')){
+                if(res.data.userId === user._id || user.roles.includes('admin')){
                     setIsOwner(true);
                 }
             })
@@ -99,7 +99,7 @@ function Collection() {
                             type="text"
                             label={t('item.desc')}
                             style="max-w-xs col-span-2"
-                            name="topic"
+                            name="desc"
                     />
 
                     <CheckboxController 

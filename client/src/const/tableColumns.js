@@ -9,3 +9,9 @@ export const collectionTable = () => {
     const {t} = useTranslation();
     return [ t('collection.name'), t('collection.description'), t('collection.theme'), t('collection.items'), t('collection.link')]
 }
+
+export const collectionTableOwner = () =>{
+    const {t} = useTranslation();
+    return [ t('collection.name'), t('collection.description'), t('collection.theme'), t('collection.items'), t('collection.link'), t('buttons.update'), t('buttons.delete')]
+}
+

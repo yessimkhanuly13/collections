@@ -2,9 +2,7 @@ import React from 'react'
 import { Controller } from 'react-hook-form'
 import { Checkbox } from '@nextui-org/react'
 
-function CheckboxController(props) {
-
-    const {name, style, control, bool, value} = props
+function CheckboxController({name, style, control, bool, value}) {
 
     return (
         <Controller name={name} control={control} 
