@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react"
 import Router from "./router/Router";
 import { useTranslation } from "react-i18next";
-import { THEME, LANG, url, CURRENT_USER } from './const/index'
+import { THEME, LANG, url } from './const/index'
 
 export const PopupContext = createContext();
 

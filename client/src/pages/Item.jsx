@@ -7,6 +7,9 @@ import { Divider, Button, Input, Card } from '@nextui-org/react';
 import { useForm, Controller } from 'react-hook-form';
 import { LikeBtn, LikedBtn } from '../icons/index';
 import { useTranslation } from "react-i18next";
+import  io  from 'socket.io-client'
+import { url } from '../const/index';
+const socket = io.connect(url)
 
 function Item() {
   const [item, setItem] = useState({});
@@ -20,18 +23,13 @@ function Item() {
 
   const {control, handleSubmit, reset} = useForm();
 
-  const sendCommentToServer = (data) =>{
+
+  const sendCommentToServer = (comment) =>{
     const user = JSON.parse(localStorage.getItem('currentUser'))
     const username = user.username;
     const userId = user._id;
-    axios.post(`${url}/items/addcomment/${item._id}`, {value: data.value, username, userId})
-      .then(()=>{
-        reset({value: ""});
-        getItemById();
-      })
-      .catch((e)=>{
-        console.log(e);
-      })
+    const data = {...comment, username, userId, itemId:item._id}
+    socket.emit('send_comment', data)
   }
 
   const getItemById = () =>{
@@ -53,8 +51,6 @@ function Item() {
       .catch((e)=>{
         console.log(e);
       })
-
-      setTimeout(getItemById, 3000);
   }
 
   const addTag = (data) =>{
@@ -83,7 +79,11 @@ function Item() {
 
   useEffect(()=>{
     getItemById();
-  }, [])
+    socket.on('recieve_comment', (data)=>{
+      reset({value: ""});
+      setItem(data)
+    })
+  }, [socket])
   
   return (
     <div className='h-full'>
