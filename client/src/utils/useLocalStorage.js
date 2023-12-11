@@ -2,8 +2,8 @@ export const useLocalStorage = () => {
 
     const getItem = (string) =>{
         try{
-            const item = JSON.parse(window.localStorage.getItem(string))
-            return item ? item : undefined
+            const item = JSON.parse(localStorage.getItem(string))
+            return item ? JSON.parse(item) : undefined
         }catch(e){
             console.log(e)
         }
@@ -11,7 +11,7 @@ export const useLocalStorage = () => {
 
     const setItem = (string, value) => {
         try{
-            window.localStorage.setItem(string, JSON.stringify(value));
+            localStorage.setItem(string, JSON.stringify(value));
         }catch(e){
             console.log(e)
         }
@@ -19,7 +19,7 @@ export const useLocalStorage = () => {
 
     const removeItem = (string) =>{
         try{
-            window.localStorage.removeItem(string)
+            localStorage.removeItem(string)
         }catch(e){
             console.log(e)
         }

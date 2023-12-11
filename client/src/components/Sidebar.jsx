@@ -2,7 +2,7 @@ import {Listbox, ListboxItem} from "@nextui-org/react";
 import { ItemCounter, IconWrapper } from "../wrappers/index";
 import { CogIcon, TagIcon, ItemIcon, ProfileIcon, LayoutIcon } from "../icons/index";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PopupContext } from "../App";
 import { useTranslation } from "react-i18next";
 import { routes, useLocalStorage } from '../utils/index'
@@ -37,6 +37,9 @@ function Sidebar({collections, items, tags, vision}) {
         }
     }
     
+    useEffect(()=>{
+        console.log(getItem('currentUser'))
+    })
 
 
   return (
@@ -82,7 +85,7 @@ function Sidebar({collections, items, tags, vision}) {
             >
                 <span className="font-bold">{t('sidebar.tags')}</span>
             </ListboxItem>
-            {JSON.parse(localStorage.getItem('currentUser')) && <ListboxItem
+            { getItem('currentUser') && <ListboxItem
                 key="profile"
                 endContent={<ItemCounter/>}
                 startContent={
@@ -93,7 +96,7 @@ function Sidebar({collections, items, tags, vision}) {
             >
                 <span className="font-bold">{t('sidebar.profile')}</span>
             </ListboxItem>}
-            {JSON.parse(localStorage.getItem('currentUser')) && JSON.parse(localStorage.getItem('currentUser')).roles.includes('admin') && <ListboxItem
+            {getItem('currentUser') && getItem('currentUser').roles.includes('admin') && <ListboxItem
                 key="admin"
                 endContent={<ItemCounter/>}
                 startContent={
