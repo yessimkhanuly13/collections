@@ -1,29 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { CollectionTable, NavbarComponent } from '../components/index';
+import { CollectionTable, NavbarComponent, CollectionOwnerTable } from '../components/index';
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { useParams } from 'react-router-dom';
 import { Select, SelectItem, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input} from "@nextui-org/react";
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
-import CollectionOwnerTable from '../components/CollectionOwnerTable';
+import { useLocalStorage } from '../utils/index';
 
 function Profile() {
   const [isOwner, setIsOwner] = useState(false);
   const [collections, setCollections] = useState([]);
-
+  const { getItem } = useLocalStorage();
+  const currentUser = getItem('currentUser')
   const {t} = useTranslation();
 
   const userId = useParams();
 
   const {control, handleSubmit, reset} = useForm();
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const {url, darkMode} = useContext(PopupContext)
 
   const getAllUserCollections = () =>{
     reset();
-    const user = JSON.parse(localStorage.getItem('currentUser'))
-    if(user._id === userId.id || user.roles.includes('admin')){
+    if(currentUser._id === userId.id || currentUser.roles.includes('admin')){
       setIsOwner(true);
     }
 
@@ -52,8 +53,6 @@ function Profile() {
     getAllUserCollections();
   },[])
 
-
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   return (
     <div>

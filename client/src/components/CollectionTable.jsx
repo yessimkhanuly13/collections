@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, TableBody, TableColumn, TableHeader, LinkIcon, TableRow, TableCell } from '@nextui-org/react';
 import { Link } from 'react-router-dom';
-import { collectionTable } from '../const';
+import { collectionTable } from '../utils';
 
 function CollectionTable({collections}) {
     const cols = collectionTable();

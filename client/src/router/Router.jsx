@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import { Login, Registration, AdminPanel, Item, Collection, Home, Profile } from "../pages/index.js"
-import { routes } from '../const/index.js'
+import { routes } from '../utils/index.js'
 
 export default function Router() {
     return (

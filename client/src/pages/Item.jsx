@@ -8,15 +8,19 @@ import { useForm, Controller } from 'react-hook-form';
 import { LikeBtn, LikedBtn } from '../icons/index';
 import { useTranslation } from "react-i18next";
 import  io  from 'socket.io-client'
-import { url } from '../const/index';
+import { url, useLocalStorage } from '../utils/index';
 const socket = io.connect(url)
 
 function Item() {
   const [item, setItem] = useState({});
-  const {url, darkMode} = useContext(PopupContext);
+  const { url } = useContext(PopupContext);
   const [isOwner, setIsOwner] = useState(false);
   const [currentUsername, setCurrentUsername] = useState('');
+  
   const navigate = useNavigate();
+
+  const { getItem } = useLocalStorage()
+  const currentUser = getItem('currentUser')
 
   const {t} = useTranslation();
   const itemId = useParams();
@@ -25,16 +29,14 @@ function Item() {
 
 
   const sendCommentToServer = (comment) =>{
-    const user = JSON.parse(localStorage.getItem('currentUser'))
-    const username = user.username;
-    const userId = user._id;
+    const username = currentUser.username;
+    const userId = currentUser._id;
     const data = {...comment, username, userId, itemId:item._id}
     socket.emit('send_comment', data)
   }
 
   const getItemById = () =>{
-    const user = JSON.parse(localStorage.getItem('currentUser'))
-    user && setCurrentUsername(user.username);
+    user && setCurrentUsername(currentUser.username);
     axios.get(`${url}/items/${itemId.id}`)
       .then((res)=>{
 
@@ -43,7 +45,7 @@ function Item() {
         res.data.comments = comments;
         
         setItem(res.data)
-        if(user && res.data.userId === user._id || user && user.roles.includes('admin')){
+        if(user && res.data.userId === currentUser._id || user && currentUser.roles.includes('admin')){
           setIsOwner(true);
         }
         console.log(res.data.comments)
@@ -176,7 +178,7 @@ function Item() {
                             )
                           })
                         }
-                        { JSON.parse(localStorage.getItem('currentUser')) && (<Controller name='value' control={control}
+                        { currentUser && (<Controller name='value' control={control}
                           render={({field})=><Input
                           {...field}
                           type="text"
@@ -184,7 +186,7 @@ function Item() {
                           variant=""
                           className="col-span-5"
                         />}/>)}
-                        { JSON.parse(localStorage.getItem('currentUser')) && (<div className='flex items-center'>
+                        { currentUser && (<div className='flex items-center'>
                           <Button
                             onClick={handleSubmit((sendCommentToServer))}
                             variant='shadow'

@@ -5,7 +5,7 @@ import { DeleteIcon, EditIcon } from '../icons/index';
 import { useTranslation } from "react-i18next";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { collectionTableOwner } from '../const/index';
+import { collectionTableOwner } from '../utils/index';
 import InputController from './InputController';
 
 

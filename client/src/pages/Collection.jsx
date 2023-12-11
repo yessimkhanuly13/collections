@@ -6,10 +6,14 @@ import { NavbarComponent, InputController, CheckboxController } from '../compone
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Card, CardHeader, Divider, CardBody, CardFooter, LinkIcon} from "@nextui-org/react";
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
+import { useLocalStorage } from '../utils';
 
 function Collection() {
     const [collection, setCollection] = useState({});
     const [isOwner, setIsOwner] = useState(false);
+
+    const { getItem } = useLocalStorage()
+    const currentUser = getItem('currentUser');
 
     const {control, handleSubmit, reset, watch} = useForm();
     const customField1 = watch("customField1_bool", false);
@@ -22,14 +26,13 @@ function Collection() {
 
     const {t} = useTranslation();
     
-    const {url, darkMode, message} = useContext(PopupContext)
+    const {url, darkMode} = useContext(PopupContext)
 
     const getCollectionById = () =>{
-        const user = JSON.parse(localStorage.getItem('currentUser'))
         axios.get(`${url}/collections/${collectionId.id}`)
             .then((res)=>{
                 setCollection(res.data)
-                if(res.data.userId === user._id || user.roles.includes('admin')){
+                if(res.data.userId === currentUser._id || currentUser.roles.includes('admin')){
                     setIsOwner(true);
                 }
             })

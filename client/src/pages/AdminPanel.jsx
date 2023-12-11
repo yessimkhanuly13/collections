@@ -6,14 +6,15 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip
 import { DeleteIcon, EditIcon, EyeFilledIcon, EyeSlashFilledIcon } from '../icons/index';
 import { NavbarComponent } from '../components/index';
 import { useTranslation } from "react-i18next";
-import { CURRENT_USER } from '../const/index';
+import { useLocalStorage } from '../utils';
 
 
 function AdminPanel() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-
+  const { getItem, setItem, removeItem } = useLocalStorage()
   const {t} = useTranslation();
+  const currentUser = getItem('currentUser')
 
   const {url, darkMode} = useContext(PopupContext)
 
@@ -29,12 +30,12 @@ function AdminPanel() {
   } 
 
   const handleUserDelete = (id) =>{
-
+      
       axios.delete(`${url}/users/delete/${id}`)
         .then(()=>{
           getAllUsers();
-          if(id == CURRENT_USER._id){
-            localStorage.removeItem('currentUser');
+          if(id == currentUser._id){
+            removeItem('currentUser');
             navigate('/');
           }
         })
@@ -44,19 +45,18 @@ function AdminPanel() {
     }
 
   const handleUpdateUser = (id, path) =>{
-      const user = JSON.parse(localStorage.getItem('currentUser'))
       axios.put(`${url}/users/${path}/${id}`)
         .then(()=>{
           getAllUsers();
-          if(id == user._id && path === 'block'){
-            localStorage.removeItem('currentUser')
+          if(id == currentUser._id && path === 'block'){
+            removeItem('currentUser')
             navigate('/');
           }
-          if(id == user._id && path === 'user'){
-            const role = user.roles.filter((role)=>role !== 'admin');
-            user.roles = role;
-            localStorage.removeItem('currentUser');
-            localStorage.setItem('currentUser', user);
+          if(id == currentUser._id && path === 'user'){
+            const role = currentUser.roles.filter((role)=>role !== 'admin');
+            currentUser.roles = role;
+            removeItem('currentUser');
+            setItem('currentUser', currentUser);
             navigate('/');
           }
         })
@@ -67,10 +67,9 @@ function AdminPanel() {
    
   useEffect(()=>{
     getAllUsers();
-    const user = JSON.parse(localStorage.getItem('currentUser'))
-    if( user && !user.roles.includes('admin')){
+    if( currentUser && !currentUser.roles.includes('admin')){
       navigate('/');
-    }else if(!user){
+    }else if(!currentUser){
       navigate('/')
     }
 

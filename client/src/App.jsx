@@ -1,19 +1,23 @@
 import { createContext, useEffect, useState } from "react"
 import Router from "./router/Router";
 import { useTranslation } from "react-i18next";
-import { THEME, LANG, url } from './const/index'
+import { useLocalStorage, url } from './utils/index'
 
 export const PopupContext = createContext();
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const { getItem } = useLocalStorage()
 
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
 
   useEffect(()=>{
-    LANG ? i18n.changeLanguage(LANG) : i18n.changeLanguage('en');
+    const lang = getItem('lang')
+    const theme = getItem('theme')
 
-    if(THEME === 'light'){
+    lang ? i18n.changeLanguage(lang) : i18n.changeLanguage('en');
+
+    if(theme === 'light'){
       setDarkMode(false);
     }else{
       setDarkMode(true);

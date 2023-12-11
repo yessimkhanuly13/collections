@@ -12,7 +12,7 @@ import { Navbar,  NavbarBrand, NavbarContent,
 import { Link } from 'react-router-dom';
 import { SearchIcon, DashboardIcon, LightIcon, DarkIcon } from '../icons/index';
 import { useTranslation } from "react-i18next";
-import { CURRENT_USER, url } from '../const/index';
+import { useLocalStorage, url } from '../utils/index';
 
 
 function NavbarComponent() {
@@ -22,13 +22,15 @@ function NavbarComponent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [open, setOpen] = useState(false)
   
+  const { getItem, setItem, removeItem } = useLocalStorage()
+
 
   const navigate = useNavigate();
   const {t, i18n} = useTranslation();
 
   const changeLanguage = (lang) =>{
-    localStorage.removeItem('lang');
-    localStorage.setItem('lang', lang);
+    removeItem('lang');
+    setItem('lang', lang);
     i18n.changeLanguage(lang)
   }
 
@@ -54,14 +56,14 @@ function NavbarComponent() {
   }
 
   const handleLogout = () =>{
-    localStorage.removeItem('currentUser');
+    removeItem('currentUser');
     setIsLogged(false);
     navigate('/');
   }
   
   useEffect(()=>{
-    const user = JSON.parse(localStorage.getItem('currentUser'))
-    if(user){
+    const currentUser = getItem('currentUser')
+    if(currentUser){
       setIsLogged(true)
     }else{
       setIsLogged(false)

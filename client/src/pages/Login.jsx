@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useTranslation } from "react-i18next";
 import { InputController, InputPassEndContent } from '../components/index';
+import { useLocalStorage } from '../utils';
 
 
 function Login() {
@@ -16,6 +17,7 @@ function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const [errMessage, setErrMessage] = useState("");
 
+  const { setItem } = useLocalStorage()
   const {t} = useTranslation();
 
 
@@ -30,7 +32,7 @@ function Login() {
   const handleLogin = (data) => {
     axios.post(`${url}/auth/login`, data)
       .then((res) => { 
-        localStorage.setItem('currentUser', JSON.stringify(res.data));
+        setItem('currentUser', JSON.stringify(res.data));
         console.log(res.data)
         navigate('/');
       })

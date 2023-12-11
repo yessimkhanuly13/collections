@@ -3,7 +3,6 @@ import { NavbarComponent, Sidebar, ItemTable, CollectionTable } from "../compone
 import axios from 'axios';
 import { PopupContext } from '../App';
 import { Button } from "@nextui-org/react";
-import { collectionTable } from '../const/index.js';
 
 
 
@@ -16,8 +15,6 @@ function Home() {
   const [isCollection, setIsCollection] = useState(true);
   const [isItems, setIsItems] = useState(false);
   const [isTags, setIsTags] = useState(false);
-
-  const col = collectionTable();
 
   const {url} = useContext(PopupContext);
 
@@ -78,7 +75,6 @@ function Home() {
     getAllItems();
     getCollections();
     getAllTags();
-    console.log(col);
   },[])
 
   return (
