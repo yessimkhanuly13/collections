@@ -15,6 +15,7 @@ require('dotenv').config();
 
 const PORT = process.env.PORT;
 const password = process.env.DATABASE_PASS;
+const CLIENT = process.env.CLIENT
 
 const app = express();
 
@@ -33,7 +34,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: CLIENT,
         methods: [ "GET", "POST" ]
     },
 
