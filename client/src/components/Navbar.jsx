@@ -48,9 +48,9 @@ function NavbarComponent() {
 
   const toggleMode = () =>{
     if(darkMode){
-      localStorage.setItem('theme', 'light');
+      setItem('theme', 'light');
     }else{
-      localStorage.setItem('theme', 'dark');
+      setItem('theme', 'dark');
     }
     setDarkMode(!darkMode);
   }

@@ -17,6 +17,7 @@ function App() {
 
     lang ? i18n.changeLanguage(lang) : i18n.changeLanguage('en');
 
+
     if(theme === 'light'){
       setDarkMode(false);
     }else{

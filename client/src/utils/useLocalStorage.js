@@ -2,8 +2,13 @@ export const useLocalStorage = () => {
 
     const getItem = (string) =>{
         try{
-            const item = JSON.parse(localStorage.getItem(string))
-            return item ? JSON.parse(item) : undefined
+            if(string === 'currentUser'){
+                const user = localStorage.getItem(string)
+                return user ? JSON.parse(user) : undefined
+            }else{
+                const item = localStorage.getItem(string);
+                return item ? item : undefined
+            }
         }catch(e){
             console.log(e)
         }
@@ -11,7 +16,7 @@ export const useLocalStorage = () => {
 
     const setItem = (string, value) => {
         try{
-            localStorage.setItem(string, JSON.stringify(value));
+            localStorage.setItem(string, value);
         }catch(e){
             console.log(e)
         }

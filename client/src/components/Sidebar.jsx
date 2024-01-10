@@ -96,7 +96,7 @@ function Sidebar({collections, items, tags, vision}) {
             >
                 <span className="font-bold">{t('sidebar.profile')}</span>
             </ListboxItem>}
-            {getItem('currentUser') && getItem('currentUser').roles.includes('admin') && <ListboxItem
+            { getItem('currentUser') && getItem('currentUser').roles.includes('admin') && <ListboxItem
                 key="admin"
                 endContent={<ItemCounter/>}
                 startContent={

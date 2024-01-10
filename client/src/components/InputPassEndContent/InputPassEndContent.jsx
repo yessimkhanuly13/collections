@@ -1,5 +1,5 @@
 import React from 'react'
-import { EyeFilledIcon, EyeSlashFilledIcon } from '../icons/index'
+import { EyeFilledIcon, EyeSlashFilledIcon } from '../../icons/index'
 
 
 function InputPassEndContent({isVisible, setIsVisible}) {
